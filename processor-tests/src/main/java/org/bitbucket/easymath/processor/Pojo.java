@@ -8,8 +8,8 @@ import org.bitbucket.easymath.annotations.Function.Type;
 import org.bitbucket.easymath.annotations.Mathematical;
 
 @Mathematical(functions = { 
-		@Function(name = "juros", formula = "x + 2 * (y / 5) ^ 6", use=Type.BIGDECIMAL),
-		@Function(name = "espaco", formula = "2 ^ a ^ 7 / 2 / b", use=Type.DOUBLE)})
+		@Function(name = "juros", formula = "rtrwwre + 2 * fhdfhd! / 5 ^ 6", use=Type.BIGDECIMAL),
+		@Function(name = "espaco", formula = "2 ^ a! ^ 7 / 2 / b", use=Type.DOUBLE)})
 public class Pojo implements Serializable {
 
 	private static final long serialVersionUID = -4891051700156343092L;

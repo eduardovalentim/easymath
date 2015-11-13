@@ -6,12 +6,12 @@ formula
     ;
 
 expression
-    :   expression operator=BANG                                         #fatorial
-    |   (operator=ADD|operator=SUB) expression                           #unary
-    |   expression operator=CARET expression                             #exponentiation
-    |   expression (operator=MUL|operator=DIV|operator=MOD) expression   #primary
-    |   expression (operator=ADD|operator=SUB) expression                #secondary
-    |   LPAREN expression RPAREN                                         #tertiary
+    :   (operator=ADD|operator=SUB) expression                           #unary
+    |   expression operator=BANG                                         #unary
+    |   expression operator=CARET expression                             #binary
+    |   expression (operator=MUL|operator=DIV|operator=MOD) expression   #binary
+    |   expression (operator=ADD|operator=SUB) expression                #binary
+    |   LPAREN expression RPAREN                                         #parenthesis
     |   Number                                                           #constant
     |   Identifier                                                       #input
     ;

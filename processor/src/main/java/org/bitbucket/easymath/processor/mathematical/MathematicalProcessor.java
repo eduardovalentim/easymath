@@ -25,6 +25,8 @@ import org.apache.velocity.app.Velocity;
 import org.bitbucket.easymath.annotations.Function;
 import org.bitbucket.easymath.annotations.Mathematical;
 import org.bitbucket.easymath.processor.AbstractAnnotationProcessor;
+import org.bitbucket.easymath.processor.mathematical.function.FunctionContext;
+import org.bitbucket.easymath.processor.mathematical.function.FunctionContextBuilder;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaLexer;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser;
 
@@ -60,18 +62,18 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                     continue;
                 }
 
-                Mathematical mathematical = e.getAnnotation(Mathematical.class);
-                Function[] functions = mathematical.functions();
+                Mathematical annotatedMathematical = e.getAnnotation(Mathematical.class);
+                Function[] annotatedFunctions = annotatedMathematical.functions();
 
-                List<JavaCode> formulas = new LinkedList<>();
-                for (Function function : functions) {
-                    formulas.add(compile(function));
+                List<FunctionContext> functions = new LinkedList<>();
+                for (Function function : annotatedFunctions) {
+                    functions.add(compile(function));
                 }
 
                 context.put("generator", getClass().getName());
                 context.put("package", elementUtils.getPackageOf(e).getQualifiedName());
                 context.put("classname", e.getSimpleName() + SUFFIX);
-                context.put("formulas", formulas);
+                context.put("functions", functions);
 
                 generate(e.toString() + SUFFIX, template, context);
             }
@@ -80,10 +82,10 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         return LOGGER.exit(processed);
     }
 
-    public JavaCode compile(Function function) {
+    public FunctionContext compile(Function function) {
         LOGGER.entry();
 
-        FormulaToCodeTranslator translator = new FormulaToCodeTranslator(function.name(), function.formula(), function.use());
+        FunctionContextBuilder builder = new FunctionContextBuilder(function.name(), function.formula(), function.use());
         try {
             LOGGER.info("Compiling formula: {}", function.formula());
             // create a CharStream that reads from standard input
@@ -99,11 +101,11 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
             // Create a generic parse tree walker that can trigger callbacks
             ParseTreeWalker walker = new ParseTreeWalker();
             // Walk the tree created during the parse, trigger callbacks
-            walker.walk(translator, tree);
+            walker.walk(builder, tree);
         } catch (RecognitionException e) {
             throw new IllegalStateException("Recognition exception is never thrown, only declared.");
         }
 
-        return LOGGER.exit(translator.translate());
+        return LOGGER.exit(builder.build());
     }
 }

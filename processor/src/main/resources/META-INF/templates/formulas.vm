@@ -10,16 +10,16 @@ public class ${classname} {
         super();
     }
 
-#foreach( $formula in ${formulas} )
+#foreach( $function in ${functions} )
     /**
-     * Formula: ${formula.name}=${formula.expression}
+     * Formula: ${function.name}=${function.formula}
      */
-    public ${formula.type} compute${utils.capitalize($formula.name)}(
-        #arguments( ${formula.type} ${formula.arguments} )) {
-        #check( ${formula.type} ${formula.arguments} )
+    public ${function.type} compute${utils.capitalize($function.name)}(
+        #arguments( ${function.type} ${function.inputs} )) {
+        #check( ${function.type} ${function.inputs} )
         
         // Default result
-        #result( ${formula.type} )
+        #result( ${function.type} )
         
         return result;
     }

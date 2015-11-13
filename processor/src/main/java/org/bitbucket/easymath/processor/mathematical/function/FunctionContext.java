@@ -1,40 +1,37 @@
-package org.bitbucket.easymath.processor.mathematical;
+package org.bitbucket.easymath.processor.mathematical.function;
 
 import java.util.Collections;
 import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
-import org.bitbucket.easymath.processor.mathematical.operation.FormulaOperation;
-
-public class JavaCode {
+public class FunctionContext {
 
 	private String name;
-	private String expression;
+	private String formula;
 	private String type;
 	
 	public Set<String> constants;
 	public Set<String> inputs;
 
-	public List<FormulaOperation> operations;
+	public Stack<String> terms;
 	
-	public JavaCode(String name, String expression, String type) {
+	public FunctionContext(String name, String expression, String type) {
 		super();
 		this.name = name;
-		this.expression = expression;
+		this.formula = expression;
 		this.type = type;
 		this.constants = new HashSet<>();
 		this.inputs = new HashSet<>();
-		this.operations = new LinkedList<>();
+		this.terms = new Stack<>();
 	}
 
 	public String getName() {
 		return name;
 	}
 	
-	public String getExpression() {
-		return expression;
+	public String getFormula() {
+		return formula;
 	}
 	
 	public String getType() {
@@ -57,11 +54,12 @@ public class JavaCode {
 		return Collections.unmodifiableSet(inputs);
 	}
 
-	public boolean addOperation(FormulaOperation e) {
-		return operations.add(e);
+	public void pushTerm(String e) {
+		terms.push(e);
 	}
 	
-	public List<FormulaOperation> getOperations() {
-		return Collections.unmodifiableList(operations);
+	@SuppressWarnings("unchecked")
+    public Stack<String> getTerms() {
+		return (Stack<String>) terms.clone();
 	}
 }
