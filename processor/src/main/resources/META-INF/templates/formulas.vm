@@ -1,0 +1,60 @@
+package ${package};
+
+import javax.annotation.Generated;
+import java.math.BigDecimal;
+
+@Generated("${generator}")
+public class ${classname} {
+
+    public ${classname}() {
+        super();
+    }
+
+#foreach( $formula in ${formulas} )
+    /**
+     * Formula: ${formula.name}=${formula.expression}
+     */
+    public ${formula.type} compute${utils.capitalize($formula.name)}(
+        #arguments( ${formula.type} ${formula.arguments} )) {
+        #check( ${formula.type} ${formula.arguments} )
+        
+        // Default result
+        #result( ${formula.type} )
+        
+        return result;
+    }
+    
+#end
+}
+## ----------------------------------------------------------------------------
+## arguments
+## ----------------------------------------------------------------------------
+#macro( arguments $type $names )
+  #foreach( $name in $names )
+    $type $name
+    #if( ${foreach.hasNext} ), #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## check
+## ----------------------------------------------------------------------------
+#macro( check $type $names )
+  #if( $type == "BigDecimal" )
+    // Method protection block
+    #foreach( $name in $names )
+      if ($name == null) {
+          throw new IllegalArgumentException("Argument '$name' cannot be null.");
+      }
+    #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## result
+## ----------------------------------------------------------------------------
+#macro( result $type )
+  #if( $type == "double" )
+    double result = 0;
+  #else
+    BigDecimal result = BigDecimal.ZERO;
+  #end
+#end
