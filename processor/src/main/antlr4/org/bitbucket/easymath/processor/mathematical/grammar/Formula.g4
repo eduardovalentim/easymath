@@ -9,6 +9,7 @@ expression
     :   LPAREN expression RPAREN                                         #parenthesis
     |   LBRACK expression RBRACK                                         #brackets
     |   LBRACE expression RBRACE                                         #braces
+//    |   Function                                                         #function
     |   (operator=ADD|operator=SUB) expression                           #unary
     |   expression operator=BANG                                         #unary
     |   expression operator=CARET expression                             #binary
@@ -18,6 +19,10 @@ expression
     |   Identifier                                                       #input
     ;
 
+//Function
+//    :   Identifier LPAREN expression (COMMA expression)* RPAREN
+//    ;
+    
 Identifier
     :   Letter+
     ;

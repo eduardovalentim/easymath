@@ -1,65 +1,51 @@
 package org.bitbucket.easymath.processor.mathematical.function;
 
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Deque;
+import java.util.List;
 import java.util.Set;
-import java.util.Stack;
+
+import org.bitbucket.easymath.annotations.NumberType;
+import org.bitbucket.easymath.processor.mathematical.operation.Operation;
+import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
 
 public class FunctionModel {
 
-	private String name;
-	private String formula;
-	private String type;
-	
-	public Set<String> constants;
-	public Set<String> inputs;
+    public Deque<Operation> operations;
+    public Set<InputOperand> inputs;
+    private String formula;
+    private String name;
+    private NumberType type;
 
-	public Stack<String> terms;
-	
-	public FunctionModel() {
-	    super();
-        this.constants = new HashSet<>();
-        this.terms = new Stack<>();	    
-	}
-	
-	public FunctionModel(String name, String expression, String type, Set<String> inputs) {
-		this();
-		this.name = name;
-		this.formula = expression;
-		this.type = type;
-		this.inputs = inputs;
-	}
+    public FunctionModel(String name, String formula, NumberType type, Set<InputOperand> inputs, Deque<Operation> operations) {
+        this.operations = operations;
+        this.inputs = inputs;
+        this.formula = formula;
+        this.name = name;
+        this.type = type;
+    }
 
-	public String getName() {
-		return name;
-	}
-	
-	public String getFormula() {
-		return formula;
-	}
-	
-	public String getType() {
-		return type;
-	}
-	
-	public boolean addConstant(String constant) {
-		return constants.add(constant);
-	}
-	
-	public Set<String> getConstants() {
-		return Collections.unmodifiableSet(constants);
-	}
+    public String getName() {
+        return name;
+    }
 
-	public Set<String> getInputs() {
-		return Collections.unmodifiableSet(inputs);
-	}
+    public String getFormula() {
+        return formula;
+    }
 
-	public void pushTerm(String e) {
-		terms.push(e);
-	}
-	
-	@SuppressWarnings("unchecked")
-    public Stack<String> getTerms() {
-		return (Stack<String>) terms.clone();
-	}
+    public NumberType getType() {
+        return type;
+    }
+
+    public Set<InputOperand> getInputs() {
+        return Collections.unmodifiableSet(inputs);
+    }
+
+    public Deque<Operation> getOperations() {
+        return operations;
+    }
+    
+    public Operation getLastOperation() {
+        return operations.getLast();
+    }
 }

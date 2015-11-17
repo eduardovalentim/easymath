@@ -1,9 +1,9 @@
 package org.bitbucket.easymath.processor.mathematical;
 
+import java.util.Deque;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
-import java.util.List;
 import java.util.Set;
-import java.util.Stack;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
@@ -25,11 +25,13 @@ import org.apache.velocity.app.Velocity;
 import org.bitbucket.easymath.annotations.Function;
 import org.bitbucket.easymath.annotations.Mathematical;
 import org.bitbucket.easymath.processor.AbstractAnnotationProcessor;
-import org.bitbucket.easymath.processor.mathematical.function.FunctionConstants;
 import org.bitbucket.easymath.processor.mathematical.function.FunctionModel;
-import org.bitbucket.easymath.processor.mathematical.function.StackVisitor;
+import org.bitbucket.easymath.processor.mathematical.function.FunctionModelVisitor;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaLexer;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser;
+import org.bitbucket.easymath.processor.mathematical.operation.Operation;
+import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
+import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
 
 @SupportedAnnotationTypes({ "org.bitbucket.easymath.annotations.Mathematical" })
 public class MathematicalProcessor extends AbstractAnnotationProcessor {
@@ -66,10 +68,10 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                 Mathematical annotation = e.getAnnotation(Mathematical.class);
                 Function[] annotatedFunctions = annotation.functions();
 
-                FunctionConstants constants = new FunctionConstants();
-                List<FunctionModel> functions = new LinkedList<>();
+                Set<ConstantOperand> constants = new LinkedHashSet<>();
+                Deque<FunctionModel> functions = new LinkedList<>();
                 for (Function function : annotatedFunctions) {
-                	// FIXME Validate function.name()
+                    // FIXME Validate function.name()
                     functions.add(compile(function, constants));
                 }
 
@@ -86,15 +88,13 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         return LOGGER.exit(processed);
     }
 
-    public FunctionModel compile(Function function, FunctionConstants constants) {
+    public FunctionModel compile(Function function, Set<ConstantOperand> constants) {
         LOGGER.entry();
 
-        Stack<String> stack = new Stack<>();
-        FunctionModel model = new FunctionModel();
-        StackVisitor visitor = new StackVisitor();
+        FunctionModelVisitor visitor = new FunctionModelVisitor(function.using());
         try {
             LOGGER.info("Compiling formula: {}", function.formula());
-
+            
             // create a CharStream that reads from standard input
             ANTLRInputStream input = new ANTLRInputStream(function.formula());
             // create a lexer that feeds off of input CharStream
@@ -105,17 +105,16 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
             FormulaParser parser = new FormulaParser(tokens);
             // begin parsing at formula rule
             ParseTree tree = parser.formula();
-            
-            LOGGER.trace("tree={}", tree.toStringTree(parser));
-            
-            // Create a generic parse tree walker that can trigger callbacks
-            // ParseTreeWalker walker = new ParseTreeWalker();
-            // Walk the tree created during the parse, trigger callbacks
-            // walker.walk(builder, tree);
+            // Visit the tree
             visitor.visit(tree);
+            constants.addAll(visitor.getConstants());
         } catch (RecognitionException e) {
             throw new IllegalStateException("Recognition exception is never thrown, only declared.");
         }
+
+        Set<InputOperand> inputs = visitor.getInputs();
+        Deque<Operation> operations = visitor.getOperations();
+        FunctionModel model = new FunctionModel(function.name(), function.formula(), function.using(), inputs, operations);
         
         return LOGGER.exit(model);
     }

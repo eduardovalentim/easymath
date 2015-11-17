@@ -1,18 +1,16 @@
-package ${package};
+package $package;
 
 import javax.annotation.Generated;
 import java.math.BigDecimal;
 
-@Generated("${generator}")
-public class ${classname} {
+@Generated("$generator")
+public class $classname {
 
-	#foreach( $type in ${constants.types} )
-	  #foreach( $value in ${constants.getValues($type)} )
-	    #declare( ${constants.declareType($type)} $value )
-	  #end
+	#foreach( $constant in ${constants} )
+	  #declareConstant( ${constant.type} ${constant} ${constant.operand} )
 	#end
 
-    public ${classname}() {
+    public $classname() {
         super();
     }
 
@@ -21,13 +19,15 @@ public class ${classname} {
      * Formula: ${function.name}=${function.formula}
      */
     public ${function.type} compute${utils.capitalize($function.name)}(
-        #arguments( ${function.type} ${function.inputs} )) {
+        #arguments( ${function.inputs} )) {
         #check( ${function.type} ${function.inputs} )
         
-        // Default result
-        #result( ${function.type} )
+        // Operations
+        #foreach( $operation in ${function.operations} )
+          #declareOperation( $operation )
+        #end
         
-        return result;
+        return ${function.lastOperation};
     }
     
 #end
@@ -35,42 +35,99 @@ public class ${classname} {
 ## ----------------------------------------------------------------------------
 ## arguments
 ## ----------------------------------------------------------------------------
-#macro( arguments $type $names )
-  #foreach( $name in $names )
-    $type $name
-    #if( ${foreach.hasNext} ), #end
+#macro( arguments $inputs )
+  #foreach( $input in $inputs )
+    ${input.type} ${input}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
 ## check
 ## ----------------------------------------------------------------------------
-#macro( check $type $names )
+#macro( check $type $inputs )
   #if( $type == "BigDecimal" )
     // Method protection block
-    #foreach( $name in $names )
-      if ($name == null) {
-          throw new IllegalArgumentException("Argument '$name' cannot be null.");
+    #foreach( $input in $inputs )
+      if ($input == null) {
+          throw new IllegalArgumentException("Argument '$input' cannot be null.");
       }
     #end
   #end
 #end
 ## ----------------------------------------------------------------------------
-## result
+## declareConstant
 ## ----------------------------------------------------------------------------
-#macro( result $type )
+#macro( declareConstant $type $name $text )
   #if( $type == "double" )
-    double result = 0D;
+    private static final $type $name = ${text}D;
   #else
-    BigDecimal result = BigDecimal.ZERO;
+    private static final $type $name = new BigDecimal("$text");
   #end
 #end
 ## ----------------------------------------------------------------------------
-## declare
+## declareOperation
 ## ----------------------------------------------------------------------------
-#macro( declare $type $value )
-  #if( $type == "double" )
-    private static final $type D${constants.declareValue($value)}  = ${value}D;
+#macro( declareOperation $operation )
+  #if( ${operation.operands.size()} == 1 )
+    #declareUnary( $operation )
   #else
-    private static final $type BD${constants.declareValue($value)} = new BigDecimal("${value}");
+    #declareBinary( $operation )
+  #end
+#end
+## ----------------------------------------------------------------------------
+## declareUnary
+## ----------------------------------------------------------------------------
+#macro( declareUnary $operation )
+  #if( ${operation.type} == "double" )
+    #if( ${operation.operator} == '!' )
+      ${operation.type} ${operation} = fat(${operation.operand});
+    #else
+      ${operation.type} ${operation} = ${operation.operand} * (${operation.operator}1);
+    #end
+  #else
+    #if( ${operation.operator} == '!' )
+      ${operation.type} ${operation} = fat(${operation.operand});
+    #elseif( ${operation.operator} == '-' )
+      ${operation.type} ${operation} = ${operation.operand}.multiply(BigDecimal.ONE.negate());
+    #else
+      ${operation.type} ${operation} = ${operation.operand};
+    #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## declareBinary
+## ----------------------------------------------------------------------------
+#macro( declareBinary $operation )
+  #if( ${operation.type} == "double" )
+    #if( ${operation.operator} == '^' )
+      ${operation.type} ${operation} = Math.pow(${operation.leftOperand}, ${operation.rightOperand});
+    #elseif( ${operation.operator} == '*' )
+      ${operation.type} ${operation} = ${operation.leftOperand} * ${operation.rightOperand};
+    #elseif( ${operation.operator} == '/' )
+      ${operation.type} ${operation} = ${operation.leftOperand} / ${operation.rightOperand};
+    #elseif( ${operation.operator} == '%' )
+      ${operation.type} ${operation} = ${operation.leftOperand} % ${operation.rightOperand};
+    #elseif( ${operation.operator} == '+' )
+      ${operation.type} ${operation} = ${operation.leftOperand} + ${operation.rightOperand};
+    #elseif( ${operation.operator} == '-' )
+      ${operation.type} ${operation} = ${operation.leftOperand} - ${operation.rightOperand};
+    #else
+      Operator '${operation.operator}' not found!!!!!!
+    #end
+  #else
+    #if( ${operation.operator} == '^' )
+      ${operation.type} ${operation} = Math.pow(${operation.leftOperand}, ${operation.rightOperand});
+    #elseif( ${operation.operator} == '*' )
+      ${operation.type} ${operation} = ${operation.leftOperand}.multiply(${operation.rightOperand});
+    #elseif( ${operation.operator} == '/' )
+      ${operation.type} ${operation} = ${operation.leftOperand}.divide(${operation.rightOperand});
+    #elseif( ${operation.operator} == '%' )
+      ${operation.type} ${operation} = ${operation.leftOperand}.remainder(${operation.rightOperand});
+    #elseif( ${operation.operator} == '+' )
+      ${operation.type} ${operation} = ${operation.leftOperand}.add(${operation.rightOperand});
+    #elseif( ${operation.operator} == '-' )
+      ${operation.type} ${operation} = ${operation.leftOperand}.subtract(${operation.rightOperand});
+    #else
+      Operator '${operation.operator}' not found!!!!!!
+    #end
   #end
 #end
