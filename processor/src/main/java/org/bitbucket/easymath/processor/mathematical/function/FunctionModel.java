@@ -5,7 +5,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
-public class FunctionContext {
+public class FunctionModel {
 
 	private String name;
 	private String formula;
@@ -16,14 +16,18 @@ public class FunctionContext {
 
 	public Stack<String> terms;
 	
-	public FunctionContext(String name, String expression, String type) {
-		super();
+	public FunctionModel() {
+	    super();
+        this.constants = new HashSet<>();
+        this.terms = new Stack<>();	    
+	}
+	
+	public FunctionModel(String name, String expression, String type, Set<String> inputs) {
+		this();
 		this.name = name;
 		this.formula = expression;
 		this.type = type;
-		this.constants = new HashSet<>();
-		this.inputs = new HashSet<>();
-		this.terms = new Stack<>();
+		this.inputs = inputs;
 	}
 
 	public String getName() {
@@ -46,10 +50,6 @@ public class FunctionContext {
 		return Collections.unmodifiableSet(constants);
 	}
 
-	public boolean addInput(String e) {
-		return inputs.add(e);
-	}
-	
 	public Set<String> getInputs() {
 		return Collections.unmodifiableSet(inputs);
 	}

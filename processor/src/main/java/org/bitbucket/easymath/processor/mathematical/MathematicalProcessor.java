@@ -3,6 +3,7 @@ package org.bitbucket.easymath.processor.mathematical;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.Stack;
 
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
@@ -15,7 +16,6 @@ import org.antlr.v4.runtime.ANTLRInputStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.antlr.v4.runtime.tree.ParseTreeWalker;
 import org.apache.commons.lang.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -25,8 +25,9 @@ import org.apache.velocity.app.Velocity;
 import org.bitbucket.easymath.annotations.Function;
 import org.bitbucket.easymath.annotations.Mathematical;
 import org.bitbucket.easymath.processor.AbstractAnnotationProcessor;
-import org.bitbucket.easymath.processor.mathematical.function.FunctionContext;
-import org.bitbucket.easymath.processor.mathematical.function.FunctionContextBuilder;
+import org.bitbucket.easymath.processor.mathematical.function.FunctionConstants;
+import org.bitbucket.easymath.processor.mathematical.function.FunctionModel;
+import org.bitbucket.easymath.processor.mathematical.function.StackVisitor;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaLexer;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser;
 
@@ -62,17 +63,20 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                     continue;
                 }
 
-                Mathematical annotatedMathematical = e.getAnnotation(Mathematical.class);
-                Function[] annotatedFunctions = annotatedMathematical.functions();
+                Mathematical annotation = e.getAnnotation(Mathematical.class);
+                Function[] annotatedFunctions = annotation.functions();
 
-                List<FunctionContext> functions = new LinkedList<>();
+                FunctionConstants constants = new FunctionConstants();
+                List<FunctionModel> functions = new LinkedList<>();
                 for (Function function : annotatedFunctions) {
-                    functions.add(compile(function));
+                	// FIXME Validate function.name()
+                    functions.add(compile(function, constants));
                 }
 
                 context.put("generator", getClass().getName());
                 context.put("package", elementUtils.getPackageOf(e).getQualifiedName());
                 context.put("classname", e.getSimpleName() + SUFFIX);
+                context.put("constants", constants);
                 context.put("functions", functions);
 
                 generate(e.toString() + SUFFIX, template, context);
@@ -82,12 +86,15 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         return LOGGER.exit(processed);
     }
 
-    public FunctionContext compile(Function function) {
+    public FunctionModel compile(Function function, FunctionConstants constants) {
         LOGGER.entry();
 
-        FunctionContextBuilder builder = new FunctionContextBuilder(function.name(), function.formula(), function.use());
+        Stack<String> stack = new Stack<>();
+        FunctionModel model = new FunctionModel();
+        StackVisitor visitor = new StackVisitor();
         try {
             LOGGER.info("Compiling formula: {}", function.formula());
+
             // create a CharStream that reads from standard input
             ANTLRInputStream input = new ANTLRInputStream(function.formula());
             // create a lexer that feeds off of input CharStream
@@ -98,14 +105,18 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
             FormulaParser parser = new FormulaParser(tokens);
             // begin parsing at formula rule
             ParseTree tree = parser.formula();
+            
+            LOGGER.trace("tree={}", tree.toStringTree(parser));
+            
             // Create a generic parse tree walker that can trigger callbacks
-            ParseTreeWalker walker = new ParseTreeWalker();
+            // ParseTreeWalker walker = new ParseTreeWalker();
             // Walk the tree created during the parse, trigger callbacks
-            walker.walk(builder, tree);
+            // walker.walk(builder, tree);
+            visitor.visit(tree);
         } catch (RecognitionException e) {
             throw new IllegalStateException("Recognition exception is never thrown, only declared.");
         }
-
-        return LOGGER.exit(builder.build());
+        
+        return LOGGER.exit(model);
     }
 }

@@ -64,7 +64,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.SOURCE)
 public @interface Function {
 
-    public enum Type {
+    public enum NumberType {
         DOUBLE, BIGDECIMAL;
     }
 
@@ -72,5 +72,7 @@ public @interface Function {
 
     public String formula();
 
-    public Type use() default Type.BIGDECIMAL;
+    public NumberType using() default NumberType.BIGDECIMAL;
+    
+    public MathContext context() default @MathContext;
 }

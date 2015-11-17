@@ -6,6 +6,12 @@ import java.math.BigDecimal;
 @Generated("${generator}")
 public class ${classname} {
 
+	#foreach( $type in ${constants.types} )
+	  #foreach( $value in ${constants.getValues($type)} )
+	    #declare( ${constants.declareType($type)} $value )
+	  #end
+	#end
+
     public ${classname}() {
         super();
     }
@@ -53,8 +59,18 @@ public class ${classname} {
 ## ----------------------------------------------------------------------------
 #macro( result $type )
   #if( $type == "double" )
-    double result = 0;
+    double result = 0D;
   #else
     BigDecimal result = BigDecimal.ZERO;
+  #end
+#end
+## ----------------------------------------------------------------------------
+## declare
+## ----------------------------------------------------------------------------
+#macro( declare $type $value )
+  #if( $type == "double" )
+    private static final $type D${constants.declareValue($value)}  = ${value}D;
+  #else
+    private static final $type BD${constants.declareValue($value)} = new BigDecimal("${value}");
   #end
 #end
