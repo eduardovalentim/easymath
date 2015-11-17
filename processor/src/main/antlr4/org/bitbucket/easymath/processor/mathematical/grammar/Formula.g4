@@ -6,12 +6,14 @@ formula
     ;
 
 expression
-    :   (operator=ADD|operator=SUB) expression                           #unary
+    :   LPAREN expression RPAREN                                         #parenthesis
+    |   LBRACK expression RBRACK                                         #brackets
+    |   LBRACE expression RBRACE                                         #braces
+    |   (operator=ADD|operator=SUB) expression                           #unary
     |   expression operator=BANG                                         #unary
     |   expression operator=CARET expression                             #binary
     |   expression (operator=MUL|operator=DIV|operator=MOD) expression   #binary
     |   expression (operator=ADD|operator=SUB) expression                #binary
-    |   LPAREN expression RPAREN                                         #parenthesis
     |   Number                                                           #constant
     |   Identifier                                                       #input
     ;
