@@ -32,6 +32,7 @@ import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser;
 import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
+import org.bitbucket.easymath.utils.ClassUtils;
 
 @SupportedAnnotationTypes({ "org.bitbucket.easymath.annotations.Mathematical" })
 public class MathematicalProcessor extends AbstractAnnotationProcessor {
@@ -71,8 +72,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                 Set<ConstantOperand> constants = new LinkedHashSet<>();
                 Deque<FunctionModel> functions = new LinkedList<>();
                 for (Function function : annotatedFunctions) {
-                    // FIXME Validate function.name()
-                    functions.add(compile(function, constants));
+                    functions.add(compile(e.toString(), function, constants));
                 }
 
                 context.put("generator", getClass().getName());
@@ -88,30 +88,37 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         return LOGGER.exit(processed);
     }
 
-    public FunctionModel compile(Function function, Set<ConstantOperand> constants) {
+    public FunctionModel compile(String classname, Function function, Set<ConstantOperand> constants) {
         LOGGER.entry();
 
-        FunctionModelVisitor visitor = new FunctionModelVisitor(function.using());
-        try {
-            LOGGER.info("Compiling formula: {}", function.formula());
+        if (!ClassUtils.isValidJavaIdentifier(function.name())) {
+            throw new IllegalArgumentException(String.format("Function name '%s' isn't a valid Java identifier.",
+                    function.name()));
+        }
 
-            // create a CharStream that reads from standard input
-            ANTLRInputStream input = new ANTLRInputStream(function.formula());
-            // create a lexer that feeds off of input CharStream
-            FormulaLexer lexer = new FormulaLexer(input);
-            // create a buffer of tokens pulled from the lexer
-            CommonTokenStream tokens = new CommonTokenStream(lexer);
-            // create a parser that feeds off the tokens buffer
-            FormulaParser parser = new FormulaParser(tokens);
+        FunctionModelVisitor visitor = new FunctionModelVisitor(function.using());
+        LOGGER.info("Compiling formula: {}", function.formula());
+
+        // create a CharStream that reads from standard input
+        ANTLRInputStream input = new ANTLRInputStream(function.formula());
+        // create a lexer that feeds off of input CharStream
+        FormulaLexer lexer = new FormulaLexer(input);
+        // create a buffer of tokens pulled from the lexer
+        CommonTokenStream tokens = new CommonTokenStream(lexer);
+        // create a parser that feeds off the tokens buffer
+        FormulaParser parser = new FormulaParser(tokens);
+        parser.removeErrorListeners();
+        parser.addErrorListener(new FunctionErrorListener(classname, function.formula()));
+        try {
             // begin parsing at formula rule
             ParseTree tree = parser.formula();
             // Visit the tree
             visitor.visit(tree);
-            constants.addAll(visitor.getConstants());
         } catch (RecognitionException e) {
             throw new IllegalStateException("Recognition exception is never thrown, only declared.");
         }
 
+        constants.addAll(visitor.getConstants());
         Set<InputOperand> inputs = visitor.getInputs();
         Deque<Operation> operations = visitor.getOperations();
         FunctionModel model = new FunctionModel(function, inputs, visitor.getConstants(), operations);

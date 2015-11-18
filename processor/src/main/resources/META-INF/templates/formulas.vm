@@ -1,5 +1,7 @@
 package $package;
 
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.math.BigDecimal;
 import java.util.logging.Logger;
 
@@ -9,6 +11,7 @@ import org.bitbucket.easymath.AbstractFormulas;
 import org.bitbucket.easymath.logging.FormulaLogSupplier;
 
 @Generated("$generator")
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class $classname extends AbstractFormulas {
 
     private static Logger logger = Logger.getLogger(${classname}.class.getName());
@@ -26,20 +29,19 @@ public class $classname extends AbstractFormulas {
      * Formula: ${function.name}=${function.formula}
      */
     public ${function.type} compute${utils.capitalize($function.name)}(
-        #typedArguments( ${function.inputs} )) {
-        #if( ${function.inputs.empty} )
-          logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}");
-        #else
-          logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}", new Object[] {#arguments( ${function.inputs} )});
-        #end
+        #typedArguments( $function )) {
+        #logEntering( $function )
+        #check( $function )
         
-        #check( ${function.type} ${function.inputs} )
+		#if( ${function.type} == "BigDecimal" )
+		  MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
+		#end
         
         // Operations
         #if( ${function.inputs.empty} )
           logger.finest("${function.formula}");
         #else
-          logger.finest(new FormulaLogSupplier("${function.formulaFormat}", #arguments( ${function.inputs} )));
+          logger.finest(new FormulaLogSupplier("${function.formulaFormat}", #arguments( ${function} )));
         #end
         #foreach( $operation in ${function.operations} )
           #declareOperation( $operation )
@@ -54,26 +56,36 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 ## arguments
 ## ----------------------------------------------------------------------------
-#macro( arguments $inputs )
-  #foreach( $input in $inputs )
+#macro( arguments $function )
+  #foreach( $input in ${function.inputs} )
     ${input}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
 ## typedArguments
 ## ----------------------------------------------------------------------------
-#macro( typedArguments $inputs )
-  #foreach( $input in $inputs )
+#macro( typedArguments $function )
+  #foreach( $input in ${function.inputs} )
     ${input.type} ${input}#if( ${foreach.hasNext} ), #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## logEntering
+## ----------------------------------------------------------------------------
+#macro( logEntering $function )
+  #if( ${function.inputs.empty} )
+    logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}");
+  #else
+    logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}", new Object[] {#arguments( ${function} )});
   #end
 #end
 ## ----------------------------------------------------------------------------
 ## check
 ## ----------------------------------------------------------------------------
-#macro( check $type $inputs )
-  #if( $type == "BigDecimal" )
+#macro( check $function )
+  #if( ${function.type} == "BigDecimal" )
     // Method protection block
-    #foreach( $input in $inputs )
+    #foreach( $input in ${function.inputs} )
       if ($input == null) {
           throw new IllegalArgumentException("Argument '$input' cannot be null.");
       }
@@ -112,9 +124,9 @@ public class $classname extends AbstractFormulas {
     #end
   #else
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation} = fat(${operation.operand});
+      ${operation.type} ${operation} = fat(${operation.operand}, mc);
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.operand}.multiply(BigDecimal.ONE.negate());
+      ${operation.type} ${operation} = ${operation.operand}.multiply(BigDecimal.ONE.negate(), mc);
     #else
       ${operation.type} ${operation} = ${operation.operand};
     #end
@@ -142,17 +154,17 @@ public class $classname extends AbstractFormulas {
     #end
   #else
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation} = pow(${operation.leftOperand}, ${operation.rightOperand});
+      ${operation.type} ${operation} = pow(${operation.leftOperand}, ${operation.rightOperand}, mc);
     #elseif( ${operation.operator} == '*' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.multiply(${operation.rightOperand});
+      ${operation.type} ${operation} = ${operation.leftOperand}.multiply(${operation.rightOperand}, mc);
     #elseif( ${operation.operator} == '/' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.divide(${operation.rightOperand});
+      ${operation.type} ${operation} = ${operation.leftOperand}.divide(${operation.rightOperand}, mc);
     #elseif( ${operation.operator} == '%' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.remainder(${operation.rightOperand});
+      ${operation.type} ${operation} = ${operation.leftOperand}.remainder(${operation.rightOperand}, mc);
     #elseif( ${operation.operator} == '+' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.add(${operation.rightOperand});
+      ${operation.type} ${operation} = ${operation.leftOperand}.add(${operation.rightOperand}, mc);
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.subtract(${operation.rightOperand});
+      ${operation.type} ${operation} = ${operation.leftOperand}.subtract(${operation.rightOperand}, mc);
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end

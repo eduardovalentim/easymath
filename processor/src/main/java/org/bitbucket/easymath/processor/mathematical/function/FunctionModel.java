@@ -1,5 +1,6 @@
 package org.bitbucket.easymath.processor.mathematical.function;
 
+import java.math.RoundingMode;
 import java.util.Deque;
 import java.util.Set;
 
@@ -24,6 +25,14 @@ public class FunctionModel {
         this.inputs = inputs;
     }
 
+    public int getPrecision() {
+        return function.context().precision(); 
+    }
+    
+    public RoundingMode getRoundingMode() {
+        return function.context().roundingMode();
+    }
+    
     public String getName() {
         return function.name();
     }
@@ -47,6 +56,8 @@ public class FunctionModel {
         return function.using();
     }
 
+    
+    
     public Set<InputOperand> getInputs() {
         return inputs;
     }

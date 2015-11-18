@@ -10,16 +10,16 @@ import org.bitbucket.easymath.processor.mathematical.operation.operand.Operand;
 public class BinaryOperation extends AbstractOperation {
 
     private Operand leftOperand;
-    private String leftDescr;
+    private String leftFragment;
     private Operand rightOperand;
-    private String rightDescr;
+    private String rightFragment;
     
-    public BinaryOperation(int id, NumberType type, Operand leftOperand, String leftDescr, String operator, Operand rightOperand, String rightDescr) {
+    public BinaryOperation(int id, NumberType type, Operand leftOperand, String leftFragment, String operator, Operand rightOperand, String rightFragment) {
         super(id, operator, type);
         this.leftOperand = leftOperand;
-        this.leftDescr = leftDescr;
+        this.leftFragment = leftFragment;
         this.rightOperand = rightOperand;
-        this.rightDescr = rightDescr;
+        this.rightFragment = rightFragment;
     }
 
     @Override
@@ -34,8 +34,8 @@ public class BinaryOperation extends AbstractOperation {
         return leftOperand;
     }
     
-    public String getLeftDescr() {
-        return leftDescr;
+    public String getLeftFragment() {
+        return leftFragment;
     }
 
     /**
@@ -45,7 +45,7 @@ public class BinaryOperation extends AbstractOperation {
         return rightOperand;
     }
     
-    public String getRightDescr() {
-        return rightDescr;
+    public String getRightFragment() {
+        return rightFragment;
     }
 }

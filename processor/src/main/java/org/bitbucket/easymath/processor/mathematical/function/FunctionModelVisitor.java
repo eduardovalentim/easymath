@@ -5,6 +5,7 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import org.antlr.v4.runtime.tree.ErrorNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bitbucket.easymath.annotations.NumberType;
@@ -118,6 +119,11 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
         return visit(ctx.expression());
     }
 
+    @Override
+    public String visitErrorNode(ErrorNode node) {
+        throw new IllegalArgumentException();
+    }
+    
     public Deque<Operation> getOperations() {
         return operations;
     }
