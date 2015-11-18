@@ -1,6 +1,5 @@
 package org.bitbucket.easymath.processor.mathematical.function;
 
-import java.util.Collection;
 import java.util.Deque;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
@@ -132,8 +131,8 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
         return operands;
     }
 
-    public Collection<? extends ConstantOperand> getConstants() {
-        Collection<ConstantOperand> operands = new LinkedList<>();
+    public Set<ConstantOperand> getConstants() {
+        Set<ConstantOperand> operands = new LinkedHashSet<>();
         for (String constant : constants) {
             operands.add(new ConstantOperand(type, constant));
         }

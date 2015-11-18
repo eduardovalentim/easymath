@@ -5,17 +5,17 @@
 
 	<parent>
 		<groupId>org.bitbucket.easymath</groupId>
-		<artifactId>easymath.parent</artifactId>
+		<artifactId>easymath-parent</artifactId>
 		<version>1.0</version>
 	</parent>
 
-	<artifactId>easymath.processor</artifactId>
+	<artifactId>easymath-processor</artifactId>
 	<packaging>jar</packaging>
 
 	<dependencies>
 		<dependency>
 			<groupId>${project.groupId}</groupId>
-			<artifactId>easymath.annotations</artifactId>
+			<artifactId>easymath-annotations</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
@@ -33,6 +33,7 @@
 			<artifactId>antlr4-runtime</artifactId>
 			<version>4.5.1-1</version>
 		</dependency>
+		
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

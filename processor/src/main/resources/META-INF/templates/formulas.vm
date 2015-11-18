@@ -1,10 +1,17 @@
 package $package;
 
-import javax.annotation.Generated;
 import java.math.BigDecimal;
+import java.util.logging.Logger;
+
+import javax.annotation.Generated;
+
+import org.bitbucket.easymath.AbstractFormulas;
+import org.bitbucket.easymath.logging.FormulaLogSupplier;
 
 @Generated("$generator")
-public class $classname {
+public class $classname extends AbstractFormulas {
+
+    private static Logger logger = Logger.getLogger(${classname}.class.getName());
 
 	#foreach( $constant in ${constants} )
 	  #declareConstant( ${constant.type} ${constant} ${constant.operand} )
@@ -19,14 +26,26 @@ public class $classname {
      * Formula: ${function.name}=${function.formula}
      */
     public ${function.type} compute${utils.capitalize($function.name)}(
-        #arguments( ${function.inputs} )) {
+        #typedArguments( ${function.inputs} )) {
+        #if( ${function.inputs.empty} )
+          logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}");
+        #else
+          logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}", new Object[] {#arguments( ${function.inputs} )});
+        #end
+        
         #check( ${function.type} ${function.inputs} )
         
         // Operations
+        #if( ${function.inputs.empty} )
+          logger.finest("${function.formula}");
+        #else
+          logger.finest(new FormulaLogSupplier("${function.formulaFormat}", #arguments( ${function.inputs} )));
+        #end
         #foreach( $operation in ${function.operations} )
           #declareOperation( $operation )
         #end
         
+        logger.exiting(getClass().getName(), "compute${utils.capitalize($function.name)}", ${function.lastOperation});
         return ${function.lastOperation};
     }
     
@@ -36,6 +55,14 @@ public class $classname {
 ## arguments
 ## ----------------------------------------------------------------------------
 #macro( arguments $inputs )
+  #foreach( $input in $inputs )
+    ${input}#if( ${foreach.hasNext} ), #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## typedArguments
+## ----------------------------------------------------------------------------
+#macro( typedArguments $inputs )
   #foreach( $input in $inputs )
     ${input.type} ${input}#if( ${foreach.hasNext} ), #end
   #end
@@ -99,7 +126,7 @@ public class $classname {
 #macro( declareBinary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation} = Math.pow(${operation.leftOperand}, ${operation.rightOperand});
+      ${operation.type} ${operation} = pow(${operation.leftOperand}, ${operation.rightOperand});
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation} = ${operation.leftOperand} * ${operation.rightOperand};
     #elseif( ${operation.operator} == '/' )
@@ -115,7 +142,7 @@ public class $classname {
     #end
   #else
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation} = Math.pow(${operation.leftOperand}, ${operation.rightOperand});
+      ${operation.type} ${operation} = pow(${operation.leftOperand}, ${operation.rightOperand});
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation} = ${operation.leftOperand}.multiply(${operation.rightOperand});
     #elseif( ${operation.operator} == '/' )

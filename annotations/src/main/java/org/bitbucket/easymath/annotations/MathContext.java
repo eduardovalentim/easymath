@@ -8,6 +8,12 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.math.RoundingMode;
 
+/**
+ * @author Eduardo.Valentim
+ * 
+ * @see java.math.MathContext
+ * @see java.math.RoundingMode;
+ */
 @Inherited
 @Documented
 @Target(ElementType.TYPE)

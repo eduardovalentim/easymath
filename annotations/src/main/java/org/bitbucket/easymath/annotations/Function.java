@@ -55,6 +55,8 @@ import java.lang.annotation.Target;
  * composition, where the output from one function becomes the input to another
  * function.
  * 
+ * @see https://en.wikipedia.org/wiki/Function_%28mathematics%29
+ * 
  * @author Eduardo.Valentim
  *
  */

@@ -94,7 +94,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         FunctionModelVisitor visitor = new FunctionModelVisitor(function.using());
         try {
             LOGGER.info("Compiling formula: {}", function.formula());
-            
+
             // create a CharStream that reads from standard input
             ANTLRInputStream input = new ANTLRInputStream(function.formula());
             // create a lexer that feeds off of input CharStream
@@ -114,8 +114,8 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 
         Set<InputOperand> inputs = visitor.getInputs();
         Deque<Operation> operations = visitor.getOperations();
-        FunctionModel model = new FunctionModel(function.name(), function.formula(), function.using(), inputs, operations);
-        
+        FunctionModel model = new FunctionModel(function, inputs, visitor.getConstants(), operations);
+
         return LOGGER.exit(model);
     }
 }
