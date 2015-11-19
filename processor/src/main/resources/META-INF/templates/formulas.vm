@@ -46,8 +46,8 @@ public class $classname extends AbstractFormulas {
           #declareOperation( $operation )
         #end
         
-        logger.exiting(getClass().getName(), "compute${utils.capitalize($function.name)}", ${function.lastOperation});
-        return ${function.lastOperation};
+        logger.exiting(getClass().getName(), "compute${utils.capitalize($function.name)}", ${function.lastOperation.id});
+        return ${function.lastOperation.id};
     }
     
 #end
@@ -57,7 +57,7 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( arguments $function )
   #foreach( $input in ${function.inputs} )
-    ${input.name}#if( ${foreach.hasNext} ), #end
+    ${input.id}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -65,7 +65,7 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( typedArguments $function )
   #foreach( $input in ${function.inputs} )
-    ${input.type} ${input.name}#if( ${foreach.hasNext} ), #end
+    ${input.type} ${input.id}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -85,8 +85,8 @@ public class $classname extends AbstractFormulas {
   #if( ${function.type} == "BigDecimal" )
     // Method protection block
     #foreach( $input in ${function.inputs} )
-      if (${input.name} == null) {
-          throw new IllegalArgumentException("Argument '${input.name}' cannot be null.");
+      if (${input.id} == null) {
+          throw new IllegalArgumentException("Argument '${input.id}' cannot be null.");
       }
     #end
   #end
@@ -96,9 +96,9 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( declareConstant $constant )
   #if( ${constant.type} == "double" )
-    private static final ${constant.type} ${constant.name} = ${constant.value}D;
+    private static final ${constant.type} ${constant.id} = ${constant.value}D;
   #else
-    private static final ${constant.type} ${constant.name} = new BigDecimal("${constant.value}");
+    private static final ${constant.type} ${constant.id} = new BigDecimal("${constant.value}");
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -117,17 +117,17 @@ public class $classname extends AbstractFormulas {
 #macro( declareUnary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation} = fat(${operation.operand.name});
+      ${operation.type} ${operation.id} = fat(${operation.operand.id});
     #else
-      ${operation.type} ${operation} = ${operation.operand.name} * (${operation.operator}1);
+      ${operation.type} ${operation.id} = ${operation.operand.id} * (${operation.operator}1);
     #end
   #else
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation} = fat(${operation.operand.name}, mc);
+      ${operation.type} ${operation.id} = fat(${operation.operand.id}, mc);
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.operand.name}.multiply(BigDecimal.ONE.negate(), mc);
+      ${operation.type} ${operation.id} = ${operation.operand.id}.multiply(BigDecimal.ONE.negate(), mc);
     #else
-      ${operation.type} ${operation} = ${operation.operand.name};
+      ${operation.type} ${operation.id} = ${operation.operand.id};
     #end
   #end
 #end
@@ -137,33 +137,33 @@ public class $classname extends AbstractFormulas {
 #macro( declareBinary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation} = pow(${operation.leftOperand.name}, ${operation.rightOperand.name});
+      ${operation.type} ${operation.id} = pow(${operation.leftOperand.id}, ${operation.rightOperand.id});
     #elseif( ${operation.operator} == '*' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name} * ${operation.rightOperand.name};
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} * ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '/' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name} / ${operation.rightOperand.name};
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} / ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '%' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name} % ${operation.rightOperand.name};
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} % ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '+' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name} + ${operation.rightOperand.name};
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} + ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name} - ${operation.rightOperand.name};
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} - ${operation.rightOperand.id};
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end
   #else
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation} = pow(${operation.leftOperand.name}, ${operation.rightOperand.name}, mc);
+      ${operation.type} ${operation.id} = pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '*' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name}.multiply(${operation.rightOperand.name}, mc);
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id}.multiply(${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '/' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name}.divide(${operation.rightOperand.name}, mc);
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id}.divide(${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '%' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name}.remainder(${operation.rightOperand.name}, mc);
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id}.remainder(${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '+' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name}.add(${operation.rightOperand.name}, mc);
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id}.add(${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.leftOperand.name}.subtract(${operation.rightOperand.name}, mc);
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id}.subtract(${operation.rightOperand.id}, mc);
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end

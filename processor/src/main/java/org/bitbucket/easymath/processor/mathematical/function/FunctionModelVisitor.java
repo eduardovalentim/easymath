@@ -75,7 +75,7 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
         Operand leftOperand = createOperand(visit(left));
         Operand rightOperand = createOperand(visit(right));
 
-        BinaryOperation operation = new BinaryOperation(id++, type, leftOperand, left.getText(), operator,
+        BinaryOperation operation = new BinaryOperation("$r" + id++, type, leftOperand, left.getText(), operator,
                 rightOperand, right.getText());
         operations.add(operation);
 
@@ -92,7 +92,7 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
 
         Operand operand = createOperand(visit(expr));
 
-        UnaryOperation operation = new UnaryOperation(id++, type, operand, operator, expr.getText());
+        UnaryOperation operation = new UnaryOperation("$r" + id++, type, operand, operator, expr.getText());
         operations.add(operation);
         LOGGER.debug("{} = {} {} (operator={}, operand={})", operation, operator, operand, operator,
                 expr.getText());

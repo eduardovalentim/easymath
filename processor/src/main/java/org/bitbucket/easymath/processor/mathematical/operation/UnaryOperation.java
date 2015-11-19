@@ -12,7 +12,7 @@ public class UnaryOperation extends AbstractOperation {
     private Operand operand;
     private String operandDescr;
     
-    public UnaryOperation(int id, NumberType type, Operand operand, String operator, String operandDescr) {
+    public UnaryOperation(String id, NumberType type, Operand operand, String operator, String operandDescr) {
         super(id, operator, type);
         this.operand = operand;
         this.operandDescr = operandDescr;
@@ -23,9 +23,6 @@ public class UnaryOperation extends AbstractOperation {
         return new LinkedList<Operand>( Arrays.asList(operand) );
     }
     
-    /**
-     * @return the operand
-     */
     public Operand getOperand() {
         return operand;
     }

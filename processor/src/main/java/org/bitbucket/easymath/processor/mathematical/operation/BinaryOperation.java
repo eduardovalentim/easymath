@@ -14,7 +14,7 @@ public class BinaryOperation extends AbstractOperation {
     private Operand rightOperand;
     private String rightFragment;
     
-    public BinaryOperation(int id, NumberType type, Operand leftOperand, String leftFragment, String operator, Operand rightOperand, String rightFragment) {
+    public BinaryOperation(String id, NumberType type, Operand leftOperand, String leftFragment, String operator, Operand rightOperand, String rightFragment) {
         super(id, operator, type);
         this.leftOperand = leftOperand;
         this.leftFragment = leftFragment;
@@ -27,9 +27,6 @@ public class BinaryOperation extends AbstractOperation {
         return new LinkedList<>(Arrays.asList(leftOperand, rightOperand));
     }
     
-    /**
-     * @return the leftOperand
-     */
     public Operand getLeftOperand() {
         return leftOperand;
     }
@@ -38,14 +35,16 @@ public class BinaryOperation extends AbstractOperation {
         return leftFragment;
     }
 
-    /**
-     * @return the rightOperand
-     */
     public Operand getRightOperand() {
         return rightOperand;
     }
     
     public String getRightFragment() {
         return rightFragment;
+    }
+    
+    @Override
+    public String toString() {
+        return getId();
     }
 }

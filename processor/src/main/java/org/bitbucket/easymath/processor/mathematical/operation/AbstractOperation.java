@@ -7,11 +7,11 @@ import org.bitbucket.easymath.processor.mathematical.operation.operand.Operand;
 
 public abstract class AbstractOperation implements Operation {
     
-    private int id;
+    private String id;
     private String operator;
     private NumberType type;
 
-    public AbstractOperation(int id, String operator, NumberType type) {
+    public AbstractOperation(String id, String operator, NumberType type) {
         super();
         this.id = id;
         this.operator = operator;
@@ -20,23 +20,19 @@ public abstract class AbstractOperation implements Operation {
 
     public abstract Deque<Operand> getOperands();
     
-    /**
-     * @return the id
-     */
-    public int getId() {
+    @Override
+    public String getId() {
         return id;
     }
     
+    @Override
     public String getOperator() {
         return operator;
     }
 
+    @Override
     public NumberType getType() {
         return type;
     }
     
-    @Override
-    public String toString() {
-        return String.format("r%s", id);
-    }
 }

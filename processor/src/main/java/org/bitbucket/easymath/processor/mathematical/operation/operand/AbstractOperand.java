@@ -4,19 +4,19 @@ import org.bitbucket.easymath.annotations.NumberType;
 
 public class AbstractOperand implements Operand {
 
-    private String name;
+    private String id;
     private NumberType type;
     private String value;
     
-    public AbstractOperand(String name, NumberType type, String value) {
-        this.name = name;
+    public AbstractOperand(String id, NumberType type, String value) {
+        this.id = id;
         this.type = type;
         this.value = value;
     }
 
     @Override
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
     
     @Override
@@ -29,9 +29,6 @@ public class AbstractOperand implements Operand {
         return value;
     }
         
-    /* (non-Javadoc)
-     * @see java.lang.Object#hashCode()
-     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -41,9 +38,6 @@ public class AbstractOperand implements Operand {
         return result;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#equals(java.lang.Object)
-     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {

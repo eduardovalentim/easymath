@@ -6,18 +6,18 @@ import org.bitbucket.easymath.annotations.NumberType;
 public class ConstantOperand extends AbstractOperand {
 
     public ConstantOperand(NumberType type, String value) {
-        super(formatName(type, value), type, value);
+        super(formatId(type, value), type, value);
     }
 
-    private static String formatName(NumberType type, String value) {
-        String name = "";
+    private static String formatId(NumberType type, String value) {
+        String id = "";
         
         if (type == NumberType.DOUBLE) {
-            name = String.format("D%s", value);
+            id = String.format("D%s", value);
         } else {
-            name = String.format("BD%s", value);
+            id = String.format("BD%s", value);
         }
         
-        return name.replace(".", "_");
+        return id.replace(".", "_");
     }
 }
