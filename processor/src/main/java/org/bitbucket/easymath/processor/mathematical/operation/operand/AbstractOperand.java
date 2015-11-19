@@ -4,22 +4,31 @@ import org.bitbucket.easymath.annotations.NumberType;
 
 public class AbstractOperand implements Operand {
 
-    private String operand;
+    private String name;
     private NumberType type;
+    private String value;
     
-    public AbstractOperand(NumberType type, String operand) {
+    public AbstractOperand(String name, NumberType type, String value) {
+        this.name = name;
         this.type = type;
-        this.operand = operand;
+        this.value = value;
+    }
+
+    @Override
+    public String getName() {
+        return name;
     }
     
-    public String getOperand() {
-        return operand;
-    }
-    
+    @Override
     public NumberType getType() {
         return type;
     }
-    
+
+    @Override
+    public String getValue() {
+        return value;
+    }
+        
     /* (non-Javadoc)
      * @see java.lang.Object#hashCode()
      */
@@ -27,7 +36,7 @@ public class AbstractOperand implements Operand {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + ((operand == null) ? 0 : operand.hashCode());
+        result = prime * result + ((value == null) ? 0 : value.hashCode());
         result = prime * result + ((type == null) ? 0 : type.hashCode());
         return result;
     }
@@ -47,11 +56,11 @@ public class AbstractOperand implements Operand {
             return false;
         }
         AbstractOperand other = (AbstractOperand) obj;
-        if (operand == null) {
-            if (other.operand != null) {
+        if (value == null) {
+            if (other.value != null) {
                 return false;
             }
-        } else if (!operand.equals(other.operand)) {
+        } else if (!value.equals(other.value)) {
             return false;
         }
         if (type != other.type) {
@@ -60,8 +69,4 @@ public class AbstractOperand implements Operand {
         return true;
     }
 
-    @Override
-    public String toString() {
-        return operand;
-    }
 }

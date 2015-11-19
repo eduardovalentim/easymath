@@ -4,8 +4,8 @@ import org.bitbucket.easymath.annotations.NumberType;
 
 public class InputOperand extends AbstractOperand {
 
-    public InputOperand(NumberType type, String operand) {
-        super(type, operand);
+    public InputOperand(NumberType type, String value) {
+        super(value, type, value);
     }
 
 }

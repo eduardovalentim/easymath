@@ -72,8 +72,6 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
         String operator = ctx.operator.getText();
         ExpressionContext right = ctx.expression(RIGHT);
 
-        LOGGER.trace("left: {}, op: {}, right: {}", left.getText(), operator, right.getText());
-
         Operand leftOperand = createOperand(visit(left));
         Operand rightOperand = createOperand(visit(right));
 
@@ -91,8 +89,6 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
     public String visitUnary(UnaryContext ctx) {
         ExpressionContext expr = ctx.expression();
         String operator = ctx.operator.getText();
-
-        LOGGER.trace("expr: {}, op: {}", expr.getText(), operator);
 
         Operand operand = createOperand(visit(expr));
 

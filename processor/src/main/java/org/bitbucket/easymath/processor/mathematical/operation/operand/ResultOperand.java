@@ -4,8 +4,8 @@ import org.bitbucket.easymath.annotations.NumberType;
 
 public class ResultOperand extends AbstractOperand {
 
-    public ResultOperand(NumberType type, String operand) {
-        super(type, operand);
+    public ResultOperand(NumberType type, String value) {
+        super(value, type, value);
     }
 
 }

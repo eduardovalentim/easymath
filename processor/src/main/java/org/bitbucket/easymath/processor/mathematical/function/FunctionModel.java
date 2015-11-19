@@ -46,7 +46,7 @@ public class FunctionModel {
         
         int argIndex = 1;
         for (InputOperand input : inputs) {
-            template = template.replaceAll(input.getOperand(), "%" + argIndex++ + "\\$f");
+            template = template.replaceAll(input.getValue(), "%" + argIndex++ + "\\$f");
         }
         
         return template;

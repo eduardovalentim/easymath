@@ -17,7 +17,7 @@ public class $classname extends AbstractFormulas {
     private static Logger logger = Logger.getLogger(${classname}.class.getName());
 
 	#foreach( $constant in ${constants} )
-	  #declareConstant( ${constant.type} ${constant} ${constant.operand} )
+	  #declareConstant( $constant )
 	#end
 
     public $classname() {
@@ -28,8 +28,7 @@ public class $classname extends AbstractFormulas {
     /**
      * Formula: ${function.name}=${function.formula}
      */
-    public ${function.type} compute${utils.capitalize($function.name)}(
-        #typedArguments( $function )) {
+    public ${function.type} compute${utils.capitalize($function.name)}( #typedArguments( $function )) {
         #logEntering( $function )
         #check( $function )
         
@@ -58,7 +57,7 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( arguments $function )
   #foreach( $input in ${function.inputs} )
-    ${input}#if( ${foreach.hasNext} ), #end
+    ${input.name}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -66,7 +65,7 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( typedArguments $function )
   #foreach( $input in ${function.inputs} )
-    ${input.type} ${input}#if( ${foreach.hasNext} ), #end
+    ${input.type} ${input.name}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -74,9 +73,9 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( logEntering $function )
   #if( ${function.inputs.empty} )
-    logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}");
+    logger.entering(getClass().getName(), "compute${utils.capitalize(${function.name})}");
   #else
-    logger.entering(getClass().getName(), "compute${utils.capitalize($function.name)}", new Object[] {#arguments( ${function} )});
+    logger.entering(getClass().getName(), "compute${utils.capitalize(${function.name})}", new Object[] {#arguments( ${function} )});
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -86,8 +85,8 @@ public class $classname extends AbstractFormulas {
   #if( ${function.type} == "BigDecimal" )
     // Method protection block
     #foreach( $input in ${function.inputs} )
-      if ($input == null) {
-          throw new IllegalArgumentException("Argument '$input' cannot be null.");
+      if (${input.name} == null) {
+          throw new IllegalArgumentException("Argument '${input.name}' cannot be null.");
       }
     #end
   #end
@@ -95,11 +94,11 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 ## declareConstant
 ## ----------------------------------------------------------------------------
-#macro( declareConstant $type $name $text )
-  #if( $type == "double" )
-    private static final $type $name = ${text}D;
+#macro( declareConstant $constant )
+  #if( ${constant.type} == "double" )
+    private static final ${constant.type} ${constant.name} = ${constant.value}D;
   #else
-    private static final $type $name = new BigDecimal("$text");
+    private static final ${constant.type} ${constant.name} = new BigDecimal("${constant.value}");
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -118,17 +117,17 @@ public class $classname extends AbstractFormulas {
 #macro( declareUnary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation} = fat(${operation.operand});
+      ${operation.type} ${operation} = fat(${operation.operand.name});
     #else
-      ${operation.type} ${operation} = ${operation.operand} * (${operation.operator}1);
+      ${operation.type} ${operation} = ${operation.operand.name} * (${operation.operator}1);
     #end
   #else
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation} = fat(${operation.operand}, mc);
+      ${operation.type} ${operation} = fat(${operation.operand.name}, mc);
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.operand}.multiply(BigDecimal.ONE.negate(), mc);
+      ${operation.type} ${operation} = ${operation.operand.name}.multiply(BigDecimal.ONE.negate(), mc);
     #else
-      ${operation.type} ${operation} = ${operation.operand};
+      ${operation.type} ${operation} = ${operation.operand.name};
     #end
   #end
 #end
@@ -138,33 +137,33 @@ public class $classname extends AbstractFormulas {
 #macro( declareBinary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation} = pow(${operation.leftOperand}, ${operation.rightOperand});
+      ${operation.type} ${operation} = pow(${operation.leftOperand.name}, ${operation.rightOperand.name});
     #elseif( ${operation.operator} == '*' )
-      ${operation.type} ${operation} = ${operation.leftOperand} * ${operation.rightOperand};
+      ${operation.type} ${operation} = ${operation.leftOperand.name} * ${operation.rightOperand.name};
     #elseif( ${operation.operator} == '/' )
-      ${operation.type} ${operation} = ${operation.leftOperand} / ${operation.rightOperand};
+      ${operation.type} ${operation} = ${operation.leftOperand.name} / ${operation.rightOperand.name};
     #elseif( ${operation.operator} == '%' )
-      ${operation.type} ${operation} = ${operation.leftOperand} % ${operation.rightOperand};
+      ${operation.type} ${operation} = ${operation.leftOperand.name} % ${operation.rightOperand.name};
     #elseif( ${operation.operator} == '+' )
-      ${operation.type} ${operation} = ${operation.leftOperand} + ${operation.rightOperand};
+      ${operation.type} ${operation} = ${operation.leftOperand.name} + ${operation.rightOperand.name};
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.leftOperand} - ${operation.rightOperand};
+      ${operation.type} ${operation} = ${operation.leftOperand.name} - ${operation.rightOperand.name};
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end
   #else
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation} = pow(${operation.leftOperand}, ${operation.rightOperand}, mc);
+      ${operation.type} ${operation} = pow(${operation.leftOperand.name}, ${operation.rightOperand.name}, mc);
     #elseif( ${operation.operator} == '*' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.multiply(${operation.rightOperand}, mc);
+      ${operation.type} ${operation} = ${operation.leftOperand.name}.multiply(${operation.rightOperand.name}, mc);
     #elseif( ${operation.operator} == '/' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.divide(${operation.rightOperand}, mc);
+      ${operation.type} ${operation} = ${operation.leftOperand.name}.divide(${operation.rightOperand.name}, mc);
     #elseif( ${operation.operator} == '%' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.remainder(${operation.rightOperand}, mc);
+      ${operation.type} ${operation} = ${operation.leftOperand.name}.remainder(${operation.rightOperand.name}, mc);
     #elseif( ${operation.operator} == '+' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.add(${operation.rightOperand}, mc);
+      ${operation.type} ${operation} = ${operation.leftOperand.name}.add(${operation.rightOperand.name}, mc);
     #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation} = ${operation.leftOperand}.subtract(${operation.rightOperand}, mc);
+      ${operation.type} ${operation} = ${operation.leftOperand.name}.subtract(${operation.rightOperand.name}, mc);
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end

@@ -4,7 +4,8 @@ import org.bitbucket.easymath.annotations.NumberType;
 
 public interface Operand {
 
-    public String getOperand();    
+    public String getName();
     public NumberType getType();
+    public String getValue();
     
 }

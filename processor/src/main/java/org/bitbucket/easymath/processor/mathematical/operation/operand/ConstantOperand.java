@@ -5,18 +5,17 @@ import org.bitbucket.easymath.annotations.NumberType;
 
 public class ConstantOperand extends AbstractOperand {
 
-    public ConstantOperand(NumberType type, String operand) {
-        super(type, operand);
+    public ConstantOperand(NumberType type, String value) {
+        super(formatName(type, value), type, value);
     }
 
-    @Override
-    public String toString() {
+    private static String formatName(NumberType type, String value) {
         String name = "";
         
-        if (getType() == NumberType.DOUBLE) {
-            name = String.format("D%s", getOperand());
+        if (type == NumberType.DOUBLE) {
+            name = String.format("D%s", value);
         } else {
-            name = String.format("BD%s", getOperand());
+            name = String.format("BD%s", value);
         }
         
         return name.replace(".", "_");
