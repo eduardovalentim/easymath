@@ -28,7 +28,7 @@ public class $classname extends AbstractFormulas {
     /**
      * Formula: ${function.name}=${function.formula}
      */
-    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( $function )) {
+    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.inputs} )) {
         #logEntering( $function )
         #check( $function )
         
@@ -40,7 +40,7 @@ public class $classname extends AbstractFormulas {
         #if( ${function.inputs.empty} )
           logger.finest("${function.formula}");
         #else
-          logger.finest(new ResolutionLogSupplier("${function.formulaFormat}", #arguments( ${function} )));
+          logger.finest(new ResolutionLogSupplier("${function.formulaFormat}", #arguments( ${function.inputs} )));
         #end
         #foreach( $operation in ${function.operations} )
           #declareOperation( $operation )
@@ -55,16 +55,16 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 ## arguments
 ## ----------------------------------------------------------------------------
-#macro( arguments $function )
-  #foreach( $input in ${function.inputs} )
+#macro( arguments $inputs )
+  #foreach( $input in ${inputs} )
     ${input.id}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
 ## typedArguments
 ## ----------------------------------------------------------------------------
-#macro( typedArguments $function )
-  #foreach( $input in ${function.inputs} )
+#macro( typedArguments $inputs )
+  #foreach( $input in ${inputs} )
     ${input.type} ${input.id}#if( ${foreach.hasNext} ), #end
   #end
 #end
@@ -75,7 +75,7 @@ public class $classname extends AbstractFormulas {
   #if( ${function.inputs.empty} )
     logger.entering(getClass().getName(), "compute${utils.capitalize(${function.name})}");
   #else
-    logger.entering(getClass().getName(), "compute${utils.capitalize(${function.name})}", new Object[] {#arguments( ${function} )});
+    logger.entering(getClass().getName(), "compute${utils.capitalize(${function.name})}", new Object[] {#arguments( ${function.inputs} )});
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -105,10 +105,14 @@ public class $classname extends AbstractFormulas {
 ## declareOperation
 ## ----------------------------------------------------------------------------
 #macro( declareOperation $operation )
-  #if( ${operation.operands.size()} == 1 )
+  #if( ${operation.class.simpleName} == "UnaryOperation" )
     #declareUnary( $operation )
-  #else
+  #elseif( ${operation.class.simpleName} == "BinaryOperation" )
     #declareBinary( $operation )
+  #elseif( ${operation.class.simpleName} == "FunctionOperation" )
+    #declareFunction( $operation )
+  #else
+    Operation not supported!!!!!
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -167,5 +171,15 @@ public class $classname extends AbstractFormulas {
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## declareFunction
+## ----------------------------------------------------------------------------
+#macro( declareFunction $operation )
+  #if( ${operation.type} == "double" )
+    ${operation.type} ${operation.id} = compute("${operation.name}", #arguments( ${operation.operands} ));
+  #else
+    ${operation.type} ${operation.id} = compute("${operation.name}", mc, #arguments( ${operation.operands} ));
   #end
 #end

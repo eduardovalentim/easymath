@@ -63,4 +63,12 @@ public class AbstractOperand implements Operand {
         return true;
     }
 
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return getClass().getSimpleName() + " [id=" + id + "]";
+    }
+
 }

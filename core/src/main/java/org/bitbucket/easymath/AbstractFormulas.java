@@ -22,11 +22,6 @@ public abstract class AbstractFormulas {
         return new BigDecimal(result.toString(true), mc);
     }
     
-    public BigDecimal pow(BigDecimal base, BigDecimal exponent) {
-        Apfloat result = ApfloatMath.pow(new Apfloat(base), new Apfloat(exponent));
-        return new BigDecimal(result.toString(true));
-    }
-
     public double pow(double base, double exponent) {
         return Math.pow(base, exponent);
     }
@@ -43,7 +38,11 @@ public abstract class AbstractFormulas {
         return 0D;
     }
     
-    public Number compute(String functionName, Number... args) {
-        return 0;
+    public <T> T compute(String functionName, Number... args) {
+        return null;
+    }
+
+    public <T> T compute(String functionName, MathContext mc, Number... args) {
+        return null;
     }
 }

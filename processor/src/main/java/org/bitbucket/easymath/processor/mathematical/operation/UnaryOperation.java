@@ -10,12 +10,12 @@ import org.bitbucket.easymath.processor.mathematical.operation.operand.Operand;
 public class UnaryOperation extends AbstractOperation {
 
     private Operand operand;
-    private String operandDescr;
+    private String fragment;
     
-    public UnaryOperation(String id, NumberType type, Operand operand, String operator, String operandDescr) {
+    public UnaryOperation(String id, NumberType type, Operand operand, String operator, String fragment) {
         super(id, operator, type);
         this.operand = operand;
-        this.operandDescr = operandDescr;
+        this.fragment = fragment;
     }
 
     @Override
@@ -27,8 +27,8 @@ public class UnaryOperation extends AbstractOperation {
         return operand;
     }
     
-    public String getOperandDescr() {
-        return operandDescr;
+    public String getFragment() {
+        return fragment;
     }
 
     /* (non-Javadoc)

@@ -13,10 +13,12 @@ import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.Brace
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.BracketsContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.ConstantContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.ExpressionContext;
+import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.FunctionContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.InputContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.ParenthesisContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.UnaryContext;
 import org.bitbucket.easymath.processor.mathematical.operation.BinaryOperation;
+import org.bitbucket.easymath.processor.mathematical.operation.FunctionOperation;
 import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.UnaryOperation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
@@ -46,73 +48,9 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
         this.constants = new LinkedHashSet<>();
     }
 
-    @Override
-    public String visitInput(InputContext ctx) {
-        String text = ctx.getText();
-        LOGGER.trace(text);
-
-        inputs.add(text);
-        return text;
-    }
-
-    @Override
-    public String visitConstant(ConstantContext ctx) {
-        String text = ctx.getText();
-        LOGGER.trace(text);
-
-        constants.add(text);
-        return text;
-    }
-
-    @Override
-    public String visitBinary(BinaryContext ctx) {
-        ExpressionContext left = ctx.expression(LEFT);
-        String operator = ctx.operator.getText();
-        ExpressionContext right = ctx.expression(RIGHT);
-
-        Operand leftOperand = createOperand(visit(left));
-        Operand rightOperand = createOperand(visit(right));
-
-        String generatedId = generateId();
-        BinaryOperation operation = new BinaryOperation(generatedId, type, leftOperand, left.getText(), operator,
-                rightOperand, right.getText());
-        operations.add(operation);
-
-        LOGGER.debug("{} = {} {} {} (left={}, operator={} right={})", operation, leftOperand, operator, rightOperand,
-                left.getText(), operator, right.getText());
-
-        return generatedId;
-    }
-
-    @Override
-    public String visitUnary(UnaryContext ctx) {
-        ExpressionContext expr = ctx.expression();
-        String operator = ctx.operator.getText();
-
-        Operand operand = createOperand(visit(expr));
-
-        String generatedId = generateId();
-        UnaryOperation operation = new UnaryOperation(generatedId, type, operand, operator, expr.getText());
-        operations.add(operation);
-        LOGGER.debug("{} = {} {} (operator={}, operand={})", operation, operator, operand, operator, expr.getText());
-
-        return generatedId;
-    }
-
-    @Override
-    public String visitParenthesis(ParenthesisContext ctx) {
-        return visit(ctx.expression());
-    }
-
-    @Override
-    public String visitBraces(BracesContext ctx) {
-        return visit(ctx.expression());
-    }
-
-    @Override
-    public String visitBrackets(BracketsContext ctx) {
-        return visit(ctx.expression());
-    }
+    /*
+     * GETTERS
+     */
 
     public Deque<Operation> getOperations() {
         return operations;
@@ -136,6 +74,103 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
         return operands;
     }
 
+    /*
+     * VISIT METHODS
+     */
+    @Override
+    public String visitInput(InputContext ctx) {
+        String text = ctx.getText();
+        LOGGER.trace(text);
+
+        inputs.add(text);
+        return text;
+    }
+
+    @Override
+    public String visitConstant(ConstantContext ctx) {
+        String text = ctx.getText();
+        LOGGER.trace(text);
+
+        constants.add(text);
+        return text;
+    }
+
+    @Override
+    public String visitFunction(FunctionContext ctx) {
+        // Generate the operation id
+        String generatedId = generateId(ctx);
+
+        String name = ctx.Identifier().getText();
+
+        Deque<Operand> operands = new LinkedList<>();
+        for (ExpressionContext expr : ctx.expression()) {
+            operands.add(createOperand(visit(expr)));
+        }
+
+        FunctionOperation operation = new FunctionOperation(generatedId, name, type, operands, ctx.getText());
+        operations.add(operation);
+
+        LOGGER.debug("{} = {} ({}))", operation.getId(), name, operands);
+        
+        return generatedId;
+    }
+
+    @Override
+    public String visitBinary(BinaryContext ctx) {
+        String generatedId = generateId(ctx);
+
+        ExpressionContext left = ctx.expression(LEFT);
+        String operator = ctx.operator.getText();
+        ExpressionContext right = ctx.expression(RIGHT);
+
+        Operand leftOperand = createOperand(visit(left));
+        Operand rightOperand = createOperand(visit(right));
+
+        BinaryOperation operation = new BinaryOperation(generatedId, type, leftOperand, left.getText(), operator,
+                rightOperand, right.getText());
+        operations.add(operation);
+
+        LOGGER.debug("{} = {} {} {} (left={}, operator={} right={})", operation.getId(), leftOperand.getId(), operator, rightOperand.getId(),
+                left.getText(), operator, right.getText());
+
+        return generatedId;
+    }
+
+    @Override
+    public String visitUnary(UnaryContext ctx) {
+        String generatedId = generateId(ctx);
+
+        ExpressionContext expr = ctx.expression();
+        String operator = ctx.operator.getText();
+
+        Operand operand = createOperand(visit(expr));
+
+        UnaryOperation operation = new UnaryOperation(generatedId, type, operand, operator, expr.getText());
+        operations.add(operation);
+        LOGGER.debug("{} = {} {} (operator={}, operand={})", operation.getId(), operator, operand.getId(), operator, expr.getText());
+
+        return generatedId;
+    }
+
+    @Override
+    public String visitParenthesis(ParenthesisContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
+    public String visitBraces(BracesContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    @Override
+    public String visitBrackets(BracketsContext ctx) {
+        return visit(ctx.expression());
+    }
+
+    /*
+     * PRIVATE METHODS
+     */
+
     private Operand createOperand(String value) {
         Operand operand = null;
 
@@ -149,8 +184,8 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
 
         return operand;
     }
-    
-    private String generateId() {
-        return "$r" + id++;
+
+    private String generateId(ExpressionContext ctx) {
+        return String.format("r$%d", id++);
     }
 }
