@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.annotation.Generated;
 
 import org.bitbucket.easymath.AbstractFormulas;
+import org.bitbucket.easymath.FunctionCatalog;
 import org.bitbucket.easymath.logging.ResolutionLogSupplier;
 
 @Generated("$generator")
@@ -21,7 +22,11 @@ public class $classname extends AbstractFormulas {
 	#end
 
     public $classname() {
-        super();
+        this(new FunctionCatalog());
+    }
+
+    public $classname(FunctionCatalog catalog) {
+        super(catalog);
     }
 
 #foreach( $function in ${functions} )
@@ -46,7 +51,7 @@ public class $classname extends AbstractFormulas {
           #declareOperation( $operation )
         #end
         
-        logger.exiting(getClass().getName(), "compute${utils.capitalize($function.name)}", ${function.lastOperation.id});
+        logger.exiting(getClass().getName(), "${utils.uncapitalize($function.name)}", ${function.lastOperation.id});
         return ${function.lastOperation.id};
     }
     
@@ -73,9 +78,9 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( logEntering $function )
   #if( ${function.inputs.empty} )
-    logger.entering(getClass().getName(), "compute${utils.capitalize(${function.name})}");
+    logger.entering(getClass().getName(), "${utils.uncapitalize(${function.name})}");
   #else
-    logger.entering(getClass().getName(), "compute${utils.capitalize(${function.name})}", new Object[] {#arguments( ${function.inputs} )});
+    logger.entering(getClass().getName(), "${utils.uncapitalize(${function.name})}", new Object[] {#arguments( ${function.inputs} )});
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -121,19 +126,20 @@ public class $classname extends AbstractFormulas {
 #macro( declareUnary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation.id} = fat(${operation.operand.id});
+      ${operation.type} ${operation.id} = super.fat(${operation.operand.id});
     #else
       ${operation.type} ${operation.id} = ${operation.operand.id} * (${operation.operator}1);
     #end
   #else
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation.id} = fat(${operation.operand.id}, mc);
+      ${operation.type} ${operation.id} = super.fat(${operation.operand.id}, mc);
     #elseif( ${operation.operator} == '-' )
       ${operation.type} ${operation.id} = ${operation.operand.id}.multiply(BigDecimal.ONE.negate(), mc);
     #else
       ${operation.type} ${operation.id} = ${operation.operand.id};
     #end
   #end
+  logger.finest(new ResolutionLogSupplier("${operation.fragment}", #arguments( ${operation.operands} )));  
 #end
 ## ----------------------------------------------------------------------------
 ## declareBinary
@@ -141,7 +147,7 @@ public class $classname extends AbstractFormulas {
 #macro( declareBinary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation.id} = pow(${operation.leftOperand.id}, ${operation.rightOperand.id});
+      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id});
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation.id} = ${operation.leftOperand.id} * ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '/' )
@@ -157,7 +163,7 @@ public class $classname extends AbstractFormulas {
     #end
   #else
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation.id} = pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc);
+      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation.id} = ${operation.leftOperand.id}.multiply(${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '/' )
@@ -172,14 +178,15 @@ public class $classname extends AbstractFormulas {
       Operator '${operation.operator}' not found!!!!!!
     #end
   #end
+  logger.finest(new ResolutionLogSupplier("${operation.fragment}", #arguments( ${operation.operands} )));
 #end
 ## ----------------------------------------------------------------------------
 ## declareFunction
 ## ----------------------------------------------------------------------------
 #macro( declareFunction $operation )
   #if( ${operation.type} == "double" )
-    ${operation.type} ${operation.id} = compute("${operation.name}", #arguments( ${operation.operands} ));
+    ${operation.type} ${operation.id} = super.compute("${operation.name}", #arguments( ${operation.operands} ));
   #else
-    ${operation.type} ${operation.id} = compute("${operation.name}", mc, #arguments( ${operation.operands} ));
+    ${operation.type} ${operation.id} = super.compute("${operation.name}", mc, #arguments( ${operation.operands} ));
   #end
 #end

@@ -13,8 +13,10 @@ import org.apfloat.ApfloatMath;
  */
 public abstract class AbstractFormulas {
 
-    public AbstractFormulas() {
-        super();
+    private FunctionCatalog catalog;
+
+    public AbstractFormulas(FunctionCatalog catalog) {
+        this.catalog = catalog;
     }
     
     public BigDecimal pow(BigDecimal base, BigDecimal exponent, MathContext mc) {
@@ -38,11 +40,9 @@ public abstract class AbstractFormulas {
         return 0D;
     }
     
-    public <T> T compute(String functionName, Number... args) {
-        return null;
-    }
-
+    @SuppressWarnings("unchecked")
     public <T> T compute(String functionName, MathContext mc, Number... args) {
-        return null;
+        Function function = catalog.getFunction(functionName);
+        return (T) function.compute(mc, args);
     }
 }
