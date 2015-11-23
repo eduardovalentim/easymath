@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.annotation.Generated;
 
 import org.bitbucket.easymath.AbstractFormulas;
-import org.bitbucket.easymath.logging.FormulaLogSupplier;
+import org.bitbucket.easymath.logging.ResolutionLogSupplier;
 
 @Generated("$generator")
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
@@ -28,7 +28,7 @@ public class $classname extends AbstractFormulas {
     /**
      * Formula: ${function.name}=${function.formula}
      */
-    public ${function.type} compute${utils.capitalize($function.name)}( #typedArguments( $function )) {
+    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( $function )) {
         #logEntering( $function )
         #check( $function )
         
@@ -40,7 +40,7 @@ public class $classname extends AbstractFormulas {
         #if( ${function.inputs.empty} )
           logger.finest("${function.formula}");
         #else
-          logger.finest(new FormulaLogSupplier("${function.formulaFormat}", #arguments( ${function} )));
+          logger.finest(new ResolutionLogSupplier("${function.formulaFormat}", #arguments( ${function} )));
         #end
         #foreach( $operation in ${function.operations} )
           #declareOperation( $operation )

@@ -42,4 +42,8 @@ public abstract class AbstractFormulas {
     public double fat(double n) {
         return 0D;
     }
+    
+    public Number compute(String functionName, Number... args) {
+        return 0;
+    }
 }

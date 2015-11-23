@@ -25,10 +25,10 @@ import org.apache.velocity.app.Velocity;
 import org.bitbucket.easymath.annotations.Function;
 import org.bitbucket.easymath.annotations.Mathematical;
 import org.bitbucket.easymath.processor.AbstractAnnotationProcessor;
-import org.bitbucket.easymath.processor.mathematical.function.FunctionModel;
-import org.bitbucket.easymath.processor.mathematical.function.FunctionModelVisitor;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaLexer;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser;
+import org.bitbucket.easymath.processor.mathematical.grammar.GrammarModel;
+import org.bitbucket.easymath.processor.mathematical.grammar.GrammarModelVisitor;
 import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
@@ -70,7 +70,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                 Function[] annotatedFunctions = annotation.functions();
 
                 Set<ConstantOperand> constants = new LinkedHashSet<>();
-                Deque<FunctionModel> functions = new LinkedList<>();
+                Deque<GrammarModel> functions = new LinkedList<>();
                 for (Function function : annotatedFunctions) {
                     functions.add(compile(e.toString(), function, constants));
                 }
@@ -88,7 +88,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         return LOGGER.exit(processed);
     }
 
-    public FunctionModel compile(String classname, Function function, Set<ConstantOperand> constants) {
+    public GrammarModel compile(String classname, Function function, Set<ConstantOperand> constants) {
         LOGGER.entry();
 
         if (!ClassUtils.isValidJavaIdentifier(function.name())) {
@@ -96,7 +96,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                     function.name()));
         }
 
-        FunctionModelVisitor visitor = new FunctionModelVisitor(function.using());
+        GrammarModelVisitor visitor = new GrammarModelVisitor(function.using());
         LOGGER.info("Compiling formula: {}", function.formula());
 
         // create a CharStream that reads from standard input
@@ -121,7 +121,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         constants.addAll(visitor.getConstants());
         Set<InputOperand> inputs = visitor.getInputs();
         Deque<Operation> operations = visitor.getOperations();
-        FunctionModel model = new FunctionModel(function, inputs, visitor.getConstants(), operations);
+        GrammarModel model = new GrammarModel(function, inputs, visitor.getConstants(), operations);
 
         return LOGGER.exit(model);
     }

@@ -1,4 +1,4 @@
-package org.bitbucket.easymath.processor.mathematical.function;
+package org.bitbucket.easymath.processor.mathematical.grammar;
 
 import java.math.RoundingMode;
 import java.util.Deque;
@@ -10,14 +10,14 @@ import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
 
-public class FunctionModel {
+public class GrammarModel {
 
     public Set<ConstantOperand> constants;
     public Deque<Operation> operations;
     public Set<InputOperand> inputs;
     private Function function;
 
-    public FunctionModel(Function function, Set<InputOperand> inputs,
+    public GrammarModel(Function function, Set<InputOperand> inputs,
             Set<ConstantOperand> constants, Deque<Operation> operations) {
         this.operations = operations;
         this.constants = constants;

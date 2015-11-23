@@ -1,15 +1,13 @@
-package org.bitbucket.easymath.processor.mathematical.function;
+package org.bitbucket.easymath.processor.mathematical.grammar;
 
 import java.util.Deque;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import org.antlr.v4.runtime.tree.ErrorNode;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bitbucket.easymath.annotations.NumberType;
-import org.bitbucket.easymath.processor.mathematical.grammar.FormulaBaseVisitor;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.BinaryContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.BracesContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.BracketsContext;
@@ -26,9 +24,9 @@ import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOper
 import org.bitbucket.easymath.processor.mathematical.operation.operand.Operand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ResultOperand;
 
-public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
+public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
 
-    private static final Logger LOGGER = LogManager.getLogger(FunctionModelVisitor.class);
+    private static final Logger LOGGER = LogManager.getLogger(GrammarModelVisitor.class);
 
     private static final int RIGHT = 1;
 
@@ -40,7 +38,7 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
     private NumberType type;
     private int id = 0;
 
-    public FunctionModelVisitor(NumberType type) {
+    public GrammarModelVisitor(NumberType type) {
         super();
         this.type = type;
         this.operations = new LinkedList<>();
@@ -75,14 +73,15 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
         Operand leftOperand = createOperand(visit(left));
         Operand rightOperand = createOperand(visit(right));
 
-        BinaryOperation operation = new BinaryOperation("$r" + id++, type, leftOperand, left.getText(), operator,
+        String generatedId = generateId();
+        BinaryOperation operation = new BinaryOperation(generatedId, type, leftOperand, left.getText(), operator,
                 rightOperand, right.getText());
         operations.add(operation);
 
         LOGGER.debug("{} = {} {} {} (left={}, operator={} right={})", operation, leftOperand, operator, rightOperand,
                 left.getText(), operator, right.getText());
 
-        return operation.toString();
+        return generatedId;
     }
 
     @Override
@@ -92,12 +91,12 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
 
         Operand operand = createOperand(visit(expr));
 
-        UnaryOperation operation = new UnaryOperation("$r" + id++, type, operand, operator, expr.getText());
+        String generatedId = generateId();
+        UnaryOperation operation = new UnaryOperation(generatedId, type, operand, operator, expr.getText());
         operations.add(operation);
-        LOGGER.debug("{} = {} {} (operator={}, operand={})", operation, operator, operand, operator,
-                expr.getText());
+        LOGGER.debug("{} = {} {} (operator={}, operand={})", operation, operator, operand, operator, expr.getText());
 
-        return operation.toString();
+        return generatedId;
     }
 
     @Override
@@ -115,11 +114,6 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
         return visit(ctx.expression());
     }
 
-    @Override
-    public String visitErrorNode(ErrorNode node) {
-        throw new IllegalArgumentException();
-    }
-    
     public Deque<Operation> getOperations() {
         return operations;
     }
@@ -154,5 +148,9 @@ public class FunctionModelVisitor extends FormulaBaseVisitor<String> {
         }
 
         return operand;
+    }
+    
+    private String generateId() {
+        return "$r" + id++;
     }
 }

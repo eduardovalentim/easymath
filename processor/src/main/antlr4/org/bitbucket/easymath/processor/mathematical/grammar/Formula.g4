@@ -9,19 +9,16 @@ expression
     :   LPAREN expression RPAREN                                         #parenthesis
     |   LBRACK expression RBRACK                                         #brackets
     |   LBRACE expression RBRACE                                         #braces
-//    |   Function                                                         #function
     |   (operator=ADD|operator=SUB) expression                           #unary
     |   expression operator=BANG                                         #unary
     |   expression operator=CARET expression                             #binary
     |   expression (operator=MUL|operator=DIV|operator=MOD) expression   #binary
     |   expression (operator=ADD|operator=SUB) expression                #binary
+    |   Identifier LPAREN expression (COMMA expression)* RPAREN          #function
     |   Number                                                           #constant
     |   Identifier                                                       #input
     ;
 
-//Function
-//    :   Identifier LPAREN expression (COMMA expression)* RPAREN
-//    ;
     
 Identifier
     :   Letter+
@@ -74,6 +71,7 @@ BITAND          : '&';
 BITOR           : '|';
 CARET           : '^';
 MOD             : '%';
+
 //
 // Whitespace
 //

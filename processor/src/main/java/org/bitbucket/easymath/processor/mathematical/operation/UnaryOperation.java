@@ -30,4 +30,14 @@ public class UnaryOperation extends AbstractOperation {
     public String getOperandDescr() {
         return operandDescr;
     }
+
+    /* (non-Javadoc)
+     * @see java.lang.Object#toString()
+     */
+    @Override
+    public String toString() {
+        return "UnaryOperation [operator=" + getOperator() + ", operand=" + operand + "]";
+    }
+    
+    
 }
