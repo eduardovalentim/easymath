@@ -10,17 +10,12 @@ import org.bitbucket.easymath.processor.mathematical.operation.operand.Operand;
 public class BinaryOperation extends AbstractOperation {
 
     private Operand leftOperand;
-    private String leftFragment;
     private Operand rightOperand;
-    private String rightFragment;
 
-    public BinaryOperation(String id, NumberType type, Operand leftOperand, String leftFragment, String operator,
-            Operand rightOperand, String rightFragment) {
-        super(id, operator, type);
+    public BinaryOperation(String id, NumberType type, Operand leftOperand, String operator, Operand rightOperand, String text) {
+        super(id, operator, type, text);
         this.leftOperand = leftOperand;
-        this.leftFragment = leftFragment;
         this.rightOperand = rightOperand;
-        this.rightFragment = rightFragment;
     }
 
     @Override
@@ -32,23 +27,10 @@ public class BinaryOperation extends AbstractOperation {
         return leftOperand;
     }
 
-    public String getLeftFragment() {
-        return leftFragment;
-    }
-
     public Operand getRightOperand() {
         return rightOperand;
     }
 
-    public String getRightFragment() {
-        return rightFragment;
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see java.lang.Object#toString()
-     */
     @Override
     public String toString() {
         return "BinaryOperation [left=" + leftOperand + ", operator=" + getOperator() + ", right=" + rightOperand + "]";

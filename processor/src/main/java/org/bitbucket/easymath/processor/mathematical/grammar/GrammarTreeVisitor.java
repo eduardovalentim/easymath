@@ -13,6 +13,7 @@ import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.Brace
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.BracketsContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.ConstantContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.ExpressionContext;
+import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.FormulaContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.FunctionContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.InputContext;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser.ParenthesisContext;
@@ -26,9 +27,9 @@ import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOper
 import org.bitbucket.easymath.processor.mathematical.operation.operand.Operand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ResultOperand;
 
-public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
+public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
 
-    private static final Logger LOGGER = LogManager.getLogger(GrammarModelVisitor.class);
+    private static final Logger LOGGER = LogManager.getLogger(GrammarTreeVisitor.class);
 
     private static final int RIGHT = 1;
 
@@ -40,7 +41,9 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
     private NumberType type;
     private int id = 0;
 
-    public GrammarModelVisitor(NumberType type) {
+    private String formula;
+
+    public GrammarTreeVisitor(NumberType type) {
         super();
         this.type = type;
         this.operations = new LinkedList<>();
@@ -51,6 +54,10 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
     /*
      * GETTERS
      */
+
+    public String getFormula() {
+        return formula;
+    }
 
     public Deque<Operation> getOperations() {
         return operations;
@@ -77,6 +84,15 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
     /*
      * VISIT METHODS
      */
+
+    @Override
+    public String visitFormula(FormulaContext ctx) {
+        this.formula = ctx.getText();
+        LOGGER.info("Compiling formula: {}", formula);
+
+        return visit(ctx.expression());
+    }
+
     @Override
     public String visitInput(InputContext ctx) {
         String text = ctx.getText();
@@ -110,8 +126,8 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
         FunctionOperation operation = new FunctionOperation(generatedId, name, type, operands, ctx.getText());
         operations.add(operation);
 
-        LOGGER.debug("{} = {} ({}))", operation.getId(), name, operands);
-        
+        LOGGER.debug("formula={}, id={}, fragment={}", formula, generatedId, ctx.getText());
+
         return generatedId;
     }
 
@@ -126,12 +142,10 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
         Operand leftOperand = createOperand(visit(left));
         Operand rightOperand = createOperand(visit(right));
 
-        BinaryOperation operation = new BinaryOperation(generatedId, type, leftOperand, left.getText(), operator,
-                rightOperand, right.getText());
+        BinaryOperation operation = new BinaryOperation(generatedId, type, leftOperand, operator, rightOperand, ctx.getText());
         operations.add(operation);
 
-        LOGGER.debug("{} = {} {} {} (left={}, operator={} right={})", operation.getId(), leftOperand.getId(), operator, rightOperand.getId(),
-                left.getText(), operator, right.getText());
+        LOGGER.debug("formula={}, id={}, fragment={}", formula, generatedId, ctx.getText());
 
         return generatedId;
     }
@@ -145,9 +159,9 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
 
         Operand operand = createOperand(visit(expr));
 
-        UnaryOperation operation = new UnaryOperation(generatedId, type, operand, operator, expr.getText());
+        UnaryOperation operation = new UnaryOperation(generatedId, type, operand, operator, ctx.getText());
         operations.add(operation);
-        LOGGER.debug("{} = {} {} (operator={}, operand={})", operation.getId(), operator, operand.getId(), operator, expr.getText());
+        LOGGER.debug("formula={}, id={}, fragment={}", formula, generatedId, ctx.getText());
 
         return generatedId;
     }
@@ -188,4 +202,5 @@ public class GrammarModelVisitor extends FormulaBaseVisitor<String> {
     private String generateId(ExpressionContext ctx) {
         return String.format("r$%d", id++);
     }
+
 }

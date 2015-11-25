@@ -9,16 +9,19 @@ import org.bitbucket.easymath.annotations.NumberType;
 import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
+import org.bitbucket.easymath.processor.mathematical.utils.FormatUtils;
 
-public class GrammarModel {
+public class FunctionModel {
 
     public Set<ConstantOperand> constants;
     public Deque<Operation> operations;
     public Set<InputOperand> inputs;
+    private String compiledFormula;
     private Function function;
 
-    public GrammarModel(Function function, Set<InputOperand> inputs,
+    public FunctionModel(Function function, String compiledFormula, Set<InputOperand> inputs,
             Set<ConstantOperand> constants, Deque<Operation> operations) {
+        this.compiledFormula = compiledFormula;
         this.operations = operations;
         this.constants = constants;
         this.function = function;
@@ -37,26 +40,17 @@ public class GrammarModel {
         return function.name();
     }
 
-    public String getFormula() {
+    public String getDeclaredFormula() {
         return function.formula();
     }
 
-    public String getFormulaFormat() {
-        String template = function.formula();
-        
-        int argIndex = 1;
-        for (InputOperand input : inputs) {
-            template = template.replaceAll(input.getValue(), "%" + argIndex++ + "\\$f");
-        }
-        
-        return template;
+    public String getCompiledFormula() {
+        return compiledFormula;
     }
 
     public NumberType getType() {
         return function.using();
     }
-
-    
     
     public Set<InputOperand> getInputs() {
         return inputs;
@@ -69,4 +63,13 @@ public class GrammarModel {
     public Operation getLastOperation() {
         return operations.getLast();
     }
+    
+    public String getInputResolutionFormat() {
+        return FormatUtils.formatFormulaInputs(compiledFormula, inputs);
+    }
+    
+    public String getOperationResolutionFormat(String operation) {
+        return FormatUtils.formatFormulaOperation(compiledFormula, operation);
+    }
+
 }

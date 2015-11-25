@@ -28,8 +28,8 @@ public class $classname extends AbstractFormulas {
     public $classname(FunctionCatalog catalog) {
         super(catalog);
     }
-
 #foreach( $function in ${functions} )
+
     /**
      * Formula: ${function.name}=${function.formula}
      */
@@ -43,18 +43,17 @@ public class $classname extends AbstractFormulas {
         
         // Operations
         #if( ${function.inputs.empty} )
-          logger.finest("${function.formula}");
+          logger.info("${function.name}=${function.compiledFormula}");
         #else
-          logger.finest(new ResolutionLogSupplier("${function.formulaFormat}", #arguments( ${function.inputs} )));
-        #end
+          logger.info(new ResolutionLogSupplier("${function.name}=${function.inputResolutionFormat}", #arguments( ${function.inputs} )));
+        #end  
         #foreach( $operation in ${function.operations} )
-          #declareOperation( $operation )
+          #declareOperation( $function $operation )
         #end
         
         logger.exiting(getClass().getName(), "${utils.uncapitalize($function.name)}", ${function.lastOperation.id});
         return ${function.lastOperation.id};
     }
-    
 #end
 }
 ## ----------------------------------------------------------------------------
@@ -109,7 +108,7 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 ## declareOperation
 ## ----------------------------------------------------------------------------
-#macro( declareOperation $operation )
+#macro( declareOperation $function $operation )
   #if( ${operation.class.simpleName} == "UnaryOperation" )
     #declareUnary( $operation )
   #elseif( ${operation.class.simpleName} == "BinaryOperation" )
@@ -119,6 +118,7 @@ public class $classname extends AbstractFormulas {
   #else
     Operation not supported!!!!!
   #end
+  logger.fine(new ResolutionLogSupplier("${function.name}=${function.getOperationResolutionFormat(${operation.text})}", ${operation.id} ));  
 #end
 ## ----------------------------------------------------------------------------
 ## declareUnary
@@ -138,8 +138,7 @@ public class $classname extends AbstractFormulas {
     #else
       ${operation.type} ${operation.id} = ${operation.operand.id};
     #end
-  #end
-  logger.finest(new ResolutionLogSupplier("${operation.fragment}", #arguments( ${operation.operands} )));  
+  #end  
 #end
 ## ----------------------------------------------------------------------------
 ## declareBinary
@@ -178,7 +177,6 @@ public class $classname extends AbstractFormulas {
       Operator '${operation.operator}' not found!!!!!!
     #end
   #end
-  logger.finest(new ResolutionLogSupplier("${operation.fragment}", #arguments( ${operation.operands} )));
 #end
 ## ----------------------------------------------------------------------------
 ## declareFunction

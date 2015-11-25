@@ -7,5 +7,6 @@ public interface Operation {
     public String getId();
     public String getOperator();
     public NumberType getType();
+    public String getText();
 
 }

@@ -9,13 +9,11 @@ public class FunctionOperation extends AbstractOperation {
 
     private String name;
     private Deque<Operand> operands;
-    private String fragment;
     
-    public FunctionOperation(String id, String name, NumberType type, Deque<Operand> operands, String fragment) {
-        super(id, null, type);
+    public FunctionOperation(String id, String name, NumberType type, Deque<Operand> operands, String text) {
+        super(id, null, type, text);
         this.name = name;
         this.operands = operands;
-        this.fragment = fragment;
     }
 
     public String getName() {
@@ -27,10 +25,6 @@ public class FunctionOperation extends AbstractOperation {
         return operands;
     }
     
-    public String getFragment() {
-        return fragment;
-    }
-
     @Override
     public String toString() {
         return "FunctionOperation [name=" + name + ", operands={" + operands + "}]";

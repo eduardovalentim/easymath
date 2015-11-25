@@ -12,10 +12,13 @@ public class FunctionErrorListener extends BaseErrorListener implements ANTLRErr
 
     private String classname;
 
+    private String functionName;
+
     private String formula;
 
-    public FunctionErrorListener(String classname, String formula) {
+    public FunctionErrorListener(String classname, String functionName, String formula) {
         this.classname = classname;
+        this.functionName = functionName;
         this.formula = formula;
     }
 
@@ -27,8 +30,8 @@ public class FunctionErrorListener extends BaseErrorListener implements ANTLRErr
         buffer.append("Error compiling function in class ").append(classname).append(NEW_LINE);
         buffer.append("Message: ").append(msg).append(NEW_LINE);
         buffer.append(NEW_LINE);
-        buffer.append(formula).append(NEW_LINE);
-        buffer.append(StringUtils.repeat("-", charPositionInLine)).append("^").append(NEW_LINE);
+        buffer.append(functionName).append("=").append(formula).append(NEW_LINE);
+        buffer.append(StringUtils.repeat("-", functionName.length() + charPositionInLine + 1)).append("^").append(NEW_LINE);
         buffer.append(NEW_LINE);
 
         throw new IllegalArgumentException(buffer.toString(), ex);

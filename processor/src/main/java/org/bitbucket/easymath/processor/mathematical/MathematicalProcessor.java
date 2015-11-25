@@ -27,8 +27,8 @@ import org.bitbucket.easymath.annotations.Mathematical;
 import org.bitbucket.easymath.processor.AbstractAnnotationProcessor;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaLexer;
 import org.bitbucket.easymath.processor.mathematical.grammar.FormulaParser;
-import org.bitbucket.easymath.processor.mathematical.grammar.GrammarModel;
-import org.bitbucket.easymath.processor.mathematical.grammar.GrammarModelVisitor;
+import org.bitbucket.easymath.processor.mathematical.grammar.FunctionModel;
+import org.bitbucket.easymath.processor.mathematical.grammar.GrammarTreeVisitor;
 import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
@@ -70,7 +70,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                 Function[] annotatedFunctions = annotation.functions();
 
                 Set<ConstantOperand> constants = new LinkedHashSet<>();
-                Deque<GrammarModel> functions = new LinkedList<>();
+                Deque<FunctionModel> functions = new LinkedList<>();
                 for (Function function : annotatedFunctions) {
                     functions.add(compile(e.toString(), function, constants));
                 }
@@ -88,7 +88,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         return LOGGER.exit(processed);
     }
 
-    public GrammarModel compile(String classname, Function function, Set<ConstantOperand> constants) {
+    public FunctionModel compile(String classname, Function function, Set<ConstantOperand> constants) {
         LOGGER.entry();
 
         if (!ClassUtils.isValidJavaIdentifier(function.name())) {
@@ -96,9 +96,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                     function.name()));
         }
 
-        GrammarModelVisitor visitor = new GrammarModelVisitor(function.using());
-        LOGGER.info("Compiling formula: {}", function.formula());
-
+        GrammarTreeVisitor visitor = new GrammarTreeVisitor(function.using());
         // create a CharStream that reads from standard input
         ANTLRInputStream input = new ANTLRInputStream(function.formula());
         // create a lexer that feeds off of input CharStream
@@ -108,7 +106,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         // create a parser that feeds off the tokens buffer
         FormulaParser parser = new FormulaParser(tokens);
         parser.removeErrorListeners();
-        parser.addErrorListener(new FunctionErrorListener(classname, function.formula()));
+        parser.addErrorListener(new FunctionErrorListener(classname, function.name(), function.formula()));
         try {
             // begin parsing at formula rule
             ParseTree tree = parser.formula();
@@ -121,7 +119,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         constants.addAll(visitor.getConstants());
         Set<InputOperand> inputs = visitor.getInputs();
         Deque<Operation> operations = visitor.getOperations();
-        GrammarModel model = new GrammarModel(function, inputs, visitor.getConstants(), operations);
+        FunctionModel model = new FunctionModel(function, visitor.getFormula(), inputs, visitor.getConstants(), operations);
 
         return LOGGER.exit(model);
     }

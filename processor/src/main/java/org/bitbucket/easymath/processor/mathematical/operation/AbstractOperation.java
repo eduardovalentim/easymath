@@ -10,12 +10,14 @@ public abstract class AbstractOperation implements Operation {
     private String id;
     private String operator;
     private NumberType type;
+    private String text;
 
-    public AbstractOperation(String id, String operator, NumberType type) {
+    public AbstractOperation(String id, String operator, NumberType type, String text) {
         super();
         this.id = id;
         this.operator = operator;
         this.type = type;
+        this.text = text;
     }
 
     public abstract Deque<Operand> getOperands();
@@ -34,5 +36,9 @@ public abstract class AbstractOperation implements Operation {
     public NumberType getType() {
         return type;
     }
-    
+
+    @Override
+    public String getText() {
+        return text;
+    }
 }
