@@ -65,11 +65,11 @@ public class FunctionModel {
     }
     
     public String getInputResolutionFormat() {
-        return FormatUtils.formatFormulaInputs(compiledFormula, inputs);
+        return FormatUtils.formatFormulaInputs(compiledFormula, inputs, function.context().precision());
     }
     
     public String getOperationResolutionFormat(String operation) {
-        return FormatUtils.formatFormulaOperation(compiledFormula, operation);
+        return FormatUtils.formatFormulaOperation(compiledFormula, operation, function.context().precision());
     }
 
 }

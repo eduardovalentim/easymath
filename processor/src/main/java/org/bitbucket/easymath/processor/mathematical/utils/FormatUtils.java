@@ -1,31 +1,51 @@
 package org.bitbucket.easymath.processor.mathematical.utils;
 
 import java.util.Collection;
-import java.util.Iterator;
 
 import org.apache.commons.lang.StringUtils;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
 
 public class FormatUtils {
 
-    public static String formatFormulaInputs(String formula, Collection<InputOperand> inputs) {
-        StringBuilder buffer = new StringBuilder(formula);
-        buffer.append(" with ");
-
-        int argIndex = 1;
-        Iterator<InputOperand> inputIterator = inputs.iterator();
-        while (inputIterator.hasNext()) {
-            buffer.append(inputIterator.next().getValue()).append("=%" + argIndex++ + "$f");
-            if (inputIterator.hasNext()) {
-                buffer.append(", ");
-            }
+    public static String formatFormulaInputs(String formula, Collection<InputOperand> inputs, int precision) {
+        if (formula == null) {
+            throw new IllegalStateException("Argument 'formula' cannot be null.");
         }
-        buffer.append(".");
+        if (inputs == null) {
+            throw new IllegalStateException("Argument 'inputs' cannot be null.");
+        }
+        if (precision < 0) {
+            throw new IllegalStateException("Argument 'precision' cannot be less than zero.");
+        }
+
+        StringBuilder buffer = new StringBuilder(formula);
+
+        if (!inputs.isEmpty()) {
+            buffer.append(" -> ");
+            
+            int index = 0;
+            String template = formula;
+            for (InputOperand input : inputs) {
+                template = StringUtils.replace(template, input.getValue(), "%" + ++index + "$." + precision + "f");
+            }
+            
+            buffer.append(template);
+        }
 
         return buffer.toString();
     }
 
-    public static String formatFormulaOperation(String formula, String operation) {
-        return StringUtils.replace(formula, operation, "%1$f", 1);
+    public static String formatFormulaOperation(String formula, String operation, int precision) {
+        if (formula == null) {
+            throw new IllegalStateException("Argument 'formula' cannot be null.");
+        }
+        if (operation == null) {
+            throw new IllegalStateException("Argument 'operation' cannot be null.");
+        }
+        if (precision < 0) {
+            throw new IllegalStateException("Argument 'precision' cannot be less than zero.");
+        }
+
+        return StringUtils.replace(formula, operation, "%1$." + precision + "f", 1);
     }
 }

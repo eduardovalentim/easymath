@@ -37,15 +37,14 @@ public class $classname extends AbstractFormulas {
         #logEntering( $function )
         #check( $function )
         
-		#if( ${function.type} == "BigDecimal" )
-		  MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
-		#end
+        // Function precision and rounding mode definition
+		MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
         
-        // Operations
+        // Function resolution
         #if( ${function.inputs.empty} )
-          logger.info("${function.name}=${function.compiledFormula}");
+          logger.info("Resolution of ${function.name} = ${function.compiledFormula}");
         #else
-          logger.info(new ResolutionLogSupplier("${function.name}=${function.inputResolutionFormat}", #arguments( ${function.inputs} )));
+          logger.info(new ResolutionLogSupplier("Resolution of ${function.name} = ${function.inputResolutionFormat}", #arguments( ${function.inputs} )));
         #end  
         #foreach( $operation in ${function.operations} )
           #declareOperation( $function $operation )
