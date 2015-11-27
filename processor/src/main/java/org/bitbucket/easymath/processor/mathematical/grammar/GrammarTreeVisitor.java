@@ -200,7 +200,7 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
     }
 
     private String generateId(ExpressionContext ctx) {
-        return String.format("r$%d", id++);
+        return String.format("r%d", id++);
     }
 
 }

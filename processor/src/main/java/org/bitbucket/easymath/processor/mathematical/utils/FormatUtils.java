@@ -18,11 +18,9 @@ public class FormatUtils {
             throw new IllegalStateException("Argument 'precision' cannot be less than zero.");
         }
 
-        StringBuilder buffer = new StringBuilder(formula);
+        StringBuilder buffer = new StringBuilder();
 
         if (!inputs.isEmpty()) {
-            buffer.append(" -> ");
-            
             int index = 0;
             String template = formula;
             for (InputOperand input : inputs) {

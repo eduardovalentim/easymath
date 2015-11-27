@@ -1,6 +1,7 @@
 package org.bitbucket.easymath.processor.mathematical.grammar;
 
 import java.math.RoundingMode;
+import java.util.Collection;
 import java.util.Deque;
 import java.util.Set;
 
@@ -9,23 +10,27 @@ import org.bitbucket.easymath.annotations.NumberType;
 import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
-import org.bitbucket.easymath.processor.mathematical.utils.FormatUtils;
+import org.bitbucket.easymath.processor.mathematical.resolution.FormulaResolution;
 
 public class FunctionModel {
 
     public Set<ConstantOperand> constants;
     public Deque<Operation> operations;
     public Set<InputOperand> inputs;
-    private String compiledFormula;
+    private String formula;
     private Function function;
+    
+    private FormulaResolution resolution;
 
-    public FunctionModel(Function function, String compiledFormula, Set<InputOperand> inputs,
+    public FunctionModel(Function function, String formula, Set<InputOperand> inputs,
             Set<ConstantOperand> constants, Deque<Operation> operations) {
-        this.compiledFormula = compiledFormula;
+        this.formula = formula;
         this.operations = operations;
         this.constants = constants;
         this.function = function;
         this.inputs = inputs;
+        
+        this.resolution = new FormulaResolution(formula, function.context().precision());
     }
 
     public int getPrecision() {
@@ -40,12 +45,8 @@ public class FunctionModel {
         return function.name();
     }
 
-    public String getDeclaredFormula() {
-        return function.formula();
-    }
-
-    public String getCompiledFormula() {
-        return compiledFormula;
+    public String getformula() {
+        return formula;
     }
 
     public NumberType getType() {
@@ -65,11 +66,14 @@ public class FunctionModel {
     }
     
     public String getInputResolutionFormat() {
-        return FormatUtils.formatFormulaInputs(compiledFormula, inputs, function.context().precision());
+        return resolution.format(inputs);
     }
     
-    public String getOperationResolutionFormat(String operation) {
-        return FormatUtils.formatFormulaOperation(compiledFormula, operation, function.context().precision());
+    public String getOperationResolutionFormat(Operation operation) {
+        return resolution.format(operation);
     }
 
+    public Collection<String> getResolutionArguments() {
+        return resolution.getFormatArguments();
+    }
 }
