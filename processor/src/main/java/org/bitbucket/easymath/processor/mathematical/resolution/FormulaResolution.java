@@ -2,6 +2,7 @@ package org.bitbucket.easymath.processor.mathematical.resolution;
 
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -17,10 +18,8 @@ public class FormulaResolution {
     private String formula;
     
     private Map<String, String> operationHolder;
-    /**
-     * Input position holder
-     */
     private Map<String, String> inputHolder;
+    private Map<String, String> resultHolder;
 
     public FormulaResolution(String formula, int precision) {
         if (formula == null) {
@@ -36,17 +35,17 @@ public class FormulaResolution {
         
         this.operationHolder = new LinkedHashMap<String, String>();
         this.inputHolder = new LinkedHashMap<String, String>();
+        this.resultHolder = new LinkedHashMap<String, String>();
     }
 
     public String format(Set<InputOperand> inputs) {
-        String template = formula;
         for (InputOperand input : inputs) {
             String tag = nextTag();
             inputHolder.put(tag, input.getValue());
-            template = StringUtils.replace(template, input.getValue(), tag);
+            formula = StringUtils.replace(formula, input.getValue(), tag);
         }
 
-        return template;
+        return formula;
     }
 
     public String format(Operation operation) {
@@ -54,14 +53,19 @@ public class FormulaResolution {
             throw new IllegalArgumentException("Argument 'operation' cannot be null.");
         }
         
+        String tag = nextTag();
         String id = operation.getId();
         String text = operation.getText();
 
+        for (Entry<String, String> input : inputHolder.entrySet()) {
+            text = StringUtils.replace(text, input.getValue(), input.getKey());
+        }
         for (Entry<String, String> entry : operationHolder.entrySet()) {
             text = StringUtils.replaceOnce(text, entry.getValue(), entry.getKey());
         }
 
         operationHolder.put(id, text);
+        resultHolder.put(tag, id);
 
         formula = StringUtils.replaceOnce(formula, text, id);
 
@@ -69,7 +73,10 @@ public class FormulaResolution {
     }
     
     public Collection<String> getFormatArguments() {
-        return inputHolder.values();
+        Collection<String> arguments = new LinkedList<String>();
+        arguments.addAll(inputHolder.values());
+        arguments.addAll(resultHolder.values());
+        return arguments;
     }
 
     private String nextTag() {
