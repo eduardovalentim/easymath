@@ -55,7 +55,7 @@ public class $classname extends AbstractFormulas {
 		MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
                 
         // Function resolution
-        logger.info(new ResolutionLogSupplier("Resolution of ${function.name} = ${function.formula}"));
+        logger.info("Resolution of ${function.name} = ${function.formula}");
 ##        #if( !${function.inputs.empty} )
 ##          logger.info(new ResolutionLogSupplier("${function.name}=${function.inputResolutionFormat}", #resolutionArguments( ${function.resolutionArguments} )));
 ##        #end  
