@@ -37,6 +37,6 @@ import org.bitbucket.easymath.annotations.NumberType;
         @Function(name = "sub$d$i", formula = "a - b", using=NumberType.DOUBLE, context=@MathContext(precision=0)),
         @Function(name = "fat$d$i", formula = "a!", using=NumberType.DOUBLE, context=@MathContext(precision=0))
         })
-public class BasicMathTest {
+public class BasicMath {
 
 }

@@ -30,26 +30,40 @@ public class $classname extends AbstractFormulas {
     }
 #foreach( $function in ${functions} )
 
+#if( !${function.inputs.empty} )
     /**
      * Formula: ${function.name}=${function.formula}
      */
-    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.inputs} )) {
+    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( "Number" ${function.inputs} )) {
+        #check( $function )
+        
+        // Function precision and rounding mode definition
+		MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
+
+        return ${utils.uncapitalize($function.name)}( #typecast( ${function} ) );
+    }
+#end  
+
+    /**
+     * Formula: ${function.name}=${function.formula}
+     */
+    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.type} ${function.inputs} )) {
         #logEntering( $function )
         #check( $function )
         
         // Function precision and rounding mode definition
 		MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
-        
+                
         // Function resolution
         logger.info(new ResolutionLogSupplier("Resolution of ${function.name} = ${function.formula}"));
-        #if( !${function.inputs.empty} )
-          logger.info(new ResolutionLogSupplier("${function.name}=${function.inputResolutionFormat}", #resolutionArguments( ${function.resolutionArguments} )));
-        #end  
+##        #if( !${function.inputs.empty} )
+##          logger.info(new ResolutionLogSupplier("${function.name}=${function.inputResolutionFormat}", #resolutionArguments( ${function.resolutionArguments} )));
+##        #end  
         #foreach( $operation in ${function.operations} )
           #declareOperation( $function $operation )
-          #if( !${function.inputs.empty} )
-            logger.fine(new ResolutionLogSupplier("${function.name}=${function.getOperationResolutionFormat(${operation})}", #resolutionArguments( ${function.resolutionArguments} )));
-          #end
+##          #if( !${function.inputs.empty} )
+##            logger.fine(new ResolutionLogSupplier("${function.name}=${function.getOperationResolutionFormat(${operation})}", #resolutionArguments( ${function.resolutionArguments} )));
+##          #end
         #end
         
         logger.exiting(getClass().getName(), "${utils.uncapitalize($function.name)}", ${function.lastOperation.id});
@@ -68,9 +82,9 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 ## typedArguments
 ## ----------------------------------------------------------------------------
-#macro( typedArguments $inputs )
+#macro( typedArguments $type $inputs)
   #foreach( $input in ${inputs} )
-    ${input.type} ${input.id}#if( ${foreach.hasNext} ), #end
+    $type ${input.id}#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -101,6 +115,20 @@ public class $classname extends AbstractFormulas {
       if (${input.id} == null) {
           throw new IllegalArgumentException("Argument '${input.id}' cannot be null.");
       }
+    #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## typecast
+## ----------------------------------------------------------------------------
+#macro( typecast $function )
+  #if( ${function.type} == "BigDecimal" )
+    #foreach( $input in ${function.inputs} )
+      typecast(${input.id}, mc)#if( ${foreach.hasNext} ), #end
+    #end
+  #elseif( ${function.type} == "double" )
+    #foreach( $input in ${function.inputs} )
+      typecast(${input.id})#if( ${foreach.hasNext} ), #end
     #end
   #end
 #end

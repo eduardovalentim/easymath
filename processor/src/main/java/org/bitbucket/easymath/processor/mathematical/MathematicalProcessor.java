@@ -105,6 +105,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         CommonTokenStream tokens = new CommonTokenStream(lexer);
         // create a parser that feeds off the tokens buffer
         FormulaParser parser = new FormulaParser(tokens);
+        // add a custom error report for syntax
         parser.removeErrorListeners();
         parser.addErrorListener(new FunctionErrorListener(classname, function.name(), function.formula()));
         try {
