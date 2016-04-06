@@ -7,6 +7,8 @@ import java.util.logging.Logger;
 
 import javax.annotation.Generated;
 
+import org.apfloat.Apfloat;
+import org.apfloat.ApfloatMath;
 import org.bitbucket.easymath.AbstractFormulas;
 import org.bitbucket.easymath.FunctionCatalog;
 import org.bitbucket.easymath.logging.ResolutionLogSupplier;
@@ -36,10 +38,6 @@ public class $classname extends AbstractFormulas {
      */
     public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( "Number" ${function.inputs} )) {
         #check( $function )
-        
-        // Function precision and rounding mode definition
-		MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
-
         return ${utils.uncapitalize($function.name)}( #typecast( ${function} ) );
     }
 #end  
@@ -52,8 +50,8 @@ public class $classname extends AbstractFormulas {
         #check( $function )
         
         // Function precision and rounding mode definition
-		MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
-                
+        MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
+        
         // Function resolution
         logger.info("Resolution of ${function.name} = ${function.formula}");
 ##        #if( !${function.inputs.empty} )
@@ -109,7 +107,7 @@ public class $classname extends AbstractFormulas {
 ## check
 ## ----------------------------------------------------------------------------
 #macro( check $function )
-  #if( ${function.type} == "BigDecimal" )
+  #if( ${function.type} == "BigDecimal" || ${function.type} == "Apfloat") 
     // Method protection block
     #foreach( $input in ${function.inputs} )
       if (${input.id} == null) {
@@ -122,14 +120,8 @@ public class $classname extends AbstractFormulas {
 ## typecast
 ## ----------------------------------------------------------------------------
 #macro( typecast $function )
-  #if( ${function.type} == "BigDecimal" )
-    #foreach( $input in ${function.inputs} )
-      typecast(${input.id}, mc)#if( ${foreach.hasNext} ), #end
-    #end
-  #elseif( ${function.type} == "double" )
-    #foreach( $input in ${function.inputs} )
-      typecast(${input.id})#if( ${foreach.hasNext} ), #end
-    #end
+  #foreach( $input in ${function.inputs} )
+    typecast(${input.id}, ${function.type}.class)#if( ${foreach.hasNext} ), #end
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -138,8 +130,12 @@ public class $classname extends AbstractFormulas {
 #macro( declareConstant $constant )
   #if( ${constant.type} == "double" )
     private static final ${constant.type} ${constant.id} = ${constant.value}D;
-  #else
+  #elseif( ${constant.type} == "Apfloat" )
+    private static final ${constant.type} ${constant.id} = new Apfloat("${constant.value}");
+  #elseif( ${constant.type} == "BigDecimal" )
     private static final ${constant.type} ${constant.id} = new BigDecimal("${constant.value}");
+  #else
+    Error declaring constant: Type not found!!!!
   #end
 #end
 ## ----------------------------------------------------------------------------
@@ -182,7 +178,7 @@ public class $classname extends AbstractFormulas {
 #macro( declareBinary $operation )
   #if( ${operation.type} == "double" )
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id});
+      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc, ${operation.type}.class);
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation.id} = ${operation.leftOperand.id} * ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '/' )
@@ -196,9 +192,25 @@ public class $classname extends AbstractFormulas {
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end
-  #else
+  #elseif( ${operation.type} == "Apfloat" )
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc);
+      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc, ${operation.type}.class);
+    #elseif( ${operation.operator} == '*' )
+      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.multiply(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
+    #elseif( ${operation.operator} == '/' )
+      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.divide(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
+    #elseif( ${operation.operator} == '%' )
+      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.remainder(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
+    #elseif( ${operation.operator} == '+' )
+      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.add(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
+    #elseif( ${operation.operator} == '-' )
+      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.subtract(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
+    #else
+      Operator '${operation.operator}' not found!!!!!!
+    #end
+  #elseif( ${operation.type} == "BigDecimal" )
+    #if( ${operation.operator} == '^' )
+      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc, ${operation.type}.class);
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation.id} = ${operation.leftOperand.id}.multiply(${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '/' )

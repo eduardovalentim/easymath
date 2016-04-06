@@ -2,6 +2,7 @@ package org.bitbucket.easymath.test;
 
 import java.math.BigDecimal;
 
+import org.apfloat.Apfloat;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -17,8 +18,8 @@ public class EquationTest {
 	
 	@Test
 	public void testSimple() {
-		BigDecimal actual = formulas.simple(BigDecimal.ONE);
-		Assert.assertEquals(new BigDecimal("2"), actual);
+		Apfloat actual = formulas.simple(BigDecimal.ONE);
+		Assert.assertEquals(new Apfloat("2"), actual);
 	}
 
 	@Test
@@ -29,14 +30,14 @@ public class EquationTest {
 
 	@Test
 	public void testCubic() {
-		BigDecimal actual = formulas.cubic(5, 7);
-		Assert.assertEquals(new BigDecimal("3.3E+2"), actual);
+		Double actual = formulas.cubic(5, 7);
+		Assert.assertEquals(new Double("386.0"), actual);
 	}
 
 	@Test
 	public void testQuartic() {
-		BigDecimal actual = formulas.quartic(1.5, 2);
-		Assert.assertEquals(new BigDecimal("7E+1"), actual);
+		Apfloat actual = formulas.quartic(1, 1);
+		Assert.assertEquals(new Apfloat("1e1"), actual);
 	}
 
 }

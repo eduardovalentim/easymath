@@ -14,6 +14,8 @@ public class ConstantOperand extends AbstractOperand {
         
         if (type == NumberType.DOUBLE) {
             id = String.format("D%s", value);
+        } else if (type == NumberType.APFLOAT) {
+        	id = String.format("AP%s", value);
         } else {
             id = String.format("BD%s", value);
         }
