@@ -9,6 +9,9 @@ import java.lang.annotation.Target;
 import java.math.RoundingMode;
 
 /**
+ * Annotation created to represent the class <code>java.math.MathContext</code>
+ * allowing programmers to define the precision and rounding mode of a function.
+ * 
  * @author Eduardo.Valentim
  * 
  * @see java.math.MathContext
@@ -19,7 +22,7 @@ import java.math.RoundingMode;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.SOURCE)
 public @interface MathContext {
-	
+
 	/**
 	 * The number of digits to be used for an operation. A value of 0 indicates
 	 * that unlimited precision (as many digits as are required) will be used.

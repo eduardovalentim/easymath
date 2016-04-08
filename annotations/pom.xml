@@ -11,5 +11,5 @@
 	
 	<artifactId>easymath-annotations</artifactId>
 	<packaging>jar</packaging>
-
+	<name>${project.artifactId}</name>
 </project>

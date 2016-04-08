@@ -3,7 +3,6 @@ package $package;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.math.BigDecimal;
-import java.util.logging.Logger;
 
 import javax.annotation.Generated;
 
@@ -12,12 +11,14 @@ import org.apfloat.ApfloatMath;
 import org.bitbucket.easymath.AbstractFormulas;
 import org.bitbucket.easymath.FunctionCatalog;
 import org.bitbucket.easymath.logging.ResolutionLogSupplier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Generated("$generator")
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class $classname extends AbstractFormulas {
 
-    private static Logger logger = Logger.getLogger(${classname}.class.getName());
+	private static Logger logger = LoggerFactory.getLogger(${classname}.class);
 
 	#foreach( $constant in ${constants} )
 	  #declareConstant( $constant )
@@ -46,7 +47,11 @@ public class $classname extends AbstractFormulas {
      * Formula: ${function.name}=${function.formula}
      */
     public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.type} ${function.inputs} )) {
-        #logEntering( $function )
+		#if( ${function.inputs.empty} )
+		  logger.trace("Entering...");
+		#else
+		  logger.trace("Entering with arguments: {}", new Object[] {#arguments( ${function.inputs} )});
+		#end
         #check( $function )
         
         // Function precision and rounding mode definition
@@ -54,17 +59,11 @@ public class $classname extends AbstractFormulas {
         
         // Function resolution
         logger.info("Resolution of ${function.name} = ${function.formula}");
-##        #if( !${function.inputs.empty} )
-##          logger.info(new ResolutionLogSupplier("${function.name}=${function.inputResolutionFormat}", #resolutionArguments( ${function.resolutionArguments} )));
-##        #end  
         #foreach( $operation in ${function.operations} )
           #declareOperation( $function $operation )
-##          #if( !${function.inputs.empty} )
-##            logger.fine(new ResolutionLogSupplier("${function.name}=${function.getOperationResolutionFormat(${operation})}", #resolutionArguments( ${function.resolutionArguments} )));
-##          #end
         #end
         
-        logger.exiting(getClass().getName(), "${utils.uncapitalize($function.name)}", ${function.lastOperation.id});
+        logger.trace("Exiting...");
         return ${function.lastOperation.id};
     }
 #end
@@ -91,16 +90,6 @@ public class $classname extends AbstractFormulas {
 #macro( resolutionArguments $inputs )
   #foreach( $input in ${inputs} )
     ${input}#if( ${foreach.hasNext} ), #end
-  #end
-#end
-## ----------------------------------------------------------------------------
-## logEntering
-## ----------------------------------------------------------------------------
-#macro( logEntering $function )
-  #if( ${function.inputs.empty} )
-    logger.entering(getClass().getName(), "${utils.uncapitalize(${function.name})}");
-  #else
-    logger.entering(getClass().getName(), "${utils.uncapitalize(${function.name})}", new Object[] {#arguments( ${function.inputs} )});
   #end
 #end
 ## ----------------------------------------------------------------------------

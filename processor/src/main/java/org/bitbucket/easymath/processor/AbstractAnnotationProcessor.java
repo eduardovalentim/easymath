@@ -13,17 +13,17 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 import javax.tools.JavaFileObject;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 
-	private static final Logger LOGGER = LogManager.getLogger(AbstractAnnotationProcessor.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAnnotationProcessor.class);
 
 	public static final String ENCODING = "UTF-8";
 	
@@ -38,13 +38,16 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 	
 	@Override
 	public SourceVersion getSupportedSourceVersion() {
-		LOGGER.entry();
-		return LOGGER.exit(SourceVersion.latestSupported());
+		LOGGER.trace("Entering...");
+		SourceVersion sv = SourceVersion.latestSupported();
+		
+		LOGGER.trace("Exiting...");
+		return sv;
 	}
 
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {
-		LOGGER.entry();
+		LOGGER.trace("Entering...");
 		
 		super.init(processingEnv);
 
@@ -55,10 +58,11 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 		filer = processingEnv.getFiler();
 		messager = processingEnv.getMessager();
 		
-		LOGGER.exit();
+		LOGGER.trace("Exiting...");
 	}
 	
 	protected void generate(CharSequence name, Template template, VelocityContext context) {
+		LOGGER.trace("Entering...");
 		try {
 			JavaFileObject jfo = filer.createSourceFile(name);
 			try (Writer writer = jfo.openWriter()) {
@@ -69,17 +73,18 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 		} catch (IOException ex) {
 			throw new IllegalStateException(ex);
 		}
-
+		LOGGER.trace("Exiting...");
 	}
 	
 	private Properties getVelocityProperties() {
-		LOGGER.entry();
+		LOGGER.trace("Entering...");
 		
 		Properties properties = new Properties();
 		properties.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		properties.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
 		
-		return LOGGER.exit(properties);
+		LOGGER.trace("Exiting...");
+		return properties;
 	}
 
 }

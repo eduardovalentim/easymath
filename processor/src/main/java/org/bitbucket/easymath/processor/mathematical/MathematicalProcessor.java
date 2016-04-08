@@ -17,8 +17,6 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
 import org.apache.commons.lang.StringUtils;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
@@ -33,11 +31,13 @@ import org.bitbucket.easymath.processor.mathematical.operation.Operation;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import org.bitbucket.easymath.processor.mathematical.operation.operand.InputOperand;
 import org.bitbucket.easymath.utils.ClassUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @SupportedAnnotationTypes({ "org.bitbucket.easymath.annotations.Mathematical" })
 public class MathematicalProcessor extends AbstractAnnotationProcessor {
 
-    private static final Logger LOGGER = LogManager.getLogger(MathematicalProcessor.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(MathematicalProcessor.class);
     private static final String SUFFIX = "Formulas";
 
     private Template template;
@@ -50,7 +50,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 
     @Override
     public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-        LOGGER.entry();
+		LOGGER.trace("Entering...");
 
         boolean processed = false;
         VelocityContext context = new VelocityContext();
@@ -84,12 +84,13 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
                 generate(e.toString() + SUFFIX, template, context);
             }
         }
-
-        return LOGGER.exit(processed);
+        
+		LOGGER.trace("Exiting...");
+        return processed;
     }
 
     public FunctionModel compile(String classname, Function function, Set<ConstantOperand> constants) {
-        LOGGER.entry();
+		LOGGER.trace("Entering...");
 
         if (!ClassUtils.isValidJavaIdentifier(function.name())) {
             throw new IllegalArgumentException(String.format("Function name '%s' isn't a valid Java identifier.",
@@ -122,6 +123,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         Deque<Operation> operations = visitor.getOperations();
         FunctionModel model = new FunctionModel(function, visitor.getFormula(), inputs, visitor.getConstants(), operations);
 
-        return LOGGER.exit(model);
+		LOGGER.trace("Exiting...");
+        return model;
     }
 }
