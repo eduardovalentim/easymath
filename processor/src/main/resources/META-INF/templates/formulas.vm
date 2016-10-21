@@ -6,11 +6,9 @@ import java.math.BigDecimal;
 
 import javax.annotation.Generated;
 
-import org.apfloat.Apfloat;
-import org.apfloat.ApfloatMath;
-import org.bitbucket.easymath.AbstractFormulas;
-import org.bitbucket.easymath.FunctionCatalog;
-import org.bitbucket.easymath.logging.ResolutionLogSupplier;
+import br.com.easymath.AbstractFormulas;
+import br.com.easymath.FunctionCatalog;
+import br.com.easymath.logging.ResolutionLogSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,10 +18,17 @@ public class $classname extends AbstractFormulas {
 
 	private static Logger logger = LoggerFactory.getLogger(${classname}.class);
 
+    private static final String EXCEPTION_MESSAGE_TEMPLATE = "Argument ''inputs[{0}]'' cannot be null.";
+
+    private FunctionCatalog catalog;
+
 	#foreach( $constant in ${constants} )
 	  #declareConstant( $constant )
 	#end
 
+    /**
+     * Default public constructor
+     */
     public $classname() {
         this(new FunctionCatalog());
     }
@@ -96,7 +101,7 @@ public class $classname extends AbstractFormulas {
 ## check
 ## ----------------------------------------------------------------------------
 #macro( check $function )
-  #if( ${function.type} == "BigDecimal" || ${function.type} == "Apfloat") 
+  #if( ${function.type} == "BigDecimal") 
     // Method protection block
     #foreach( $input in ${function.inputs} )
       if (${input.id} == null) {
@@ -119,8 +124,6 @@ public class $classname extends AbstractFormulas {
 #macro( declareConstant $constant )
   #if( ${constant.type} == "double" )
     private static final ${constant.type} ${constant.id} = ${constant.value}D;
-  #elseif( ${constant.type} == "Apfloat" )
-    private static final ${constant.type} ${constant.id} = new Apfloat("${constant.value}");
   #elseif( ${constant.type} == "BigDecimal" )
     private static final ${constant.type} ${constant.id} = new BigDecimal("${constant.value}");
   #else
@@ -178,22 +181,6 @@ public class $classname extends AbstractFormulas {
       ${operation.type} ${operation.id} = ${operation.leftOperand.id} + ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '-' )
       ${operation.type} ${operation.id} = ${operation.leftOperand.id} - ${operation.rightOperand.id};
-    #else
-      Operator '${operation.operator}' not found!!!!!!
-    #end
-  #elseif( ${operation.type} == "Apfloat" )
-    #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc, ${operation.type}.class);
-    #elseif( ${operation.operator} == '*' )
-      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.multiply(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
-    #elseif( ${operation.operator} == '/' )
-      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.divide(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
-    #elseif( ${operation.operator} == '%' )
-      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.remainder(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
-    #elseif( ${operation.operator} == '+' )
-      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.add(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
-    #elseif( ${operation.operator} == '-' )
-      ${operation.type} ${operation.id} = ApfloatMath.round(${operation.leftOperand.id}.subtract(${operation.rightOperand.id}), mc.getPrecision(), mc.getRoundingMode());
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end
