@@ -1,4 +1,4 @@
-# README #
+# EASYMATH #
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
@@ -10,20 +10,14 @@ This README would normally document whatever steps are necessary to get your app
 
 ### How do I get set up? ###
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+[Goto wiki](https://github.com/eduardovalentim/easymath/wiki)
 
-### Contribution guidelines ###
+### Licensing ###
 
-* Writing tests
-* Code review
-* Other guidelines
+This software is licensed under the terms of BSD-like license.
+A copy of the licensing terms is in the file _LICENSE.md_.
+You can get the original BSD License template at http://opensource.org/.
 
-### Who do I talk to? ###
+### Build Status ###
 
-* Repo owner or admin
-* Other community or team contact
+[ ![Codeship Status for eduardovalentim/easymath](https://app.codeship.com/projects/991f3cd0-76c8-0134-1c1c-72db67b0714c/status?branch=master)](https://app.codeship.com/projects/179680)
