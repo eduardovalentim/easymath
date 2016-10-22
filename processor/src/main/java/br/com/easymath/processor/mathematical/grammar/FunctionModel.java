@@ -2,78 +2,181 @@ package br.com.easymath.processor.mathematical.grammar;
 
 import java.math.RoundingMode;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Deque;
-import java.util.Set;
+import java.util.LinkedHashSet;
+import java.util.LinkedList;
 
 import br.com.easymath.annotations.Formula;
-import br.com.easymath.annotations.NumberType;
 import br.com.easymath.processor.mathematical.operation.Operation;
 import br.com.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import br.com.easymath.processor.mathematical.operation.operand.InputOperand;
-import br.com.easymath.processor.mathematical.resolution.FormulaResolution;
 
+/**
+ *  
+ * @author eduardo.valentim
+ */
 public class FunctionModel {
 
-    public Set<ConstantOperand> constants;
-    public Deque<Operation> operations;
-    public Set<InputOperand> inputs;
-    private String formula;
-    private Formula function;
-    
-    private FormulaResolution resolution;
+    private String name;
+    private String type;
+    private Formula formula;
+    private Collection<InputOperand> inputs;
+    private Deque<Operation> operations;
+    private Collection<ConstantOperand> constants;
 
-    public FunctionModel(Formula function, String formula, Set<InputOperand> inputs,
-            Set<ConstantOperand> constants, Deque<Operation> operations) {
-        this.formula = formula;
-        this.operations = operations;
-        this.constants = constants;
-        this.function = function;
-        this.inputs = inputs;
-        
-        this.resolution = new FormulaResolution(formula, function.context().precision());
+    /**
+     * 
+     * @param formula
+     * @param inputs
+     * @param constants
+     * @param operations
+     */
+    public FunctionModel() {
+        this.inputs = new LinkedHashSet<>();
+        this.operations = new LinkedList<>();
+        this.constants = new LinkedHashSet<>();
     }
 
-    public int getPrecision() {
-        return function.context().precision(); 
-    }
-    
-    public RoundingMode getRoundingMode() {
-        return function.context().roundingMode();
-    }
-    
+    /**
+     * @return the name
+     */
     public String getName() {
-        return function.name();
+        return name;
     }
 
-    public String getformula() {
+    /**
+     * @param name the name to set
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    /**
+     * @return the type
+     */
+    public String getType() {
+        return type;
+    }
+
+    /**
+     * @param type the type to set
+     */
+    public void setType(String type) {
+        this.type = type;
+    }
+
+    /**
+     * 
+     * @return
+     */
+    public int getPrecision() {
+		return formula.precision();
+	}
+
+    /**
+     * 
+     * @return
+     */
+	public RoundingMode getRoundingMode() {
+		return formula.roundingMode();
+	}
+
+	/**
+     * @return the constants
+     */
+    public Collection<ConstantOperand> getConstants() {
+        return Collections.unmodifiableCollection(constants);
+    }
+
+    /**
+     * @param e
+     * @return
+     * @see java.util.Set#add(java.lang.Object)
+     */
+    public boolean addConstant(ConstantOperand e) {
+        return constants.add(e);
+    }
+
+    /**
+     * @param c
+     * @return
+     * @see java.util.Set#addAll(java.util.Collection)
+     */
+    public boolean addAllConstants(Collection<? extends ConstantOperand> c) {
+        return constants.addAll(c);
+    }
+
+    /**
+     * @return the operations
+     */
+    public Collection<Operation> getOperations() {
+        return Collections.unmodifiableCollection(operations);
+    }
+
+    
+    /**
+     * @param e
+     * @return
+     * @see java.util.Deque#add(java.lang.Object)
+     */
+    public boolean addOperation(Operation e) {
+        return operations.add(e);
+    }
+
+    /**
+     * @param c
+     * @return
+     * @see java.util.Collection#addAll(java.util.Collection)
+     */
+    public boolean addAllOperations(Collection<? extends Operation> c) {
+        return operations.addAll(c);
+    }
+
+    /**
+     * @return the inputs
+     */
+    public Collection<InputOperand> getInputs() {
+        return Collections.unmodifiableCollection(inputs);
+    }
+
+    /**
+     * @param e
+     * @return
+     * @see java.util.Set#add(java.lang.Object)
+     */
+    public boolean addInput(InputOperand e) {
+        return inputs.add(e);
+    }
+
+    /**
+     * @param c
+     * @return
+     * @see java.util.Set#addAll(java.util.Collection)
+     */
+    public boolean addAllInputs(Collection<? extends InputOperand> c) {
+        return inputs.addAll(c);
+    }
+
+    /**
+     * @return the formula
+     */
+    public Formula getFormula() {
         return formula;
     }
 
-    public NumberType getType() {
-        return function.using();
+    /**
+     * @param formula the formula to set
+     */
+    public void setFormula(Formula formula) {
+        this.formula = formula;
     }
     
-    public Set<InputOperand> getInputs() {
-        return inputs;
-    }
-
-    public Deque<Operation> getOperations() {
-        return operations;
-    }
-
+    /**
+     * 
+     * @return
+     */
     public Operation getLastOperation() {
-        return operations.getLast();
-    }
-    
-    public String getInputResolutionFormat() {
-        return resolution.format(inputs);
-    }
-    
-    public String getOperationResolutionFormat(Operation operation) {
-        return resolution.format(operation);
-    }
-
-    public Collection<String> getResolutionArguments() {
-        return resolution.getFormatArguments();
+    	return operations.getLast();
     }
 }
