@@ -1,55 +1,71 @@
 package $package;
 
+import static br.com.easymath.Numbers.*;
+
+import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
-import java.math.BigDecimal;
 
 import javax.annotation.Generated;
 
-import br.com.easymath.AbstractFormulas;
-import br.com.easymath.FunctionCatalog;
-import br.com.easymath.logging.ResolutionLogSupplier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import br.com.easymath.FunctionCatalog;
+import br.com.easymath.logging.ResolutionLogSupplier;
+import br.com.easymath.functions.CoreFunctionCatalog;
 
 @Generated("$generator")
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class $classname extends AbstractFormulas {
+public class $classname extends $superclass {
 
 	private static Logger logger = LoggerFactory.getLogger(${classname}.class);
-
-    private static final String EXCEPTION_MESSAGE_TEMPLATE = "Argument ''inputs[{0}]'' cannot be null.";
-
-    private FunctionCatalog catalog;
 
 	#foreach( $constant in ${constants} )
 	  #declareConstant( $constant )
 	#end
 
-    /**
-     * Default public constructor
-     */
-    public $classname() {
-        this(new FunctionCatalog());
-    }
+	private FunctionCatalog catalog = new CoreFunctionCatalog();
 
-    public $classname(FunctionCatalog catalog) {
-        super(catalog);
-    }
+	/**
+	 * Public constructor with catalog customization
+	 * @param catalogs
+	 */
+    public $classname(FunctionCatalog... catalogs) {
+		/*
+		 * Method protection
+		 */
+		if (catalogs == null)
+			throw new IllegalArgumentException("Argument 'catalogs' cannot be null.");
+		/*
+		 * Join the default catalog with all informed
+		 */
+		this.catalog = catalog.join(catalogs);
+	}
 #foreach( $function in ${functions} )
 
-#if( !${function.inputs.empty} )
     /**
-     * Formula: ${function.name}=${function.formula}
+     * Formula: ${function.name}=${function.formula.value()}
      */
-    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( "Number" ${function.inputs} )) {
-        #check( $function )
-        return ${utils.uncapitalize($function.name)}( #typecast( ${function} ) );
+    @Override
+    public ${function.type} ${utils.uncapitalize($function.name)}(Number... inputs) {
+        /*
+         * Method protection block
+         */
+        if (inputs == null)
+            throw new IllegalArgumentException("Argument 'inputs' cannot be null.");
+        if (inputs.length != ${function.inputs.size()})
+            throw new IllegalArgumentException(
+                    "Length mismatch for argument 'inputs'. Expected '${function.inputs.size()}' actual '" + inputs.length + "'");
+        /*
+         * Typecast block
+         */            
+        #typecast( ${function} )
+        
+        return ${utils.uncapitalize($function.name)}( #arguments( ${function.inputs} ) );
     }
-#end  
 
     /**
-     * Formula: ${function.name}=${function.formula}
+     * Formula: ${function.name}=${function.formula.value()}
      */
     public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.type} ${function.inputs} )) {
 		#if( ${function.inputs.empty} )
@@ -58,16 +74,19 @@ public class $classname extends AbstractFormulas {
 		  logger.trace("Entering with arguments: {}", new Object[] {#arguments( ${function.inputs} )});
 		#end
         #check( $function )
-        
-        // Function precision and rounding mode definition
+        /*
+         * Function precision and rounding mode definition
+         */
         MathContext mc = new MathContext(${function.precision}, RoundingMode.${function.roundingMode});
-        
-        // Function resolution
-        logger.info("Resolution of ${function.name} = ${function.formula}");
+        /*
+         * Function resolution
+         */
         #foreach( $operation in ${function.operations} )
           #declareOperation( $function $operation )
         #end
-        
+        /*
+         * Result
+         */        
         logger.trace("Exiting...");
         return ${function.lastOperation.id};
     }
@@ -101,12 +120,13 @@ public class $classname extends AbstractFormulas {
 ## check
 ## ----------------------------------------------------------------------------
 #macro( check $function )
-  #if( ${function.type} == "BigDecimal") 
-    // Method protection block
+  #if( ${function.type} == "java.math.BigDecimal") 
+      /*
+       * Method protection block
+       */
     #foreach( $input in ${function.inputs} )
-      if (${input.id} == null) {
+      if (${input.id} == null)
           throw new IllegalArgumentException("Argument '${input.id}' cannot be null.");
-      }
     #end
   #end
 #end
@@ -115,16 +135,22 @@ public class $classname extends AbstractFormulas {
 ## ----------------------------------------------------------------------------
 #macro( typecast $function )
   #foreach( $input in ${function.inputs} )
-    typecast(${input.id}, ${function.type}.class)#if( ${foreach.hasNext} ), #end
+    #if( ${function.type} == "double" || ${function.type} == "java.lang.Double")
+      ${function.type} ${input.id} = toDouble(inputs[${foreach.index}], ${foreach.index});
+    #elseif( ${function.type} == "java.math.BigDecimal" )
+      ${function.type} ${input.id} = toBigDecimal(inputs[${foreach.index}], ${foreach.index});
+    #else
+      Error declaring type: Type not found!!!!
+    #end
   #end
 #end
 ## ----------------------------------------------------------------------------
 ## declareConstant
 ## ----------------------------------------------------------------------------
 #macro( declareConstant $constant )
-  #if( ${constant.type} == "double" )
+  #if( ${constant.type} == "double" || ${constant.type} == "java.lang.Double")
     private static final ${constant.type} ${constant.id} = ${constant.value}D;
-  #elseif( ${constant.type} == "BigDecimal" )
+  #elseif( ${constant.type} == "java.math.BigDecimal" )
     private static final ${constant.type} ${constant.id} = new BigDecimal("${constant.value}");
   #else
     Error declaring constant: Type not found!!!!
@@ -148,15 +174,15 @@ public class $classname extends AbstractFormulas {
 ## declareUnary
 ## ----------------------------------------------------------------------------
 #macro( declareUnary $operation )
-  #if( ${operation.type} == "double" )
+  #if( ${operation.type} == "double" || ${operation.type} == "java.lang.Double")
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation.id} = super.fat(${operation.operand.id});
+      ${operation.type} ${operation.id} = toDouble(catalog.solve("fat", mc,  ${operation.operand.id}), 0);
     #else
       ${operation.type} ${operation.id} = ${operation.operand.id} * (${operation.operator}1);
     #end
   #else
     #if( ${operation.operator} == '!' )
-      ${operation.type} ${operation.id} = super.fat(${operation.operand.id}, mc);
+      ${operation.type} ${operation.id} = toBigDecimal(catalog.solve("fat", mc, ${operation.operand.id}), 0);
     #elseif( ${operation.operator} == '-' )
       ${operation.type} ${operation.id} = ${operation.operand.id}.multiply(BigDecimal.ONE.negate(), mc);
     #else
@@ -168,9 +194,9 @@ public class $classname extends AbstractFormulas {
 ## declareBinary
 ## ----------------------------------------------------------------------------
 #macro( declareBinary $operation )
-  #if( ${operation.type} == "double" )
+  #if( ${operation.type} == "double" || ${operation.type} == "java.lang.Double")
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc, ${operation.type}.class);
+      ${operation.type} ${operation.id} = toDouble(catalog.solve("pow", mc, ${operation.leftOperand.id}, ${operation.rightOperand.id}), 0);
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation.id} = ${operation.leftOperand.id} * ${operation.rightOperand.id};
     #elseif( ${operation.operator} == '/' )
@@ -184,9 +210,9 @@ public class $classname extends AbstractFormulas {
     #else
       Operator '${operation.operator}' not found!!!!!!
     #end
-  #elseif( ${operation.type} == "BigDecimal" )
+  #elseif( ${operation.type} == "java.math.BigDecimal" )
     #if( ${operation.operator} == '^' )
-      ${operation.type} ${operation.id} = super.pow(${operation.leftOperand.id}, ${operation.rightOperand.id}, mc, ${operation.type}.class);
+      ${operation.type} ${operation.id} = toBigDecimal(catalog.solve("pow", mc, ${operation.leftOperand.id}, ${operation.rightOperand.id}), 0);
     #elseif( ${operation.operator} == '*' )
       ${operation.type} ${operation.id} = ${operation.leftOperand.id}.multiply(${operation.rightOperand.id}, mc);
     #elseif( ${operation.operator} == '/' )
@@ -206,9 +232,11 @@ public class $classname extends AbstractFormulas {
 ## declareFunction
 ## ----------------------------------------------------------------------------
 #macro( declareFunction $operation )
-  #if( ${operation.type} == "double" )
-    ${operation.type} ${operation.id} = super.compute("${operation.name}", #arguments( ${operation.operands} ));
-  #else
-    ${operation.type} ${operation.id} = super.compute("${operation.name}", mc, #arguments( ${operation.operands} ));
-  #end
+    #if( ${function.type} == "double" || ${function.type} == "java.lang.Double")
+      ${operation.type} ${operation.id} = toDouble(catalog.solve("${operation.name}", mc, #arguments( ${operation.operands} )), 0);
+    #elseif( ${function.type} == "java.math.BigDecimal" )
+      ${operation.type} ${operation.id} = toBigDecimal(catalog.solve("${operation.name}", mc, #arguments( ${operation.operands} )), 0);
+    #else
+      Error in operation type: Type not found!!!!
+    #end
 #end

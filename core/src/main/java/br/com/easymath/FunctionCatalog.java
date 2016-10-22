@@ -2,6 +2,7 @@ package br.com.easymath;
 
 import static java.text.MessageFormat.format;
 
+import java.math.MathContext;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
@@ -105,18 +106,19 @@ public class FunctionCatalog {
 
 	/**
 	 * Return the name of this catalog
+	 * 
 	 * @return
 	 */
 	public String getName() {
 		return name;
 	}
-	
+
 	/**
 	 * 
 	 * @param function
 	 * @return
 	 */
-	public boolean addFunction(Function<?> function) {
+	public void addFunction(Function<?> function) {
 		/*
 		 * Method protection
 		 */
@@ -127,7 +129,7 @@ public class FunctionCatalog {
 		if (function.name().isEmpty())
 			throw new IllegalArgumentException("Argument 'function.name()' cannot be empty.");
 
-		return functions.putIfAbsent(function.name(), function) == null;
+		functions.put(function.name(), function);
 	}
 
 	/**
@@ -138,20 +140,23 @@ public class FunctionCatalog {
 		/*
 		 * Method protection
 		 */
-		if (functions == null)
+		if (functions == null) 
 			throw new IllegalArgumentException("Argument 'functions' cannot be null.");
-
+		/*
+		 * Add all function one-by-one
+		 */
 		functions.forEach(this::addFunction);
 	}
 
 	/**
 	 * @param name
+	 * @param mc
 	 * @param inputs
 	 * 
 	 * @return
 	 */
 	@SuppressWarnings("unchecked")
-	public <T extends Number> T peform(String name, Number... inputs) {
+	public <T extends Number> T solve(String name, MathContext mc, Number... inputs) {
 		/*
 		 * Method protection
 		 */
@@ -168,12 +173,72 @@ public class FunctionCatalog {
 		/*
 		 * Validate if the function exist in catalog
 		 */
-		if (function == null) {
+		if (function == null) 
 			throw new IllegalStateException(format("Function name ''{0}'' not found in this catalog.", name));
+		/*
+		 * Execute the calculation
+		 */
+		return function.perform(mc, inputs);
+	}
+
+	/**
+	 * 
+	 * @param catalogs
+	 * @return
+	 */
+	public final FunctionCatalog join(FunctionCatalog... catalogs) {
+		/*
+		 * Method protection
+		 */
+		if (catalogs == null)
+			throw new IllegalArgumentException("Argument 'catalogs' cannot be null.");
+		/*
+		 * For each catalog
+		 */
+		for (int index = 0; index < catalogs.length; index++) {
+			/*
+			 * Validate if the catalog is valid
+			 */
+			if (catalogs[index] == null) 
+				throw new IllegalArgumentException(format("Argument ''catalogs[{0}]'' cannot be null.", index));
+			/*
+			 * Get a reference for all function in catalog
+			 */
+			this.addAllFunctions(catalogs[index].functions.values());
 		}
 		/*
-		 * Excute the calculation
+		 * Return the result
 		 */
-		return function.perform(inputs);
+		return this;
+	}
+	
+	public static FunctionCatalog valueOf(Function<?>...functions) {
+		/*
+		 * Method protection
+		 */
+		if (functions == null)
+			throw new IllegalArgumentException("Argument 'functions' cannot be null.");
+		/*
+		 * Default result
+		 */
+		FunctionCatalog result = new FunctionCatalog();
+		/*
+		 * For each catalog
+		 */
+		for (int index = 0; index < functions.length; index++) {
+			/*
+			 * Validate if the catalog is valid
+			 */
+			if (functions[index] == null) 
+				throw new IllegalArgumentException(format("Argument ''functions[{0}]'' cannot be null.", index));
+			/*
+			 * Get a reference for all functions
+			 */
+			result.addFunction(functions[index]);
+		}
+		/*
+		 * Result
+		 */
+		return result;
 	}
 }

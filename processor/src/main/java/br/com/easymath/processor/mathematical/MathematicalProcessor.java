@@ -29,8 +29,8 @@ import org.slf4j.LoggerFactory;
 
 import br.com.easymath.annotations.Formula;
 import br.com.easymath.processor.AbstractAnnotationProcessor;
-import br.com.easymath.processor.mathematical.grammar.FormulaModel;
-import br.com.easymath.processor.mathematical.grammar.FormulaModelBuilder;
+import br.com.easymath.processor.mathematical.grammar.FunctionModel;
+import br.com.easymath.processor.mathematical.grammar.FunctionModelBuilder;
 import br.com.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import br.com.easymath.processor.mathematical.utils.ReflectionUtils;
 
@@ -94,10 +94,13 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
         for (Entry<Element, List<ExecutableElement>> entry : map.entrySet()) {
             Element classElement = entry.getKey();
 
-            Set<ConstantOperand> constants = new LinkedHashSet<>();
-            Deque<FormulaModel> functions = new LinkedList<>();
+            Set<ConstantOperand> constants = new HashSet<>();
+            Deque<FunctionModel> functions = new LinkedList<>();
             for (ExecutableElement methodElement : entry.getValue()) {
-                FormulaModel model = new FormulaModelBuilder()
+            	
+                LOGGER.info("Return type: {}", utils.getMethodReturningType(methodElement));
+            	
+                FunctionModel model = new FunctionModelBuilder()
                         .withClassName(utils.getName(classElement))
                         .withMethodName(utils.getName(methodElement))
                         .withType(utils.getMethodReturningType(methodElement))
@@ -109,6 +112,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 
             context.put("generator", getClass().getName());
             context.put("package", elements.getPackageOf(classElement).getQualifiedName());
+            context.put("superclass", classElement.getSimpleName());
             context.put("classname", classElement.getSimpleName() + SUFFIX);
             context.put("constants", constants);
             context.put("functions", functions);

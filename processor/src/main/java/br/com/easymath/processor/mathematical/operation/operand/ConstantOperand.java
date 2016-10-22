@@ -1,5 +1,7 @@
 package br.com.easymath.processor.mathematical.operation.operand;
 
+import java.math.BigDecimal;
+
 /**
  * @author eduardo.valentim
  */
@@ -17,10 +19,10 @@ public class ConstantOperand extends AbstractOperand {
     private static String formatId(String type, String value) {
         String id;
         
-        if (Double.class.getCanonicalName().equals(type)) {
-            id = String.format("D%s", value);
+        if (BigDecimal.class.getCanonicalName().equals(type)) {
+        	id = String.format("BD%s", value);
         } else {
-            id = String.format("BD%s", value);
+        	id = String.format("D%s", value);
         }
         
         return id.replace(".", "_");
