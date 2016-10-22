@@ -29,36 +29,44 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 	
 	protected Filer filer;
 	protected Messager messager;
-	protected Types typeUtils;
-	protected Elements elementUtils;
+	protected Types types;
+	protected Elements elements;
 
+	/**
+	 * Public default constructor
+	 */
 	public AbstractAnnotationProcessor() {
 		super();
 	}
-	
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public SourceVersion getSupportedSourceVersion() {
-		LOGGER.trace("Entering...");
+		LOGGER.trace("Entering... ");
 		SourceVersion sv = SourceVersion.latestSupported();
 		
-		LOGGER.trace("Exiting...");
+		LOGGER.trace("Exiting... ");
 		return sv;
 	}
 
+	/**
+	 * {@inheritDoc}
+	 */
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {
-		LOGGER.trace("Entering...");
+		LOGGER.trace("Entering...  ");
 		
 		super.init(processingEnv);
 
 		Velocity.init(getVelocityProperties());
 
-		typeUtils = processingEnv.getTypeUtils();
-	    elementUtils = processingEnv.getElementUtils();
+		types = processingEnv.getTypeUtils();
+	    elements = processingEnv.getElementUtils();
 		filer = processingEnv.getFiler();
 		messager = processingEnv.getMessager();
 		
-		LOGGER.trace("Exiting...");
+		LOGGER.trace("Exiting...  ");
 	}
 	
 	protected void generate(CharSequence name, Template template, VelocityContext context) {

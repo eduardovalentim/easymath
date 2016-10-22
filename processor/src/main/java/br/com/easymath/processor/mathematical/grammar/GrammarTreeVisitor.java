@@ -5,7 +5,9 @@ import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import br.com.easymath.processor.mathematical.grammar.FormulaBaseVisitor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import br.com.easymath.processor.mathematical.grammar.FormulaParser.BinaryContext;
 import br.com.easymath.processor.mathematical.grammar.FormulaParser.BracesContext;
 import br.com.easymath.processor.mathematical.grammar.FormulaParser.BracketsContext;
@@ -16,10 +18,6 @@ import br.com.easymath.processor.mathematical.grammar.FormulaParser.FunctionCont
 import br.com.easymath.processor.mathematical.grammar.FormulaParser.InputContext;
 import br.com.easymath.processor.mathematical.grammar.FormulaParser.ParenthesisContext;
 import br.com.easymath.processor.mathematical.grammar.FormulaParser.UnaryContext;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import br.com.easymath.annotations.NumberType;
 import br.com.easymath.processor.mathematical.operation.BinaryOperation;
 import br.com.easymath.processor.mathematical.operation.FunctionOperation;
 import br.com.easymath.processor.mathematical.operation.Operation;
@@ -29,9 +27,16 @@ import br.com.easymath.processor.mathematical.operation.operand.InputOperand;
 import br.com.easymath.processor.mathematical.operation.operand.Operand;
 import br.com.easymath.processor.mathematical.operation.operand.ResultOperand;
 
+/**
+ * 
+ * @author eduardo.valentim
+ *
+ */
 public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(GrammarTreeVisitor.class);
+
+    private static final String DEBUG_TEMPLATE = "formula={}, id={}, fragment={}";
 
     private static final int RIGHT = 1;
 
@@ -40,12 +45,16 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
     private Deque<Operation> operations;
     private Set<String> constants;
     private Set<String> inputs;
-    private NumberType type;
+    private String type;
     private int id = 0;
 
     private String formula;
 
-    public GrammarTreeVisitor(NumberType type) {
+    /**
+     * 
+     * @param type
+     */
+    public GrammarTreeVisitor(String type) { 
         super();
         this.type = type;
         this.operations = new LinkedList<>();
@@ -116,7 +125,7 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
     @Override
     public String visitFunction(FunctionContext ctx) {
         // Generate the operation id
-        String generatedId = generateId(ctx);
+        String generatedId = generateId();
 
         String name = ctx.Identifier().getText();
 
@@ -128,14 +137,14 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
         FunctionOperation operation = new FunctionOperation(generatedId, name, type, operands, ctx.getText());
         operations.add(operation);
 
-        LOGGER.debug("formula={}, id={}, fragment={}", formula, generatedId, ctx.getText());
+        LOGGER.debug(DEBUG_TEMPLATE, formula, generatedId, ctx.getText());
 
         return generatedId;
     }
 
     @Override
     public String visitBinary(BinaryContext ctx) {
-        String generatedId = generateId(ctx);
+        String generatedId = generateId();
 
         ExpressionContext left = ctx.expression(LEFT);
         String operator = ctx.operator.getText();
@@ -147,14 +156,14 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
         BinaryOperation operation = new BinaryOperation(generatedId, type, leftOperand, operator, rightOperand, ctx.getText());
         operations.add(operation);
 
-        LOGGER.debug("formula={}, id={}, fragment={}", formula, generatedId, ctx.getText());
+        LOGGER.debug(DEBUG_TEMPLATE, formula, generatedId, ctx.getText());
 
         return generatedId;
     }
 
     @Override
     public String visitUnary(UnaryContext ctx) {
-        String generatedId = generateId(ctx);
+        String generatedId = generateId();
 
         ExpressionContext expr = ctx.expression();
         String operator = ctx.operator.getText();
@@ -163,7 +172,7 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
 
         UnaryOperation operation = new UnaryOperation(generatedId, type, operand, operator, ctx.getText());
         operations.add(operation);
-        LOGGER.debug("formula={}, id={}, fragment={}", formula, generatedId, ctx.getText());
+        LOGGER.debug(DEBUG_TEMPLATE, formula, generatedId, ctx.getText());
 
         return generatedId;
     }
@@ -188,7 +197,7 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
      */
 
     private Operand createOperand(String value) {
-        Operand operand = null;
+        Operand operand;
 
         if (constants.contains(value)) {
             operand = new ConstantOperand(type, value);
@@ -201,7 +210,7 @@ public class GrammarTreeVisitor extends FormulaBaseVisitor<String> {
         return operand;
     }
 
-    private String generateId(ExpressionContext ctx) {
+    private String generateId() {
         return String.format("r%d", id++);
     }
 

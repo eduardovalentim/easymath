@@ -18,10 +18,17 @@ public class $classname extends AbstractFormulas {
 
 	private static Logger logger = LoggerFactory.getLogger(${classname}.class);
 
+    private static final String EXCEPTION_MESSAGE_TEMPLATE = "Argument ''inputs[{0}]'' cannot be null.";
+
+    private FunctionCatalog catalog;
+
 	#foreach( $constant in ${constants} )
 	  #declareConstant( $constant )
 	#end
 
+    /**
+     * Default public constructor
+     */
     public $classname() {
         this(new FunctionCatalog());
     }

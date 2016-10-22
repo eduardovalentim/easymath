@@ -1,11 +1,26 @@
 package br.com.easymath.processor.mathematical.operation.operand;
 
-import br.com.easymath.annotations.NumberType;
-
+/**
+ * @author eduardo.valentim
+ */
 public interface Operand {
 
+    /**
+     * 
+     * @return
+     */
     public String getId();
-    public NumberType getType();
+    
+    /**
+     * 
+     * @return
+     */
+    public String getType();
+    
+    /**
+     * 
+     * @return
+     */
     public String getValue();
     
 }

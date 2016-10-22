@@ -1,10 +1,16 @@
 package br.com.easymath.processor.mathematical.operation.operand;
 
-import br.com.easymath.annotations.NumberType;
-
+/**
+ * @author eduardo.valentim
+ */
 public class ResultOperand extends AbstractOperand {
 
-    public ResultOperand(NumberType type, String value) {
+    /**
+     * 
+     * @param type
+     * @param value
+     */
+    public ResultOperand(String type, String value) {
         super(value, type, value);
     }
 

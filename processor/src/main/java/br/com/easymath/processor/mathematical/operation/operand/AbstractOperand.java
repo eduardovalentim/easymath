@@ -1,34 +1,53 @@
 package br.com.easymath.processor.mathematical.operation.operand;
 
-import br.com.easymath.annotations.NumberType;
-
+/**
+ * @author eduardo.valentim
+ */
 public class AbstractOperand implements Operand {
 
     private String id;
-    private NumberType type;
+    private String type;
     private String value;
     
-    public AbstractOperand(String id, NumberType type, String value) {
+    /**
+     * 
+     * @param id
+     * @param type
+     * @param value
+     */
+    public AbstractOperand(String id, String type, String value) {
         this.id = id;
         this.type = type;
         this.value = value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getId() {
         return id;
     }
     
+    /**
+     * {@inheritDoc}
+     */
     @Override
-    public NumberType getType() {
+    public String getType() {
         return type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public String getValue() {
         return value;
     }
         
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public int hashCode() {
         final int prime = 31;
@@ -38,6 +57,9 @@ public class AbstractOperand implements Operand {
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -63,8 +85,8 @@ public class AbstractOperand implements Operand {
         return true;
     }
 
-    /* (non-Javadoc)
-     * @see java.lang.Object#toString()
+    /**
+     * {@inheritDoc}
      */
     @Override
     public String toString() {

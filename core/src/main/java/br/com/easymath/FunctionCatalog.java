@@ -39,6 +39,7 @@ public class FunctionCatalog {
 
 	/**
 	 * 
+	 * @param name
 	 * @param functions
 	 */
 	public FunctionCatalog(String name, Function<?>... functions) {
