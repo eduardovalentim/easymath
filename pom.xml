@@ -9,7 +9,7 @@
 	</parent>
 
 	<groupId>com.github.eduardovalentim</groupId>
-	<artifactId>easymath-parent</artifactId>
+	<artifactId>easymath</artifactId>
 	<version>0.1.2-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Easymath</name>
