@@ -7,7 +7,6 @@ import static java.util.Objects.requireNonNull;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -96,10 +95,8 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 
             Set<ConstantOperand> constants = new HashSet<>();
             Deque<FunctionModel> functions = new LinkedList<>();
+
             for (ExecutableElement methodElement : entry.getValue()) {
-            	
-                LOGGER.info("Return type: {}", utils.getMethodReturningType(methodElement));
-            	
                 FunctionModel model = new FunctionModelBuilder()
                         .withClassName(utils.getName(classElement))
                         .withMethodName(utils.getName(methodElement))

@@ -1,18 +1,14 @@
 package br.com.easymath.functions;
 
-import static br.com.easymath.Numbers.toApfloat;
-import static org.apfloat.ApfloatMath.sqrt;
-
 import java.math.MathContext;
 
-import org.apfloat.Apfloat;
-
 import br.com.easymath.Function;
+import br.com.easymath.Numbers;
 
 /**
  * @author eduardovalentim
  */
-public class SquareRootFunction implements Function<Number> {
+public class SquareRootFunction implements Function<Double> {
 
 	public static final SquareRootFunction INSTANCE = new SquareRootFunction();
 	
@@ -28,7 +24,7 @@ public class SquareRootFunction implements Function<Number> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Number perform(MathContext mc, Number... inputs) {
+	public Double perform(MathContext mc, Number... inputs) {
 		/*
 		 * Method protection block
 		 */
@@ -40,11 +36,11 @@ public class SquareRootFunction implements Function<Number> {
 		/*
 		 * Typecast inputs
 		 */
-		Apfloat x = toApfloat(inputs[0], 0);
+		double x = Numbers.toDouble(inputs[0], 0);
 		/*
 		 * Result
 		 */
-		return sqrt(x);
+		return Math.sqrt(x);
 	}
 
 }

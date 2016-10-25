@@ -13,7 +13,7 @@ public class CoreFunctionCatalog extends FunctionCatalog {
 	public CoreFunctionCatalog() {
 		super("core");
 		addFunction(PowerFunction.INSTANCE);
-		addFunction(FatorialFunction.INSTANCE);
+		addFunction(FactorialFunction.INSTANCE);
 		addFunction(SquareRootFunction.INSTANCE);
 	}
 
