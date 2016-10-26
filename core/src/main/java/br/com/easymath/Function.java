@@ -50,8 +50,6 @@ import java.math.MathContext;
  * composition, where the output from one function becomes the input to another
  * function.
  * 
- * @see https://en.wikipedia.org/wiki/Function_%28mathematics%29
- * 
  * @author Eduardo.Valentim
  *
  */
@@ -60,16 +58,17 @@ public interface Function<T> {
 	/**
 	 * Define the name of the function to be used in the catalog
 	 * 
-	 * @return
+	 * @return The name of this functino to register in a catalog
 	 */
     public String name();
     
     /**
      * Execute the calculation
-     * @param mc 
      * 
-     * @param inputs
-     * @return
+     * @param mc Mathematical context to be used in the execution
+     * @param inputs Inputs for the execution
+     * 
+     * @return The result of calculation
      */
     public T perform(MathContext mc, Number... inputs);
     

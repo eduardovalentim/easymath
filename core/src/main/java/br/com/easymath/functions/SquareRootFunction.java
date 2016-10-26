@@ -6,10 +6,15 @@ import br.com.easymath.Function;
 import br.com.easymath.Numbers;
 
 /**
+ * Square root function
+ * 
  * @author eduardovalentim
  */
 public class SquareRootFunction implements Function<Double> {
 
+	/**
+	 * Public instance
+	 */
 	public static final SquareRootFunction INSTANCE = new SquareRootFunction();
 	
 	/**

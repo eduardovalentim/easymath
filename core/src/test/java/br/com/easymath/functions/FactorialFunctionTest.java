@@ -8,6 +8,9 @@ import org.junit.Test;
 
 public class FactorialFunctionTest {
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialMinusSix() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -17,6 +20,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialMinusFive() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -26,6 +32,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialMinusFour() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -35,6 +44,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialMinusThree() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -44,6 +56,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialMinusTwo() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -53,6 +68,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialMinusOne() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -61,6 +79,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(BigInteger.ONE.negate().compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialZero() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -69,6 +90,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(BigInteger.ZERO.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialOne() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -77,6 +101,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(BigInteger.ONE.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialTwo() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -86,6 +113,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialThree() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -95,6 +125,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialFour() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -104,6 +137,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialFive() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -113,6 +149,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialSix() {
 		FactorialFunction factorial = new FactorialFunction();
@@ -122,6 +161,9 @@ public class FactorialFunctionTest {
 		Assert.assertTrue(expected.compareTo(actual) == 0);
 	}
 
+	/**
+	 * Factorial method test
+	 */
 	@Test
 	public void testFactorialOneHundredTwentySeven() {
 		FactorialFunction factorial = new FactorialFunction();

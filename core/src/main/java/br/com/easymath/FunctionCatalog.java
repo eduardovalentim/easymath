@@ -39,9 +39,12 @@ public class FunctionCatalog {
 	}
 
 	/**
+	 * Public constructor
 	 * 
 	 * @param name
+	 *            The name of this catalog
 	 * @param functions
+	 *            A 'list'of functions
 	 */
 	public FunctionCatalog(String name, Function<?>... functions) {
 		this();
@@ -79,9 +82,12 @@ public class FunctionCatalog {
 	}
 
 	/**
+	 * Public constructor
 	 * 
 	 * @param name
+	 *            The name of this catalog
 	 * @param functions
+	 *            A 'list'of functions
 	 */
 	public FunctionCatalog(String name, Collection<Function<?>> functions) {
 		this();
@@ -107,16 +113,17 @@ public class FunctionCatalog {
 	/**
 	 * Return the name of this catalog
 	 * 
-	 * @return
+	 * @return The name of this catalog
 	 */
 	public String getName() {
 		return name;
 	}
 
 	/**
+	 * Add a function to this catalog
 	 * 
 	 * @param function
-	 * @return
+	 *            The function to be added
 	 */
 	public void addFunction(Function<?> function) {
 		/*
@@ -133,14 +140,16 @@ public class FunctionCatalog {
 	}
 
 	/**
+	 * A 'list' of functions to be added
 	 * 
 	 * @param functions
+	 *            Functions to be added
 	 */
 	public void addAllFunctions(Collection<Function<?>> functions) {
 		/*
 		 * Method protection
 		 */
-		if (functions == null) 
+		if (functions == null)
 			throw new IllegalArgumentException("Argument 'functions' cannot be null.");
 		/*
 		 * Add all function one-by-one
@@ -149,11 +158,14 @@ public class FunctionCatalog {
 	}
 
 	/**
-	 * @param name
-	 * @param mc
-	 * @param inputs
+	 * Find a function to solve
 	 * 
-	 * @return
+	 * @param name The name of the function
+	 * @param mc The mathematical context to use
+	 * @param inputs The formula inputs
+	 * @param <T> The return type
+	 * 
+	 * @return The result of the calculation
 	 */
 	@SuppressWarnings("unchecked")
 	public <T extends Number> T solve(String name, MathContext mc, Number... inputs) {
@@ -173,7 +185,7 @@ public class FunctionCatalog {
 		/*
 		 * Validate if the function exist in catalog
 		 */
-		if (function == null) 
+		if (function == null)
 			throw new IllegalStateException(format("Function name ''{0}'' not found in this catalog.", name));
 		/*
 		 * Execute the calculation
@@ -182,9 +194,11 @@ public class FunctionCatalog {
 	}
 
 	/**
+	 * Join this catalog with others
 	 * 
 	 * @param catalogs
-	 * @return
+	 *            Others catalog to join
+	 * @return A new catalog
 	 */
 	public final FunctionCatalog join(FunctionCatalog... catalogs) {
 		/*
@@ -199,7 +213,7 @@ public class FunctionCatalog {
 			/*
 			 * Validate if the catalog is valid
 			 */
-			if (catalogs[index] == null) 
+			if (catalogs[index] == null)
 				throw new IllegalArgumentException(format("Argument ''catalogs[{0}]'' cannot be null.", index));
 			/*
 			 * Get a reference for all function in catalog
@@ -211,8 +225,15 @@ public class FunctionCatalog {
 		 */
 		return this;
 	}
-	
-	public static FunctionCatalog valueOf(Function<?>...functions) {
+
+	/**
+	 * Create a new catalog based on the functions
+	 * 
+	 * @param functions
+	 *            A 'list' of functions to create a new catalog
+	 * @return A new catalog
+	 */
+	public static FunctionCatalog valueOf(Function<?>... functions) {
 		/*
 		 * Method protection
 		 */
@@ -229,7 +250,7 @@ public class FunctionCatalog {
 			/*
 			 * Validate if the catalog is valid
 			 */
-			if (functions[index] == null) 
+			if (functions[index] == null)
 				throw new IllegalArgumentException(format("Argument ''functions[{0}]'' cannot be null.", index));
 			/*
 			 * Get a reference for all functions

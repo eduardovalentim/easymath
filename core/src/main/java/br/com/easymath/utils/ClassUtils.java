@@ -7,6 +7,11 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Utilities
+ * 
+ * @author eduardovalentim
+ */
 public class ClassUtils {
 
     @SuppressWarnings("serial")
@@ -18,6 +23,12 @@ public class ClassUtils {
         put(double.class, Double.class);
     }};
     
+    /**
+     * Check if the argument <code>s</code> is a valid java identifier
+     * 
+     * @param s A possible identifier to validate
+     * @return True if <code>s</code> is valid
+     */
     public static boolean isValidJavaIdentifier(String s) {
         // an empty or null string cannot be a valid identifier
         if (s == null || s.length() == 0) {
@@ -41,8 +52,8 @@ public class ClassUtils {
     /**
      * Numeric methods are methods that receive and return Numbers
      * 
-     * @param klass
-     * @return
+     * @param klass A class to be analyzed
+     * @return A list of methods
      */
     public static List<Method> getNumericMethods(Class<?> klass) {
         if (klass == null) {

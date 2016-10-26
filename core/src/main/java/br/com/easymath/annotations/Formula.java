@@ -8,13 +8,23 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 import java.math.RoundingMode;
 
+/**
+ * Annotation to decribe mathematical function
+ * 
+ * @author eduardovalentim
+ */
 @Inherited
 @Documented
-@Target({ElementType.TYPE, ElementType.METHOD})
+@Target({ ElementType.TYPE, ElementType.METHOD })
 @Retention(RetentionPolicy.CLASS)
 public @interface Formula {
 
-    public String value();
+	/**
+	 * Text to describe the formula
+	 * 
+	 * @return The value of this annotation attribute
+	 */
+	public String value();
 
 	/**
 	 * The number of digits to be used for an operation. A value of 0 indicates
@@ -24,16 +34,15 @@ public @interface Formula {
 	 *
 	 * <p>
 	 * {@code precision} will always be non-negative.
-	 *
-	 * @serial
+	 * 
+	 * @return The value of this annotation attribute
 	 */
 	public int precision() default 7;
 
 	/**
 	 * The rounding algorithm to be used for an operation.
-	 *
-	 * @see RoundingMode
-	 * @serial
+	 * 
+	 * @return The value of this annotation attribute
 	 */
 	public RoundingMode roundingMode() default RoundingMode.HALF_UP;
 }

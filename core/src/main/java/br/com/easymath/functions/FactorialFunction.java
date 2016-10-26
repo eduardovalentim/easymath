@@ -6,11 +6,15 @@ import java.math.MathContext;
 import br.com.easymath.Function;
 
 /**
+ * Factorial function
  * 
  * @author eduardovalentim
  */
 public class FactorialFunction implements Function<BigInteger> {
 
+	/**
+	 * Public instance to be used
+	 */
 	public static final FactorialFunction INSTANCE = new FactorialFunction();
 	
 	/**

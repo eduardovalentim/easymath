@@ -7,11 +7,15 @@ import java.math.MathContext;
 import br.com.easymath.Function;
 
 /**
+ * Power function
  * 
  * @author eduardovalentim
  */
 public class PowerFunction implements Function<Number> {
 
+	/**
+	 * Public instance
+	 */
 	public static final PowerFunction INSTANCE = new PowerFunction();
 	
 	/**
