@@ -7,7 +7,10 @@
 	<version>0.1.6-SNAPSHOT</version>
 	<packaging>pom</packaging>
 	<name>Easymath</name>
-
+    
+    <description>A tool to speed up mathematical development in Java and turn things easy.</description>
+	<url>https://github.com/eduardovalentim/easymath</url>
+	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.javadoc.failOnError>false</maven.javadoc.failOnError>
