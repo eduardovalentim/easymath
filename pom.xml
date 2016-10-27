@@ -100,9 +100,8 @@
 				<version>2.5.3</version>
 				<configuration>
 					<autoVersionSubmodules>true</autoVersionSubmodules>
-					<useReleaseProfile>false</useReleaseProfile>
 					<releaseProfiles>release</releaseProfiles>
-					<goals>deploy nexus-staging:release</goals>
+					<goals>deploy</goals>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -118,17 +117,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<groupId>org.sonatype.plugins</groupId>
-				<artifactId>nexus-staging-maven-plugin</artifactId>
-				<version>1.6.7</version>
-				<extensions>true</extensions>
-				<configuration>
-					<serverId>ossrh</serverId>
-					<nexusUrl>https://oss.sonatype.org/</nexusUrl>
-					<autoReleaseAfterClose>false</autoReleaseAfterClose>
-				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
