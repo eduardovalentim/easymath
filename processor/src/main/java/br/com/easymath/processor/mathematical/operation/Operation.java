@@ -1,32 +1,38 @@
 package br.com.easymath.processor.mathematical.operation;
 
 /**
+ * A operation
+ * 
  * @author eduardo.valentim
  */
 public interface Operation {
 
-    /**
-     * 
-     * @return
-     */
-    public String getId();
-    
-    /**
-     * 
-     * @return
-     */
-    public String getOperator();
-    
-    /**
-     * 
-     * @return
-     */
-    public String getType();
-    
-    /**
-     * 
-     * @return
-     */
-    public String getText();
+	/**
+	 * Get
+	 * 
+	 * @return The id
+	 */
+	public String getId();
+
+	/**
+	 * Get
+	 * 
+	 * @return The operator
+	 */
+	public String getOperator();
+
+	/**
+	 * Get
+	 * 
+	 * @return The type
+	 */
+	public String getType();
+
+	/**
+	 * Get
+	 * 
+	 * @return The text
+	 */
+	public String getText();
 
 }

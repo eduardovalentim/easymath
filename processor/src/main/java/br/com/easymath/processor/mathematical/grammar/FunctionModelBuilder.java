@@ -36,9 +36,10 @@ public class FunctionModelBuilder {
 	}
 	
 	/**
+	 * The method name
 	 * 
-	 * @param methodName
-	 * @return
+	 * @param methodName The method name
+	 * @return A reference to this builder
 	 */
 	public FunctionModelBuilder withMethodName(String methodName) {
 	    this.methodName = methodName;
@@ -46,9 +47,10 @@ public class FunctionModelBuilder {
 	}
 	
 	/**
+	 * The classname for this builder
 	 * 
-	 * @param className
-	 * @return
+	 * @param className The classname
+	 * @return A reference to this builder
 	 */
     public FunctionModelBuilder withClassName(String className) {
         this.className = className;
@@ -56,9 +58,10 @@ public class FunctionModelBuilder {
     }
 
     /**
+	 * The type for this builder
 	 * 
-	 * @param type
-	 * @return
+	 * @param type The type
+	 * @return A reference to this builder
 	 */
 	public FunctionModelBuilder withType(String type) {
 	    this.type = type;
@@ -66,9 +69,10 @@ public class FunctionModelBuilder {
 	}
 	
 	/**
+	 * The formula for this builder
 	 * 
-	 * @param formula
-	 * @return
+	 * @param formula The formula
+	 * @return A reference to this builder
 	 */
 	public FunctionModelBuilder withFormula(Formula formula) {
 	    this.formula = formula;
@@ -76,9 +80,10 @@ public class FunctionModelBuilder {
 	}
 
 	/**
+	 * The constants for this builder
 	 * 
-	 * @param constants
-	 * @return
+	 * @param constants The constants
+	 * @return A reference to this builder
 	 */
     public FunctionModelBuilder withConstants(Collection<ConstantOperand> constants) {
         this.constants = constants;
@@ -86,8 +91,8 @@ public class FunctionModelBuilder {
     }
 
     /**
-     * 
-     * @return
+     * Create a new FunctionModel
+	 * @return A new FunctionModel
      */
     public FunctionModel build() {
         requireNonNull(methodName);

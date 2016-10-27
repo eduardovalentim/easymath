@@ -6,8 +6,21 @@ import org.apache.commons.lang.StringUtils;
 
 import br.com.easymath.processor.mathematical.operation.operand.InputOperand;
 
+/**
+ * Utility class to format variables in the velocity template
+ * 
+ * @author eduardovalentim
+ */
 public class FormatUtils {
 
+	/**
+	 * Format formula inputs
+	 * 
+	 * @param formula The formula
+	 * @param inputs The inputs
+	 * @param precision The precision
+	 * @return The inputs formated
+	 */
     public static String formatFormulaInputs(String formula, Collection<InputOperand> inputs, int precision) {
         if (formula == null) {
             throw new IllegalStateException("Argument 'formula' cannot be null.");
@@ -34,6 +47,14 @@ public class FormatUtils {
         return buffer.toString();
     }
 
+    /**
+     * Format the formula operation
+     * 
+     * @param formula The formula
+     * @param operation The operation
+     * @param precision The precision
+     * @return The operations formated
+     */
     public static String formatFormulaOperation(String formula, String operation, int precision) {
         if (formula == null) {
             throw new IllegalStateException("Argument 'formula' cannot be null.");

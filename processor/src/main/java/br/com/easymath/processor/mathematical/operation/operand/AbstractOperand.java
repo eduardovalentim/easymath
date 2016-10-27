@@ -1,19 +1,22 @@
 package br.com.easymath.processor.mathematical.operation.operand;
 
 /**
+ * A abstract operand definition to be specialized
+ * 
  * @author eduardo.valentim
  */
-public class AbstractOperand implements Operand {
+public abstract class AbstractOperand implements Operand {
 
     private String id;
     private String type;
     private String value;
     
     /**
+     * Public constructor
      * 
-     * @param id
-     * @param type
-     * @param value
+     * @param id The identifier
+     * @param type The type
+     * @param value The value
      */
     public AbstractOperand(String id, String type, String value) {
         this.id = id;
@@ -44,11 +47,10 @@ public class AbstractOperand implements Operand {
     public String getValue() {
         return value;
     }
-        
-
-    /* (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
+    
+    /**
+     * {@inheritDoc}
+     */
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -58,8 +60,8 @@ public class AbstractOperand implements Operand {
 		return result;
 	}
 
-	/* (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
+	/**
+	 * {@inheritDoc}
 	 */
 	@Override
 	public boolean equals(Object obj) {

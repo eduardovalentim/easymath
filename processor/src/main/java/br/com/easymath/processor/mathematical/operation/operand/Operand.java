@@ -1,26 +1,31 @@
 package br.com.easymath.processor.mathematical.operation.operand;
 
 /**
+ * The definition of a operand
+ * 
  * @author eduardo.valentim
  */
 public interface Operand {
 
-    /**
-     * 
-     * @return
-     */
-    public String getId();
-    
-    /**
-     * 
-     * @return
-     */
-    public String getType();
-    
-    /**
-     * 
-     * @return
-     */
-    public String getValue();
-    
+	/**
+	 * Get
+	 * 
+	 * @return The id
+	 */
+	public String getId();
+
+	/**
+	 * Get
+	 * 
+	 * @return The type
+	 */
+	public String getType();
+
+	/**
+	 * Get
+	 * 
+	 * @return The value
+	 */
+	public String getValue();
+
 }

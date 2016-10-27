@@ -7,45 +7,55 @@ import java.util.LinkedList;
 import br.com.easymath.processor.mathematical.operation.operand.Operand;
 
 /**
+ * A unary operation
+ * 
  * @author eduardo.valentim
  */
 public class UnaryOperation extends AbstractOperation {
 
-    private Operand operand;
-    
-    /**
-     * 
-     * @param id
-     * @param type
-     * @param operand
-     * @param operator
-     * @param text
-     */
-    public UnaryOperation(String id, String type, Operand operand, String operator, String text) {
-        super(id, operator, type, text);
-        this.operand = operand;
-    }
+	private Operand operand;
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Deque<Operand> getOperands() {
-        return new LinkedList<Operand>( Arrays.asList(operand) );
-    }
+	/**
+	 * Public constructor
+	 * 
+	 * @param id
+	 *            The id
+	 * @param type
+	 *            The type
+	 * @param operand
+	 *            The operand
+	 * @param operator
+	 *            The operator
+	 * @param text
+	 *            The text
+	 */
+	public UnaryOperation(String id, String type, Operand operand, String operator, String text) {
+		super(id, operator, type, text);
+		this.operand = operand;
+	}
 
-    /**
-     * @return
-     */
-    public Operand getOperand() {
-        return operand;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public String toString() {
-        return "UnaryOperation [operator=" + getOperator() + ", operand=" + operand + "]";
-    }
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public Deque<Operand> getOperands() {
+		return new LinkedList<Operand>(Arrays.asList(operand));
+	}
+
+	/**
+	 * The operand
+	 * 
+	 * @return The operand
+	 */
+	public Operand getOperand() {
+		return operand;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	@Override
+	public String toString() {
+		return "UnaryOperation [operator=" + getOperator() + ", operand=" + operand + "]";
+	}
 }

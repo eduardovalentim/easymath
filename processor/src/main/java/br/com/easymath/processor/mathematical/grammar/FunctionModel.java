@@ -13,170 +13,215 @@ import br.com.easymath.processor.mathematical.operation.operand.ConstantOperand;
 import br.com.easymath.processor.mathematical.operation.operand.InputOperand;
 
 /**
- *  
+ * A model to represent a function
+ * 
  * @author eduardo.valentim
  */
 public class FunctionModel {
 
-    private String name;
-    private String type;
-    private Formula formula;
-    private Collection<InputOperand> inputs;
-    private Deque<Operation> operations;
-    private Collection<ConstantOperand> constants;
+	private String name;
+	private String type;
+	private Formula formula;
+	private Collection<InputOperand> inputs;
+	private Deque<Operation> operations;
+	private Collection<ConstantOperand> constants;
 
-    /**
-     * 
-     * @param formula
-     * @param inputs
-     * @param constants
-     * @param operations
-     */
-    public FunctionModel() {
-        this.inputs = new LinkedHashSet<>();
-        this.operations = new LinkedList<>();
-        this.constants = new LinkedHashSet<>();
-    }
+	/**
+	 * Public default constructor
+	 */
+	public FunctionModel() {
+		this.inputs = new LinkedHashSet<>();
+		this.operations = new LinkedList<>();
+		this.constants = new LinkedHashSet<>();
+	}
 
-    /**
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
+	/**
+	 * Get
+	 * 
+	 * @return the name
+	 */
+	public String getName() {
+		return name;
+	}
 
-    /**
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
+	/**
+	 * Set
+	 * 
+	 * @param name
+	 *            the name to set
+	 */
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    /**
-     * @return the type
-     */
-    public String getType() {
-        return type;
-    }
+	/**
+	 * Get
+	 * 
+	 * @return the type
+	 */
+	public String getType() {
+		return type;
+	}
 
-    /**
-     * @param type the type to set
-     */
-    public void setType(String type) {
-        this.type = type;
-    }
+	/**
+	 * Set
+	 * 
+	 * @param type
+	 *            the type to set
+	 */
+	public void setType(String type) {
+		this.type = type;
+	}
 
-    /**
-     * 
-     * @return
-     */
-    public int getPrecision() {
+	/**
+	 * Get
+	 * 
+	 * @return The precision
+	 */
+	public int getPrecision() {
 		return formula.precision();
 	}
 
-    /**
-     * 
-     * @return
-     */
+	/**
+	 * Get
+	 * 
+	 * @return The rounding mode
+	 */
 	public RoundingMode getRoundingMode() {
 		return formula.roundingMode();
 	}
 
 	/**
-     * @return the constants
-     */
-    public Collection<ConstantOperand> getConstants() {
-        return Collections.unmodifiableCollection(constants);
-    }
+	 * Get
+	 * 
+	 * @return the constants
+	 */
+	public Collection<ConstantOperand> getConstants() {
+		return Collections.unmodifiableCollection(constants);
+	}
 
-    /**
-     * @param e
-     * @return
-     * @see java.util.Set#add(java.lang.Object)
-     */
-    public boolean addConstant(ConstantOperand e) {
-        return constants.add(e);
-    }
+	/**
+	 * Add a constant to the list
+	 * 
+	 * @param c
+	 *            The constant
+	 * @return <tt>true</tt> if the constants collection changed as a result of
+	 *         the call
+	 * 
+	 * @see java.util.Set#add(java.lang.Object)
+	 */
+	public boolean addConstant(ConstantOperand c) {
+		return constants.add(c);
+	}
 
-    /**
-     * @param c
-     * @return
-     * @see java.util.Set#addAll(java.util.Collection)
-     */
-    public boolean addAllConstants(Collection<? extends ConstantOperand> c) {
-        return constants.addAll(c);
-    }
+	/**
+	 * Add a list of constants to this model
+	 * 
+	 * @param c
+	 *            A collection of constants
+	 * @return <tt>true</tt> if this collection changed as a result of the call
+	 * 
+	 * @see java.util.Set#addAll(java.util.Collection)
+	 */
+	public boolean addAllConstants(Collection<? extends ConstantOperand> c) {
+		return constants.addAll(c);
+	}
 
-    /**
-     * @return the operations
-     */
-    public Collection<Operation> getOperations() {
-        return Collections.unmodifiableCollection(operations);
-    }
+	/**
+	 * Get
+	 * 
+	 * @return the operations
+	 */
+	public Collection<Operation> getOperations() {
+		return Collections.unmodifiableCollection(operations);
+	}
 
-    
-    /**
-     * @param e
-     * @return
-     * @see java.util.Deque#add(java.lang.Object)
-     */
-    public boolean addOperation(Operation e) {
-        return operations.add(e);
-    }
+	/**
+	 * Add a operation to this model
+	 * 
+	 * @param o
+	 *            A operation to add
+	 * @return {@code true} (as specified by {@link Collection#add})
+	 * 
+	 * @see java.util.Deque#add(java.lang.Object)
+	 */
+	public boolean addOperation(Operation o) {
+		return operations.add(o);
+	}
 
-    /**
-     * @param c
-     * @return
-     * @see java.util.Collection#addAll(java.util.Collection)
-     */
-    public boolean addAllOperations(Collection<? extends Operation> c) {
-        return operations.addAll(c);
-    }
+	/**
+	 * A 'list' of operations to add
+	 * 
+	 * @param c
+	 *            The 'list'
+	 * @return <tt>true</tt> if this collection changed as a result of the call
+	 * 
+	 * @see java.util.Collection#addAll(java.util.Collection)
+	 */
+	public boolean addAllOperations(Collection<? extends Operation> c) {
+		return operations.addAll(c);
+	}
 
-    /**
-     * @return the inputs
-     */
-    public Collection<InputOperand> getInputs() {
-        return Collections.unmodifiableCollection(inputs);
-    }
+	/**
+	 * Get
+	 * 
+	 * @return the inputs
+	 */
+	public Collection<InputOperand> getInputs() {
+		return Collections.unmodifiableCollection(inputs);
+	}
 
-    /**
-     * @param e
-     * @return
-     * @see java.util.Set#add(java.lang.Object)
-     */
-    public boolean addInput(InputOperand e) {
-        return inputs.add(e);
-    }
+	/**
+	 * Add a input to this model
+	 * 
+	 * @param e
+	 *            The input
+	 * @return <tt>true</tt> if this collection changed as a result of the call
+	 * 
+	 * @see java.util.Set#add(java.lang.Object)
+	 */
+	public boolean addInput(InputOperand e) {
+		return inputs.add(e);
+	}
 
-    /**
-     * @param c
-     * @return
-     * @see java.util.Set#addAll(java.util.Collection)
-     */
-    public boolean addAllInputs(Collection<? extends InputOperand> c) {
-        return inputs.addAll(c);
-    }
+	/**
+	 * A 'list' of inputs to add
+	 * 
+	 * @param c
+	 *            The 'list'
+	 * @return <tt>true</tt> if this collection changed as a result of the call
+	 * 
+	 * @see java.util.Set#addAll(java.util.Collection)
+	 */
+	public boolean addAllInputs(Collection<? extends InputOperand> c) {
+		return inputs.addAll(c);
+	}
 
-    /**
-     * @return the formula
-     */
-    public Formula getFormula() {
-        return formula;
-    }
+	/**
+	 * Get
+	 * 
+	 * @return the formula
+	 */
+	public Formula getFormula() {
+		return formula;
+	}
 
-    /**
-     * @param formula the formula to set
-     */
-    public void setFormula(Formula formula) {
-        this.formula = formula;
-    }
-    
-    /**
-     * 
-     * @return
-     */
-    public Operation getLastOperation() {
-    	return operations.getLast();
-    }
+	/**
+	 * Set
+	 * 
+	 * @param formula
+	 *            the formula to set
+	 */
+	public void setFormula(Formula formula) {
+		this.formula = formula;
+	}
+
+	/**
+	 * Get
+	 * 
+	 * @return The last operation
+	 */
+	public Operation getLastOperation() {
+		return operations.getLast();
+	}
 }

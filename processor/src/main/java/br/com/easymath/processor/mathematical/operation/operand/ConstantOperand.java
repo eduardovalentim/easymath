@@ -3,14 +3,16 @@ package br.com.easymath.processor.mathematical.operation.operand;
 import java.math.BigDecimal;
 
 /**
+ * The constant operand
+ * 
  * @author eduardo.valentim
  */
 public class ConstantOperand extends AbstractOperand {
 
     /**
-     * 
-     * @param type
-     * @param value
+     * Public constructor
+     * @param type The type
+     * @param value The value
      */
     public ConstantOperand(String type, String value) {
         super(formatId(type, value), type, value);

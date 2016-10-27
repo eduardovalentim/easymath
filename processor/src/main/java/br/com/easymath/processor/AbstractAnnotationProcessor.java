@@ -21,12 +21,17 @@ import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * The abstract processor
+ * 
+ * @author eduardovalentim
+ */
 public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAnnotationProcessor.class);
 
 	public static final String ENCODING = "UTF-8";
-	
+
 	protected Filer filer;
 	protected Messager messager;
 	protected Types types;
@@ -38,6 +43,7 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 	public AbstractAnnotationProcessor() {
 		super();
 	}
+
 	/**
 	 * {@inheritDoc}
 	 */
@@ -45,7 +51,7 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 	public SourceVersion getSupportedSourceVersion() {
 		LOGGER.trace("Entering... ");
 		SourceVersion sv = SourceVersion.latestSupported();
-		
+
 		LOGGER.trace("Exiting... ");
 		return sv;
 	}
@@ -56,19 +62,19 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 	@Override
 	public synchronized void init(ProcessingEnvironment processingEnv) {
 		LOGGER.trace("Entering...  ");
-		
+
 		super.init(processingEnv);
 
 		Velocity.init(getVelocityProperties());
 
 		types = processingEnv.getTypeUtils();
-	    elements = processingEnv.getElementUtils();
+		elements = processingEnv.getElementUtils();
 		filer = processingEnv.getFiler();
 		messager = processingEnv.getMessager();
-		
+
 		LOGGER.trace("Exiting...  ");
 	}
-	
+
 	protected void generate(CharSequence name, Template template, VelocityContext context) {
 		LOGGER.trace("Entering...");
 		try {
@@ -83,14 +89,14 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 		}
 		LOGGER.trace("Exiting...");
 	}
-	
+
 	private Properties getVelocityProperties() {
 		LOGGER.trace("Entering...");
-		
+
 		Properties properties = new Properties();
 		properties.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
 		properties.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
-		
+
 		LOGGER.trace("Exiting...");
 		return properties;
 	}

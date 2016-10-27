@@ -5,6 +5,8 @@ import java.util.Deque;
 import br.com.easymath.processor.mathematical.operation.operand.Operand;
 
 /**
+ * A abstract operation definition to be specialized
+ *  
  * @author eduardo.valentim
  */
 public abstract class AbstractOperation implements Operation {
@@ -15,11 +17,12 @@ public abstract class AbstractOperation implements Operation {
     private String text;
 
     /**
+     * Public constructor
      * 
-     * @param id
-     * @param operator
-     * @param type
-     * @param text
+     * @param id The id
+     * @param operator The operator
+     * @param type The type
+     * @param text The text
      */
     public AbstractOperation(String id, String operator, String type, String text) {
         super();
@@ -29,6 +32,10 @@ public abstract class AbstractOperation implements Operation {
         this.text = text;
     }
 
+    /**
+     * The list of operands for this operation
+     * @return
+     */
     public abstract Deque<Operand> getOperands();
     
     /**
