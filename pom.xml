@@ -151,6 +151,7 @@
 								<phase>deploy</phase>
 								<goals>
 									<goal>deploy</goal>
+									<goal>close</goal>
 								</goals>
 							</execution>
 						</executions>
