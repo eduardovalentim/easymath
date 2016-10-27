@@ -11,7 +11,6 @@ import javax.annotation.Generated;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import br.com.easymath.FunctionCatalog;
-import br.com.easymath.logging.ResolutionLogSupplier;
 import br.com.easymath.functions.CoreFunctionCatalog;
 
 @Generated("$generator")
@@ -44,7 +43,9 @@ public class $classname extends $superclass {
 #foreach( $function in ${functions} )
 
     /**
-     * Formula: ${function.name}=${function.formula.value()}
+     * The implementation of the formula: ${function.formula.value()}
+     * @param inputs The inputs for calculation
+     * @return the result of the calculation
      */
     @Override
     public ${function.type} ${utils.uncapitalize($function.name)}(Number... inputs) {
@@ -65,7 +66,9 @@ public class $classname extends $superclass {
     }
 
     /**
-     * Formula: ${function.name}=${function.formula.value()}
+     * The implementation of the formula: ${function.formula.value()}
+     #javadoc( ${function.inputs} )
+     * @return the result of the calculation
      */
     public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.type} ${function.inputs} )) {
 		#if( ${function.inputs.empty} )
@@ -92,6 +95,14 @@ public class $classname extends $superclass {
     }
 #end
 }
+## ----------------------------------------------------------------------------
+## javadoc
+## ----------------------------------------------------------------------------
+#macro( javadoc $inputs )
+  #foreach( $input in ${inputs} )
+    * @param ${input.id} The ${input.id} input
+  #end
+#end
 ## ----------------------------------------------------------------------------
 ## arguments
 ## ----------------------------------------------------------------------------

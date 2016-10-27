@@ -4,21 +4,26 @@ import java.math.BigDecimal;
 
 import br.com.easymath.annotations.Formula;
 
+/**
+ * Test class
+ * @author eduardovalentim
+ *
+ */
 public abstract class Trigonometry {
 
-    /**
-     * 
-     * @param args
-     * @return
-     */
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
 	@Formula("sin(alpha + beta)")
 	public abstract BigDecimal sinAB(Number... args);
 
-    /**
-     * 
-     * @param args
-     * @return
-     */
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
 	@Formula("sin(alpha) * cos(beta) + sin(beta) * cos(alpha)")
 	public abstract double sinABExpansion(Number... args);
 }
