@@ -21,13 +21,13 @@ expression
 
     
 Identifier
-    :   Letter+
+    :   Letter (Letter | Digit)*
     ;
 
 Number
-    :   Digit (DOT Digit)*
+    :   Digit + (DOT Digit +)?
     ;
-    
+
 fragment
 Letter
     :   [a-zA-Z_]
@@ -37,7 +37,7 @@ fragment
 Digit
     :   '0'..'9'
     ;
-
+   
 LPAREN          : '(';
 RPAREN          : ')';
 LBRACE          : '{';
