@@ -58,7 +58,7 @@ public interface Function<T> {
 	/**
 	 * Define the name of the function to be used in the catalog
 	 * 
-	 * @return The name of this functino to register in a catalog
+	 * @return The name of this function to register in a catalog
 	 */
     public String name();
     
