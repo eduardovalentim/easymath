@@ -2,9 +2,12 @@ package com.github.eduardovalentim.easymath.utils;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
+import java.text.Collator;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 /**
@@ -14,83 +17,101 @@ import java.util.Map;
  */
 public class ClassUtils {
 
-    @SuppressWarnings("serial")
-    private static final Map<Class<?>, Class<?>> NUMBERS = new HashMap<Class<?>, Class<?>>() {{
-        put(byte.class, Byte.class);
-        put(int.class, Integer.class);
-        put(long.class, Long.class);
-        put(float.class, Float.class);
-        put(double.class, Double.class);
-    }};
-    
-    /**
-     * Check if the argument <code>s</code> is a valid java identifier
-     * 
-     * @param s A possible identifier to validate
-     * @return True if <code>s</code> is valid
-     */
-    public static boolean isValidJavaIdentifier(String s) {
-        // an empty or null string cannot be a valid identifier
-        if (s == null || s.length() == 0) {
-            return false;
-        }
+	static final Collator englishCollator = Collator.getInstance(Locale.ENGLISH);
 
-        char[] c = s.toCharArray();
-        if (!Character.isJavaIdentifierStart(c[0])) {
-            return false;
-        }
+	static final String keywords[] = { "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+			"class", "const", "continue", "default", "do", "double", "else", "extends", "false", "final", "finally",
+			"float", "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long", "native",
+			"new", "null", "package", "private", "protected", "public", "return", "short", "static", "strictfp",
+			"super", "switch", "synchronized", "this", "throw", "throws", "transient", "true", "try", "void",
+			"volatile", "while" };
 
-        for (int i = 1; i < c.length; i++) {
-            if (!Character.isJavaIdentifierPart(c[i])) {
-                return false;
-            }
-        }
+	@SuppressWarnings("serial")
+	private static final Map<Class<?>, Class<?>> NUMBERS = new HashMap<Class<?>, Class<?>>() {
+		{
+			put(short.class, Short.class);
+			put(byte.class, Byte.class);
+			put(int.class, Integer.class);
+			put(long.class, Long.class);
+			put(float.class, Float.class);
+			put(double.class, Double.class);
+		}
+	};
 
-        return true;
-    }
+	/**
+	 * Check if the argument <code>s</code> is a valid java identifier
+	 * 
+	 * @param s
+	 *            A possible identifier to validate
+	 * @return True if <code>s</code> is valid
+	 */
+	public static boolean isValidJavaIdentifier(String s) {
+		// an empty or null string cannot be a valid identifier
+		if (s == null || s.length() == 0 || isJavaKeyword(s)) {
+			return false;
+		}
 
-    /**
-     * Numeric methods are methods that receive and return Numbers
-     * 
-     * @param klass A class to be analyzed
-     * @return A list of methods
-     */
-    public static List<Method> getNumericMethods(Class<?> klass) {
-        if (klass == null) {
-            throw new IllegalArgumentException("Argument 'klass' cannot be null.");
-        }
-        
-        List<Method> methods = new LinkedList<>();
-        
-        for (Method method : klass.getMethods()) {
-            boolean supported = false;
-            // if the return is a number
-            if (Number.class.isAssignableFrom(adapt(method.getReturnType())) ) {
+		char[] c = s.toCharArray();
+		if (!Character.isJavaIdentifierStart(c[0])) {
+			return false;
+		}
 
-                // Check if all parameters are Numbers
-                for (Parameter parameter : method.getParameters()) {
-                    supported = Number.class.isAssignableFrom(adapt(parameter.getType())); 
-                    if (!supported) {
-                        break;
-                    }
-                }
-            }
-            
-            if (supported) {
-                methods.add(method);
-            }
-        }
-        
-        return methods;
-    }
+		for (int i = 1; i < c.length; i++) {
+			if (!Character.isJavaIdentifierPart(c[i])) {
+				return false;
+			}
+		}
 
-    private static Class<?> adapt(Class<?> type) {
-        Class<?> wrapper = NUMBERS.get(type);
-        
-        if (wrapper == null) {
-            wrapper = type;
-        }
-        
-        return wrapper; 
-    }
+		return true;
+	}
+
+	/**
+	 * Numeric methods are methods that receive and return Numbers
+	 * 
+	 * @param klass
+	 *            A class to be analyzed
+	 * @return A list of methods
+	 */
+	public static List<Method> getNumericMethods(Class<?> klass) {
+		if (klass == null) {
+			throw new IllegalArgumentException("Argument 'klass' cannot be null.");
+		}
+
+		List<Method> methods = new LinkedList<>();
+
+		for (Method method : klass.getMethods()) {
+			boolean supported = false;
+			// if the return is a number
+			if (Number.class.isAssignableFrom(adapt(method.getReturnType()))) {
+
+				// Check if all parameters are Numbers
+				for (Parameter parameter : method.getParameters()) {
+					supported = Number.class.isAssignableFrom(adapt(parameter.getType()));
+					if (!supported) {
+						break;
+					}
+				}
+			}
+
+			if (supported) {
+				methods.add(method);
+			}
+		}
+
+		return methods;
+	}
+
+	private static Class<?> adapt(Class<?> type) {
+		Class<?> wrapper = NUMBERS.get(type);
+
+		if (wrapper == null) {
+			wrapper = type;
+		}
+
+		return wrapper;
+	}
+
+	private static boolean isJavaKeyword(String keyword) {
+		return (Arrays.binarySearch(keywords, keyword, englishCollator) >= 0);
+	}
 }
