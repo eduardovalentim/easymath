@@ -4,9 +4,13 @@
 
 EasyMath is a Java compile time library based on APT (Annotation Processing Tool), ANTLR (Another Tool For Language Recognition) and Apache Velocity created to parse a mathematical formula and generate the calculation necessary to process the inputs and return the result.
 
-### More info? ###
+### Examples? ###
 
-[Goto wiki](https://github.com/eduardovalentim/easymath/wiki)
+[Goto](https://github.com/eduardovalentim/easymath/wiki/Examples)
+
+### Wiki? ###
+
+[Goto](https://github.com/eduardovalentim/easymath/wiki)
 
 ### Licensing ###
 
