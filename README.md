@@ -1,14 +1,10 @@
 # EASYMATH #
 
-This README would normally document whatever steps are necessary to get your application up and running.
-
 ### What is this repository for? ###
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+EasyMath is a Java compile time library based on APT (Annotation Processing Tool), ANTLR (Another Tool For Language Recognition) and Apache Velocity created to parse a mathematical formula and generate the calculation necessary to process the inputs and return the result.
 
-### How do I get set up? ###
+### More info? ###
 
 [Goto wiki](https://github.com/eduardovalentim/easymath/wiki)
 
