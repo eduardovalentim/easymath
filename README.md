@@ -6,11 +6,11 @@ EasyMath is a Java compile time library based on APT (Annotation Processing Tool
 
 ### Examples? ###
 
-[Goto](https://github.com/eduardovalentim/easymath/wiki/Examples)
+[Goto examples page](https://github.com/eduardovalentim/easymath/wiki/Examples)
 
 ### Wiki? ###
 
-[Goto](https://github.com/eduardovalentim/easymath/wiki)
+[Goto Wiki home page](https://github.com/eduardovalentim/easymath/wiki)
 
 ### Licensing ###
 
