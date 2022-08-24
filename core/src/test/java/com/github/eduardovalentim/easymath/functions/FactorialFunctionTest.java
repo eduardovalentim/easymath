@@ -3,10 +3,8 @@ package com.github.eduardovalentim.easymath.functions;
 import java.math.BigInteger;
 import java.math.MathContext;
 
-import org.junit.Assert;
-import org.junit.Test;
-
-import com.github.eduardovalentim.easymath.functions.FactorialFunction;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class FactorialFunctionTest {
 
@@ -19,7 +17,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, -6);
 		BigInteger expected = BigInteger.valueOf(-720L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -31,7 +29,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, -5);
 		BigInteger expected = BigInteger.valueOf(-120L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -43,7 +41,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, -4);
 		BigInteger expected = BigInteger.valueOf(-24L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -55,7 +53,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, -3);
 		BigInteger expected = BigInteger.valueOf(-6L);
 
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -67,7 +65,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, -2);
 		BigInteger expected = BigInteger.valueOf(-2L);
 
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -78,7 +76,7 @@ public class FactorialFunctionTest {
 		FactorialFunction factorial = new FactorialFunction();
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, -1);
 
-		Assert.assertTrue(BigInteger.ONE.negate().compareTo(actual) == 0);
+		Assertions.assertTrue(BigInteger.ONE.negate().compareTo(actual) == 0);
 	}
 
 	/**
@@ -89,7 +87,7 @@ public class FactorialFunctionTest {
 		FactorialFunction factorial = new FactorialFunction();
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 0);
 
-		Assert.assertTrue(BigInteger.ZERO.compareTo(actual) == 0);
+		Assertions.assertTrue(BigInteger.ZERO.compareTo(actual) == 0);
 	}
 
 	/**
@@ -100,7 +98,7 @@ public class FactorialFunctionTest {
 		FactorialFunction factorial = new FactorialFunction();
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 1);
 
-		Assert.assertTrue(BigInteger.ONE.compareTo(actual) == 0);
+		Assertions.assertTrue(BigInteger.ONE.compareTo(actual) == 0);
 	}
 
 	/**
@@ -112,7 +110,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 2);
 		BigInteger expected = BigInteger.valueOf(2L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -124,7 +122,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 3);
 		BigInteger expected = BigInteger.valueOf(6L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -136,7 +134,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 4);
 		BigInteger expected = BigInteger.valueOf(24L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -148,7 +146,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 5);
 		BigInteger expected = BigInteger.valueOf(120L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -160,7 +158,7 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 6);
 		BigInteger expected = BigInteger.valueOf(720L);
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 
 	/**
@@ -172,6 +170,6 @@ public class FactorialFunctionTest {
 		BigInteger actual = factorial.perform(MathContext.DECIMAL32, 127);
 		BigInteger expected = new BigInteger("3012660018457659544809977077527059692324164918673621799053346900596667207618480809067860692097713761984609779945772783965563851033300772326297773087851869982500270661791244122597621760000000000000000000000000000000");
 		
-		Assert.assertTrue(expected.compareTo(actual) == 0);
+		Assertions.assertTrue(expected.compareTo(actual) == 0);
 	}
 }

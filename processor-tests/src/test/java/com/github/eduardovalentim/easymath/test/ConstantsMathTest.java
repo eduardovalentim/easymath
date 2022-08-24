@@ -2,8 +2,8 @@ package com.github.eduardovalentim.easymath.test;
 
 import java.math.BigDecimal;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class ConstantsMathTest {
 
@@ -14,7 +14,7 @@ public class ConstantsMathTest {
 		BigDecimal actual = constants.adding();
 		BigDecimal expected = constants.addingExpansion();
 		
-		Assert.assertTrue(actual.compareTo(expected) == 0);
+		Assertions.assertTrue(actual.compareTo(expected) == 0);
 	}
 
 	@Test
@@ -24,6 +24,6 @@ public class ConstantsMathTest {
 		BigDecimal actual = constants.subtracting();
 		BigDecimal expected = constants.subtractingExpansion();
 		
-		Assert.assertTrue(actual.compareTo(expected) == 0);
+		Assertions.assertTrue(actual.compareTo(expected) == 0);
 	}
 }

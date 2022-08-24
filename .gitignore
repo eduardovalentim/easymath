@@ -1,4 +1,5 @@
 /.project
+/.settings
 /pom.xml.releaseBackup
 /release.properties
 /maven-central-deploy.log

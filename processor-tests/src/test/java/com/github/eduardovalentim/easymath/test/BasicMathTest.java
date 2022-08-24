@@ -2,8 +2,8 @@ package com.github.eduardovalentim.easymath.test;
 
 import java.math.BigDecimal;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class BasicMathTest {
 
@@ -13,7 +13,7 @@ public class BasicMathTest {
 		
 		double actual = basic.add(1, BigDecimal.TEN);
 		
-		Assert.assertTrue(Double.valueOf(11).compareTo(actual) == 0);
+		Assertions.assertTrue(Double.valueOf(11).compareTo(actual) == 0);
 	}
 
 	@Test
@@ -22,7 +22,7 @@ public class BasicMathTest {
 		
 		double actual = basic.add(1d, 10d);
 		
-		Assert.assertTrue(Double.valueOf(11).compareTo(actual) == 0);
+		Assertions.assertTrue(Double.valueOf(11).compareTo(actual) == 0);
 	}
 
 	@Test
@@ -31,7 +31,7 @@ public class BasicMathTest {
 		
 		double actual = basic.subtract(1, BigDecimal.ONE);
 		
-		Assert.assertTrue(Double.valueOf(0).compareTo(actual) == 0);
+		Assertions.assertTrue(Double.valueOf(0).compareTo(actual) == 0);
 	}
 
 	@Test
@@ -40,7 +40,7 @@ public class BasicMathTest {
 		
 		double actual = basic.subtract(1d, 1d);
 		
-		Assert.assertTrue(Double.valueOf(0).compareTo(actual) == 0);
+		Assertions.assertTrue(Double.valueOf(0).compareTo(actual) == 0);
 	}
 
 	@Test
@@ -49,7 +49,7 @@ public class BasicMathTest {
 		
 		BigDecimal actual = basic.divide(10d, 3l);
 		
-		Assert.assertTrue(new BigDecimal("3.333333").compareTo(actual) == 0);
+		Assertions.assertTrue(new BigDecimal("3.333333").compareTo(actual) == 0);
 	}
 
 	@Test
@@ -58,7 +58,7 @@ public class BasicMathTest {
 		
 		BigDecimal actual = basic.divide(BigDecimal.TEN, new BigDecimal("3"));
 		
-		Assert.assertTrue(new BigDecimal("3.333333").compareTo(actual) == 0);
+		Assertions.assertTrue(new BigDecimal("3.333333").compareTo(actual) == 0);
 	}
 
 	@Test
@@ -67,7 +67,7 @@ public class BasicMathTest {
 		
 		BigDecimal actual = basic.mutiply(5l, 2.5d);
 		
-		Assert.assertTrue(new BigDecimal("12.5").compareTo(actual) == 0);
+		Assertions.assertTrue(new BigDecimal("12.5").compareTo(actual) == 0);
 	}
 
 	@Test
@@ -76,7 +76,7 @@ public class BasicMathTest {
 		
 		BigDecimal actual = basic.mutiply(new BigDecimal("5"), new BigDecimal("2.5"));
 		
-		Assert.assertTrue(new BigDecimal("12.5").compareTo(actual) == 0);
+		Assertions.assertTrue(new BigDecimal("12.5").compareTo(actual) == 0);
 	}
 
 }

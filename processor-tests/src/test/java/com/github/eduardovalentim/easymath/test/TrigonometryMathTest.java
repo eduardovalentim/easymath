@@ -2,8 +2,8 @@ package com.github.eduardovalentim.easymath.test;
 
 import java.math.BigDecimal;
 
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import com.github.eduardovalentim.easymath.FunctionCatalog;
 import com.github.eduardovalentim.easymath.test.functions.CosFunction;
@@ -20,7 +20,7 @@ public class TrigonometryMathTest {
 		BigDecimal actual = trigonometry.sinAB(45, 70);
 		double expected = trigonometry.sinABExpansion(45d, 70d);
 		
-		Assert.assertEquals(expected, actual.doubleValue(), 0.001);
+		Assertions.assertEquals(expected, actual.doubleValue(), 0.001);
 	}
 
 }

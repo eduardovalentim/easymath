@@ -2,7 +2,7 @@ package com.github.eduardovalentim.easymath.processor.mathematical.utils;
 
 import java.util.Collection;
 
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import com.github.eduardovalentim.easymath.processor.mathematical.operation.operand.InputOperand;
 
