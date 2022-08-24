@@ -2,7 +2,7 @@
 
 ### What is this repository for? ###
 
-EasyMath is a Java compile time library based on APT (Annotation Processing Tool), ANTLR (Another Tool For Language Recognition) and Apache Velocity created to parse a mathematical formula and generate the calculation necessary to process the inputs and return the result.
+EasyMath is a library that generates Java code based on annotations and mathematical expressions to boost your coding speed using APT (Annotation Processing Tool), ANTLR (Another Tool For Language Recognition), and Apache Velocity.
 
 ### Examples? ###
 
