@@ -14,9 +14,9 @@ EasyMath is a Java compile time library based on APT (Annotation Processing Tool
 
 ### Licensing ###
 
-This software is licensed under the terms of BSD-like license.
+This software is licensed under the terms of Apache License, Version 2.0, January 2004.
 A copy of the licensing terms is in the file _LICENSE.md_.
-You can get the original BSD License template at http://opensource.org/.
+You can get the original Apache License, Version 2.0 template at https://www.apache.org/licenses/LICENSE-2.0
 
 ### Build Status ###
 
