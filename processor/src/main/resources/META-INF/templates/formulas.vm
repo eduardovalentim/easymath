@@ -8,8 +8,11 @@ import java.math.RoundingMode;
 
 import javax.annotation.Generated;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.MessageFactory;
+import org.apache.logging.log4j.message.MessageFormatMessageFactory;
+
 import com.github.eduardovalentim.easymath.FunctionCatalog;
 import com.github.eduardovalentim.easymath.functions.CoreFunctionCatalog;
 
@@ -17,7 +20,8 @@ import com.github.eduardovalentim.easymath.functions.CoreFunctionCatalog;
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
 public class $classname extends $superclass {
 
-	private static Logger logger = LoggerFactory.getLogger(${classname}.class);
+	private static MessageFactory factory = new MessageFormatMessageFactory();
+	private static Logger logger = LogManager.getLogger(${classname}.class, factory);
 
 	#foreach( $constant in ${constants} )
 	  #declareConstant( $constant )
@@ -72,9 +76,9 @@ public class $classname extends $superclass {
      */
     public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.type} ${function.inputs} )) {
 		#if( ${function.inputs.empty} )
-		  logger.trace("Entering...");
+		  logger.debug("Resolving...");
 		#else
-		  logger.trace("Entering with arguments: {}", new Object[] {#arguments( ${function.inputs} )});
+		  logger.debug("Resolving expression ${function.formula.value()} with ${format.inputs($function.formula.value(), $function.inputs, $function.precision)}", #arguments( ${function.inputs} ));
 		#end
         #check( $function )
         /*
@@ -90,7 +94,7 @@ public class $classname extends $superclass {
         /*
          * Result
          */        
-        logger.trace("Exiting...");
+        logger.debug("Returning {0} as the result! For more details, enable the TRACE Level in your log subsystem.", ${function.lastOperation.id});
         return ${function.lastOperation.id};
     }
 #end
@@ -172,11 +176,11 @@ public class $classname extends $superclass {
 ## ----------------------------------------------------------------------------
 #macro( declareOperation $function $operation )
   #if( ${operation.class.simpleName} == "UnaryOperation" )
-    #declareUnary( $operation )
+    #declareUnary( $function $operation )
   #elseif( ${operation.class.simpleName} == "BinaryOperation" )
-    #declareBinary( $operation )
+    #declareBinary( $function $operation )
   #elseif( ${operation.class.simpleName} == "FunctionOperation" )
-    #declareFunction( $operation )
+    #declareFunction( $function $operation )
   #else
     Operation not supported!!!!!
   #end
@@ -184,7 +188,7 @@ public class $classname extends $superclass {
 ## ----------------------------------------------------------------------------
 ## declareUnary
 ## ----------------------------------------------------------------------------
-#macro( declareUnary $operation )
+#macro( declareUnary $function $operation )
   #if( ${operation.type} == "double" || ${operation.type} == "java.lang.Double")
     #if( ${operation.operator} == '!' )
       ${operation.type} ${operation.id} = toDouble(catalog.solve("fat", mc,  ${operation.operand.id}), 0);
@@ -204,7 +208,7 @@ public class $classname extends $superclass {
 ## ----------------------------------------------------------------------------
 ## declareBinary
 ## ----------------------------------------------------------------------------
-#macro( declareBinary $operation )
+#macro( declareBinary $function $operation )
   #if( ${operation.type} == "double" || ${operation.type} == "java.lang.Double")
     #if( ${operation.operator} == '^' )
       ${operation.type} ${operation.id} = toDouble(catalog.solve("pow", mc, ${operation.leftOperand.id}, ${operation.rightOperand.id}), 0);
@@ -238,11 +242,12 @@ public class $classname extends $superclass {
       Operator '${operation.operator}' not found!!!!!!
     #end
   #end
+      logger.trace("Resolving operation ${operation.text} with {0} {1} {2} = {3}", ${operation.leftOperand.id}, "${operation.operator}", ${operation.rightOperand.id}, ${operation.id});
 #end
 ## ----------------------------------------------------------------------------
 ## declareFunction
 ## ----------------------------------------------------------------------------
-#macro( declareFunction $operation )
+#macro( declareFunction $function $operation )
     #if( ${function.type} == "double" || ${function.type} == "java.lang.Double")
       ${operation.type} ${operation.id} = toDouble(catalog.solve("${operation.name}", mc, #arguments( ${operation.operands} )), 0);
     #elseif( ${function.type} == "java.math.BigDecimal" )

@@ -58,4 +58,12 @@ public abstract class Algebra {
 	 */
 	@Formula("(a + b) * ((a ^ 2) - (a * b) + (b ^ 2))")
 	public abstract BigDecimal cubesSumExpansion(Number... args);
+	
+	/**
+	 * 
+	 * @param args
+	 * @return
+	 */
+	@Formula("(b ^ 2) - (4 * a * c)")
+	public abstract double quadraticEquation(Number... args);
 }

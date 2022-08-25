@@ -4,7 +4,8 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.Collection;
 
-import org.antlr.v4.runtime.ANTLRInputStream;
+import org.antlr.v4.runtime.CharStreams;
+import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
@@ -98,16 +99,16 @@ public class FunctionModelBuilder {
 	 * @return A new FunctionModel
      */
     public FunctionModel build() {
-        requireNonNull(methodName);
-        requireNonNull(type);
-        requireNonNull(formula);
-        requireNonNull(constants);
+        requireNonNull(methodName, "methodName cannot be null");
+        requireNonNull(type, "type cannot be null");
+        requireNonNull(formula, "formula cannot be null");
+        requireNonNull(constants, "constants cannot be null");
         
         GrammarTreeVisitor visitor = new GrammarTreeVisitor(type);
         /*
          * create a CharStream that reads from standard input
          */
-        ANTLRInputStream input = new ANTLRInputStream(formula.value());
+        CodePointCharStream input = CharStreams.fromString(formula.value());
         /*
          * create a lexer that feeds off of input CharStream
          */

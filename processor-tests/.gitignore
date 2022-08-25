@@ -1,6 +1,7 @@
-/.settings/
-/target/
-/.classpath
-/.project
 /bin/
+/target/
+/.settings/
+/.project
+/.classpath
+/.factorypath
 /pom.xml.releaseBackup

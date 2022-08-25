@@ -13,6 +13,15 @@ import com.github.eduardovalentim.easymath.processor.mathematical.operation.oper
  */
 public class FormatUtils {
 
+	public static final FormatUtils INSTANCE = new FormatUtils();
+	
+	/**
+	 * Constructor
+	 */
+	private FormatUtils() {
+		super();
+	}
+	
 	/**
 	 * Format formula inputs
 	 * 
@@ -21,7 +30,7 @@ public class FormatUtils {
 	 * @param precision The precision
 	 * @return The inputs formated
 	 */
-    public static String formatFormulaInputs(String formula, Collection<InputOperand> inputs, int precision) {
+    public String inputs(String formula, Collection<InputOperand> inputs, int precision) {
         if (formula == null) {
             throw new IllegalStateException("Argument 'formula' cannot be null.");
         }
@@ -32,19 +41,19 @@ public class FormatUtils {
             throw new IllegalStateException("Argument 'precision' cannot be less than zero.");
         }
 
-        StringBuilder buffer = new StringBuilder();
+        StringBuilder builder = new StringBuilder();
 
         if (!inputs.isEmpty()) {
             int index = 0;
             String template = formula;
             for (InputOperand input : inputs) {
-                template = StringUtils.replace(template, input.getValue(), "%" + ++index + "$." + precision + "f");
+                template = StringUtils.replace(template, input.getValue(), "{" + index++ + "}");
             }
             
-            buffer.append(template);
+            builder.append(template);
         }
 
-        return buffer.toString();
+        return builder.toString();
     }
 
     /**
@@ -55,7 +64,7 @@ public class FormatUtils {
      * @param precision The precision
      * @return The operations formated
      */
-    public static String formatFormulaOperation(String formula, String operation, int precision) {
+    public String operation(String formula, String operation, int precision) {
         if (formula == null) {
             throw new IllegalStateException("Argument 'formula' cannot be null.");
         }

@@ -31,6 +31,7 @@ import com.github.eduardovalentim.easymath.processor.AbstractAnnotationProcessor
 import com.github.eduardovalentim.easymath.processor.mathematical.grammar.FunctionModel;
 import com.github.eduardovalentim.easymath.processor.mathematical.grammar.FunctionModelBuilder;
 import com.github.eduardovalentim.easymath.processor.mathematical.operation.operand.ConstantOperand;
+import com.github.eduardovalentim.easymath.processor.mathematical.utils.FormatUtils;
 import com.github.eduardovalentim.easymath.processor.mathematical.utils.ReflectionUtils;
 
 /**
@@ -112,6 +113,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 			context.put("classname", classElement.getSimpleName() + SUFFIX);
 			context.put("constants", constants);
 			context.put("functions", functions);
+			context.put("format", FormatUtils.INSTANCE);
 
 			generate(classElement.toString() + SUFFIX, template, context);
 		}
