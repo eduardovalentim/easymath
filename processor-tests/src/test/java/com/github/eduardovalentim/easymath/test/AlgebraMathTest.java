@@ -1,7 +1,6 @@
 package com.github.eduardovalentim.easymath.test;
 
 import java.math.BigDecimal;
-import java.text.MessageFormat;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -45,11 +44,5 @@ public class AlgebraMathTest {
 		double actual = algebra.quadraticEquation(10D, 20D, 30D);
 
 		Assertions.assertEquals(-2300.0, actual, 0.001);
-	}
-
-	@Test
-	public void testLoggerFormat() {
-		String msg = MessageFormat.format("Entering with arguments ({0, number} ^ 2) - ({1, number} ^ 2)", 11.1D, 12.2F);
-		System.out.println(msg);
 	}
 }

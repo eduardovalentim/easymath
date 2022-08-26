@@ -3,6 +3,7 @@ package com.github.eduardovalentim.easymath;
 import static java.text.MessageFormat.format;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
 
 /**
  * Utilities to handle numbers
@@ -12,6 +13,9 @@ import java.math.BigDecimal;
 public class Numbers {
 
 	private static final String EXCEPTION_MESSAGE_TEMPLATE = "Argument ''inputs[{0}]'' cannot be null.";
+
+    /** Positive zero. */
+    private static final double POSITIVE_ZERO = 0d;
 
 	/**
 	 * Convert any number to a BigDecimal
@@ -60,4 +64,39 @@ public class Numbers {
 
 		return number.doubleValue();
 	}
+	
+	/**
+	 * Code extracted from Apache Commons Math 3, Precision class, round method
+	 * 
+	 * @param x
+	 * @param mc
+	 * @return
+	 */
+    public static double round(double x, MathContext mc) {    	
+		/*
+		 * Method protection block
+		 */
+		if (mc == null)
+			throw new IllegalArgumentException("'mc' argument cannot be null.");
+
+    	double rounded = 0.0d;
+		try {
+            rounded = new BigDecimal(Double.toString(x), mc)
+            		.setScale(mc.getPrecision(), mc.getRoundingMode())
+            		.doubleValue();
+            
+            // MATH-1089: negative values rounded to zero should result in negative zero
+            if (rounded == POSITIVE_ZERO ) {
+            	rounded = POSITIVE_ZERO * x;
+            }
+        } catch (NumberFormatException ex) {
+            if (Double.isInfinite(x)) {
+            	rounded = x;
+            } else {
+            	rounded = Double.NaN;
+            }
+        }
+		
+		return rounded;
+    }
 }

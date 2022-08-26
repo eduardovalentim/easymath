@@ -41,5 +41,68 @@ public abstract class Basic {
 	 */
 	@Formula("a * b")
 	public abstract BigDecimal mutiply(Number... args);
+	
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 1)
+	public abstract Double mutiplyPrecision1(Number... args);
 
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 2)
+	public abstract Double mutiplyPrecision2(Number... args);
+
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 3)
+	public abstract Double mutiplyPrecision3(Number... args);
+
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 4)
+	public abstract Double mutiplyPrecision4(Number... args);
+
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 5)
+	public abstract Double mutiplyPrecision5(Number... args);
+
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 6)
+	public abstract Double mutiplyPrecision6(Number... args);
+
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 7)
+	public abstract Double mutiplyPrecision7(Number... args);
+
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
+	@Formula( value = "a * b", precision = 8)
+	public abstract Double mutiplyPrecision8(Number... args);
 }

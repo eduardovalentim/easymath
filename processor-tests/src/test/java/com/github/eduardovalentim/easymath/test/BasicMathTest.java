@@ -79,4 +79,75 @@ public class BasicMathTest {
 		Assertions.assertTrue(new BigDecimal("12.5").compareTo(actual) == 0);
 	}
 
+	@Test
+	public void testMutiplyPrecision1() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision1(0.1d, 0.2d);
+		
+		Assertions.assertTrue(Double.valueOf(0.0).compareTo(actual) == 0);
+	}
+
+	@Test
+	public void testMutiplyPrecision2() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision2(0.11d, 0.22d);
+		
+		Assertions.assertTrue(Double.valueOf(0.02).compareTo(actual) == 0);
+	}
+
+	@Test
+	public void testMutiplyPrecision3() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision3(0.111d, 0.222d);
+		
+		Assertions.assertTrue(Double.valueOf(0.025).compareTo(actual) == 0);
+	}
+
+	@Test
+	public void testMutiplyPrecision4() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision4(0.1111d, 0.2222d);
+		
+		Assertions.assertTrue(Double.valueOf(0.0247).compareTo(actual) == 0);
+	}
+
+	@Test
+	public void testMutiplyPrecision5() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision5(0.11111d, 0.22222d);
+		
+		Assertions.assertTrue(Double.valueOf(0.02469).compareTo(actual) == 0);
+	}
+
+	@Test
+	public void testMutiplyPrecision6() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision6(0.111111d, 0.222222d);
+		
+		Assertions.assertTrue(Double.valueOf(0.024691).compareTo(actual) == 0);
+	}
+
+	@Test
+	public void testMutiplyPrecision7() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision7(0.1111111d, 0.2222222d);
+		
+		Assertions.assertTrue(Double.valueOf(0.0246914).compareTo(actual) == 0);
+	}
+
+	@Test
+	public void testMutiplyPrecision8() {
+		BasicMath basic = new BasicMath();
+		
+		double actual = basic.mutiplyPrecision8(0.11111111d, 0.22222222d);
+		
+		Assertions.assertTrue(Double.valueOf(0.02469136).compareTo(actual) == 0);
+	}
 }

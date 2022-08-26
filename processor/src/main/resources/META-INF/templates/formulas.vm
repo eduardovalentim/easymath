@@ -78,7 +78,7 @@ public class $classname extends $superclass {
 		#if( ${function.inputs.empty} )
 		  logger.debug("Resolving...");
 		#else
-		  logger.debug("Resolving expression ${function.formula.value()} with ${format.inputs($function.formula.value(), $function.inputs, $function.precision)}", #arguments( ${function.inputs} ));
+		  logger.debug("Resolving expression ${function.formula.value()} with ${format.formula($function.formula.value(), $function.inputs, $function.precision)}", #arguments( ${function.inputs} ));
 		#end
         #check( $function )
         /*
@@ -91,10 +91,15 @@ public class $classname extends $superclass {
         #foreach( $operation in ${function.operations} )
           #declareOperation( $function $operation )
         #end
+        #if( ${function.type} == "double" || ${function.type} == "java.lang.Double")
+          // ensure the necessary precision
+          logger.trace("Rounding the result ${format.output(0, $function.precision)}", r0);
+		  ${function.lastOperation.id} = round(${function.lastOperation.id}, mc);
+		#end
         /*
          * Result
          */        
-        logger.debug("Returning {0} as the result! For more details, enable the TRACE Level in your log subsystem.", ${function.lastOperation.id});
+        logger.debug("Returning ${format.output(0, $function.precision, 0)} as the result!", ${function.lastOperation.id});
         return ${function.lastOperation.id};
     }
 #end
@@ -242,7 +247,7 @@ public class $classname extends $superclass {
       Operator '${operation.operator}' not found!!!!!!
     #end
   #end
-      logger.trace("Resolving operation ${operation.text} with {0} {1} {2} = {3}", ${operation.leftOperand.id}, "${operation.operator}", ${operation.rightOperand.id}, ${operation.id});
+  	  logger.trace("Resolving operation ${operation.text} with ${format.operation($operation.text, $operation, $function.precision)}", ${operation.leftOperand.id}, ${operation.rightOperand.id}, ${operation.id});
 #end
 ## ----------------------------------------------------------------------------
 ## declareFunction
