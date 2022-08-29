@@ -8,7 +8,7 @@ import com.github.eduardovalentim.easymath.annotations.Formula;
  * Test class
  * @author eduardo.valentim
  */
-public abstract class Basic {
+public interface Basic {
 
 	/**
 	 * Test

@@ -15,7 +15,7 @@ public class FunctionErrorListener extends BaseErrorListener implements ANTLRErr
 
 	private static final String NEW_LINE = System.getProperty("line.separator");
 
-	private String classname;
+	private String interfaceName;
 
 	private String functionName;
 
@@ -28,8 +28,8 @@ public class FunctionErrorListener extends BaseErrorListener implements ANTLRErr
 	 * @param functionName The function name
 	 * @param formula The formula
 	 */
-	public FunctionErrorListener(String classname, String functionName, String formula) {
-		this.classname = classname;
+	public FunctionErrorListener(String interfaceName, String functionName, String formula) {
+		this.interfaceName = interfaceName;
 		this.functionName = functionName;
 		this.formula = formula;
 	}
@@ -42,7 +42,7 @@ public class FunctionErrorListener extends BaseErrorListener implements ANTLRErr
 			String msg, RecognitionException ex) {
 
 		StringBuilder buffer = new StringBuilder();
-		buffer.append("Error compiling function in class ").append(classname).append(NEW_LINE);
+		buffer.append("Error compiling function in interface ").append(interfaceName).append(NEW_LINE);
 		buffer.append("Message: ").append(msg).append(NEW_LINE);
 		buffer.append(NEW_LINE);
 		buffer.append(functionName).append("=").append(formula).append(NEW_LINE);

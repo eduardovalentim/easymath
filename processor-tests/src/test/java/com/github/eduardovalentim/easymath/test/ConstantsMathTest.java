@@ -3,14 +3,20 @@ package com.github.eduardovalentim.easymath.test;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class ConstantsMathTest {
 
+	private Constants constants;
+	
+	@BeforeEach
+	void before() {
+		constants = new ConstantsImpl();
+	}
+
 	@Test
 	void testAdding() {
-		ConstantsMath constants = new ConstantsMath();
-
 		BigDecimal actual = constants.adding();
 		BigDecimal expected = constants.addingExpansion();
 
@@ -19,8 +25,6 @@ class ConstantsMathTest {
 
 	@Test
 	void testSubtracting() {
-		ConstantsMath constants = new ConstantsMath();
-
 		BigDecimal actual = constants.subtracting();
 		BigDecimal expected = constants.subtractingExpansion();
 

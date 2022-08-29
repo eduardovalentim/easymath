@@ -4,7 +4,7 @@ import java.math.BigDecimal;
 
 import com.github.eduardovalentim.easymath.annotations.Formula;
 
-public abstract class Constants {
+public interface Constants {
 
 	@Formula("2546 / 76.4567 + 36456 / 86755")
 	public abstract BigDecimal adding(Number... inputs);

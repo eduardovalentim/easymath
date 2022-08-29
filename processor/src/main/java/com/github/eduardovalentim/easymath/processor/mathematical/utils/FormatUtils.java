@@ -108,26 +108,30 @@ public class FormatUtils {
 		}
 
 		int index = 0;
+		StringBuilder builder = new StringBuilder();
 		if (operation instanceof UnaryOperation) {
-			text = output(index++, precision, plus);
+			builder.append(output(index++, precision, plus));
 		} else if (operation instanceof BinaryOperation) {
-			text = output(index++, precision, plus);
-			text += operation.getOperator();
-			text += output(index++, precision, plus);
-		} else if (operation instanceof FunctionOperation) {
-			FunctionOperation fo = (FunctionOperation)operation;
-			text = fo.getName() + "(";
+			builder.append(output(index++, precision, plus));
+			builder.append(operation.getOperator());
+			builder.append(output(index++, precision, plus));
+		} else if (operation instanceof FunctionOperation fo) {
+			builder.append(fo.getName()).append("(");
 	        Iterator<Operand> it = fo.getOperands().iterator();
-	        for (;;) {
+	        while (it.hasNext()) {
 	        	it.next();
-	        	text += output(index++, precision, plus);
-	        	if (!it.hasNext()) break;
-	        	text += ", ";
+	        	builder.append(output(index++, precision, plus));
+	        	if (it.hasNext()) {
+	        		builder.append(", ");
+	        	}
 	        }
-	        text += ")";
+	        builder.append(")");
 		}
 
-		return text + " = " + output(index, precision, plus);
+		builder.append(" = ");
+		builder.append(output(index, precision, plus));
+		
+		return builder.toString();
 	}
 
 	public String output(int index, int precision) {

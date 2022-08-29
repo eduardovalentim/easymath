@@ -39,7 +39,7 @@ public class UnaryOperation extends AbstractOperation {
 	 */
 	@Override
 	public Deque<Operand> getOperands() {
-		return new LinkedList<Operand>(Arrays.asList(operand));
+		return new LinkedList<>(Arrays.asList(operand));
 	}
 
 	/**

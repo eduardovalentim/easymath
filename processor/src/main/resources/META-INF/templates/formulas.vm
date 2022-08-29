@@ -18,7 +18,7 @@ import com.github.eduardovalentim.easymath.functions.CoreFunctionCatalog;
 
 @Generated("$generator")
 @SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
-public class $classname extends $superclass {
+public class $classname implements $interfaceName {
 
 	private static MessageFactory factory = new MessageFormatMessageFactory();
 	private static Logger logger = LogManager.getLogger(${classname}.class, factory);

@@ -9,8 +9,6 @@ import org.antlr.v4.runtime.CodePointCharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.RecognitionException;
 import org.antlr.v4.runtime.tree.ParseTree;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import com.github.eduardovalentim.easymath.annotations.Formula;
 import com.github.eduardovalentim.easymath.processor.mathematical.FunctionErrorListener;
@@ -24,10 +22,8 @@ import br.com.easymath.processor.mathematical.grammar.FormulaParser;
  */
 public class FunctionModelBuilder {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(FunctionModelBuilder.class);
-    
     private Formula formula;
-    private String className;
+    private String interfaceName;
     private String methodName;
     private String type;
     private Collection<ConstantOperand> constants;
@@ -56,8 +52,8 @@ public class FunctionModelBuilder {
 	 * @param className The classname
 	 * @return A reference to this builder
 	 */
-    public FunctionModelBuilder withClassName(String className) {
-        this.className = className;
+    public FunctionModelBuilder withInterfaceName(String interfaceName) {
+        this.interfaceName = interfaceName;
         return this;
     }
 
@@ -125,7 +121,7 @@ public class FunctionModelBuilder {
          * add a custom error report for syntax
          */
         parser.removeErrorListeners();
-        parser.addErrorListener(new FunctionErrorListener(className, methodName, formula.value()));
+        parser.addErrorListener(new FunctionErrorListener(interfaceName, methodName, formula.value()));
         try {
             /*
              * begin parsing at formula rule

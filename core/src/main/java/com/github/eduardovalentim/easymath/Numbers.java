@@ -44,8 +44,8 @@ public class Numbers {
         /*
          * Check if the conversion is needed
          */
-        if (number instanceof BigDecimal) {
-            result = (BigDecimal)number;
+        if (number instanceof BigDecimal bigDecimal) {
+            result = bigDecimal;
         } else {
             result = new BigDecimal(number.toString()); 
         }

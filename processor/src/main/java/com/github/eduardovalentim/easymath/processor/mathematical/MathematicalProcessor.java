@@ -43,7 +43,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 
 	private static final String LINE_SEPARATOR = getProperty("line.separator");
 	private static final Logger LOGGER = LoggerFactory.getLogger(MathematicalProcessor.class);
-	private static final String SUFFIX = "Math";
+	private static final String SUFFIX = "Impl";
 
 	private Template template;
 	private ReflectionUtils utils;
@@ -91,16 +91,16 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		requireNonNull(map);
 
 		VelocityContext context = new VelocityContext();
-		context.put("utils", new StringUtils());
+		context.put("utils", StringUtils.class);
 
 		for (Entry<Element, List<ExecutableElement>> entry : map.entrySet()) {
-			Element classElement = entry.getKey();
+			Element element = entry.getKey();
 
 			Set<ConstantOperand> constants = new HashSet<>();
 			Deque<FunctionModel> functions = new LinkedList<>();
 
 			for (ExecutableElement methodElement : entry.getValue()) {
-				FunctionModel model = new FunctionModelBuilder().withClassName(utils.getName(classElement))
+				FunctionModel model = new FunctionModelBuilder().withInterfaceName(utils.getName(element))
 						.withMethodName(utils.getName(methodElement))
 						.withType(utils.getMethodReturningType(methodElement))
 						.withFormula(utils.getMethodFormula(methodElement)).withConstants(constants).build();
@@ -108,14 +108,14 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 			}
 
 			context.put("generator", getClass().getName());
-			context.put("package", elements.getPackageOf(classElement).getQualifiedName());
-			context.put("superclass", classElement.getSimpleName());
-			context.put("classname", classElement.getSimpleName() + SUFFIX);
+			context.put("package", elements.getPackageOf(element).getQualifiedName());
+			context.put("interfaceName", element.getSimpleName());
+			context.put("classname", element.getSimpleName() + SUFFIX);
 			context.put("constants", constants);
 			context.put("functions", functions);
 			context.put("format", FormatUtils.INSTANCE);
 
-			generate(classElement.toString() + SUFFIX, template, context);
+			generate(element.toString() + SUFFIX, template, context);
 		}
 
 		LOGGER.trace("Exiting...");
@@ -175,13 +175,13 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		/*
 		 * Get class of the method
 		 */
-		Element classElement = methodElement.getEnclosingElement();
+		Element element = methodElement.getEnclosingElement();
 		/*
 		 * Check the abstract modifier in the class
 		 */
-		if (!utils.isAbstractClass(classElement)) {
+		if (!utils.isInterface(element)) {
 			result = false;
-			builder.append(format("    * The class ''{0}'' must be abstract!", classElement));
+			builder.append(format("    * The enclosing type ''{0}'' must be an interface!", element));
 			builder.append(LINE_SEPARATOR);
 		}
 		/*
@@ -222,7 +222,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		if (builder.length() > 0) {
 			builder.insert(0, LINE_SEPARATOR);
 			builder.insert(0,
-					format("The method \"{0}\" don't follow the convention: public abstract {? extends Number} {name}(Number...args);",
+					format("The method ''{0}'' don''t follow the convention: public abstract {? extends Number} {name}(Number...args);",
 							methodElement));
 			LOGGER.warn("{}", builder);
 		}
@@ -241,23 +241,6 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		/*
 		 * Get the formulas
 		 */
-		List<ExecutableElement> methods = map.get(classElement);
-		/*
-		 * If don't exist
-		 */
-		if (methods == null) {
-			/*
-			 * Create a new list
-			 */
-			methods = new LinkedList<>();
-			/*
-			 * Store it in the map
-			 */
-			map.put(classElement, methods);
-		}
-		/*
-		 * Add it
-		 */
-		methods.add((ExecutableElement) methodElement);
+		map.computeIfAbsent(classElement, k -> new LinkedList<>()).add((ExecutableElement) methodElement);
 	}
 }

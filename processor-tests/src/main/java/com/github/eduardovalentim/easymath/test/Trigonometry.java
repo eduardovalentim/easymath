@@ -9,7 +9,7 @@ import com.github.eduardovalentim.easymath.annotations.Formula;
  * @author eduardovalentim
  *
  */
-public abstract class Trigonometry {
+public interface Trigonometry {
 
 	/**
 	 * Test

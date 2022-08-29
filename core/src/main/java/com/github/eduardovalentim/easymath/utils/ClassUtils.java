@@ -30,7 +30,7 @@ public class ClassUtils {
 	private static final Map<Class<?>, Class<?>> NUMBERS;
 
 	static {
-		HashMap<Class<?>, Class<?>> numbers = new HashMap<Class<?>, Class<?>>();
+		HashMap<Class<?>, Class<?>> numbers = new HashMap<>();
 		numbers.put(short.class, Short.class);
 		numbers.put(byte.class, Byte.class);
 		numbers.put(int.class, Integer.class);

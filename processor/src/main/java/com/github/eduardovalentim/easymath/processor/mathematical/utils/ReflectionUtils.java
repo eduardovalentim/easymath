@@ -71,7 +71,7 @@ public class ReflectionUtils {
 	 *            The element
 	 * @return True if the element is a class
 	 */
-	public boolean isClass(Element element) {
+	public boolean isInterface(Element element) {
 		/*
 		 * Method protection
 		 */
@@ -80,7 +80,7 @@ public class ReflectionUtils {
 		/*
 		 * Result
 		 */
-		return element.getKind().isClass();
+		return element.getKind().isInterface();
 	}
 
 	/**
@@ -100,24 +100,6 @@ public class ReflectionUtils {
 		 * Result
 		 */
 		return element.getModifiers().contains(Modifier.ABSTRACT);
-	}
-
-	/**
-	 * Check if the element is a class and has the modifier abstract
-	 * 
-	 * @param element
-	 *            The element
-	 * @return True if the element is abstract and is a class
-	 */
-	public boolean isAbstractClass(Element element) {
-		/*
-		 * Method protection
-		 */
-		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
-		/*
-		 * Result
-		 */
-		return isAbstract(element) && isClass(element);
 	}
 
 	/**
