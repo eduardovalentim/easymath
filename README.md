@@ -21,3 +21,7 @@ You can get the original Apache License, Version 2.0 template at https://www.apa
 ### Build Status ###
 
 [ ![Codeship Status for eduardovalentim/easymath](https://app.codeship.com/projects/991f3cd0-76c8-0134-1c1c-72db67b0714c/status?branch=master)](https://app.codeship.com/projects/179680)
+
+### Quality Gate Status ###
+
+[![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=eduardovalentim_easymath&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eduardovalentim_easymath)
