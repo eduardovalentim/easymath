@@ -142,9 +142,12 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 				/*
 				 * Check convention
 				 */
-				if (isConventionFollowed(methodElement)) {
+				StringBuilder builder = new StringBuilder();
+				if (isConventionFollowed(methodElement, builder)) {
 					Element classElement = methodElement.getEnclosingElement();
 					addMethod(map, methodElement, classElement);
+				} else {
+					throw new IllegalStateException(builder.toString());
 				}
 			}
 		}
@@ -157,9 +160,10 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 
 	/**
 	 * @param methodElement
+	 * @param builder 
 	 * @return
 	 */
-	private boolean isConventionFollowed(Element methodElement) {
+	private boolean isConventionFollowed(Element methodElement, StringBuilder builder) {
 		/*
 		 * Method protection
 		 */
@@ -168,10 +172,6 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		 * Default result
 		 */
 		boolean result = true;
-		/*
-		 * Variables
-		 */
-		StringBuilder builder = new StringBuilder();
 		/*
 		 * Get class of the method
 		 */
@@ -182,14 +182,6 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		if (!utils.isInterface(element)) {
 			result = false;
 			builder.append(format("    * The enclosing type ''{0}'' must be an interface!", element));
-			builder.append(LINE_SEPARATOR);
-		}
-		/*
-		 * Check the abstract modifier in the method
-		 */
-		if (!utils.isAbstractMethod(methodElement)) {
-			result = false;
-			builder.append("    * The method must be abstract!");
 			builder.append(LINE_SEPARATOR);
 		}
 		/*
