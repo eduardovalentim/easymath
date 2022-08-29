@@ -40,7 +40,7 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 	/**
 	 * Public default constructor
 	 */
-	public AbstractAnnotationProcessor() {
+	protected AbstractAnnotationProcessor() {
 		super();
 	}
 

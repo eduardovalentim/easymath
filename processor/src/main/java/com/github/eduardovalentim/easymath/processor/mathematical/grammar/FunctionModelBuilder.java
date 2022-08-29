@@ -136,7 +136,6 @@ public class FunctionModelBuilder {
              */
             visitor.visit(tree);
         } catch (RecognitionException ex) {
-            LOGGER.error("Recognition exception is never thrown, only declared.", ex);
             throw new IllegalStateException("Recognition exception is never thrown, only declared.", ex);
         }
 

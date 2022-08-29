@@ -17,6 +17,13 @@ public class Numbers {
     /** Positive zero. */
     private static final double POSITIVE_ZERO = 0d;
 
+    /**
+     * Private constructor to hide the implicit public one.
+     */
+    private Numbers() {
+    	super();
+    }
+    
 	/**
 	 * Convert any number to a BigDecimal
 	 * 

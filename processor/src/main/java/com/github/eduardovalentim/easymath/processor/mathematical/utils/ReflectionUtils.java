@@ -21,6 +21,9 @@ import com.github.eduardovalentim.easymath.annotations.Formula;
  */
 public class ReflectionUtils {
 
+	private static final String ARGUMENT_ELEMENT_CANNOT_BE_NULL = "Argument 'element' cannot be null.";
+	private static final String ARGUMENT_ELEMENT_GET_KIND_CANNOT_BE_NULL = "Argument 'element.getKind()' cannot be null.";
+	
 	private Types types;
 	private Elements elements;
 
@@ -53,8 +56,8 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.   ");
-		requireNonNull(element.getKind(), "Argument 'element.getKind()' cannot be null.");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
+		requireNonNull(element.getKind(), ARGUMENT_ELEMENT_GET_KIND_CANNOT_BE_NULL);
 		/*
 		 * Result
 		 */
@@ -72,8 +75,8 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.   ");
-		requireNonNull(element.getKind(), "Argument 'element.getKind()' cannot be null.");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
+		requireNonNull(element.getKind(), ARGUMENT_ELEMENT_GET_KIND_CANNOT_BE_NULL);
 		/*
 		 * Result
 		 */
@@ -91,7 +94,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.  ");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		requireNonNull(element.getModifiers(), "Argument 'element.getModifiers()' cannot be null.");
 		/*
 		 * Result
@@ -110,7 +113,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.  ");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Result
 		 */
@@ -128,7 +131,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null. ");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Result
 		 */
@@ -146,7 +149,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null. ");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Default result
 		 */
@@ -177,7 +180,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Default result
 		 */
@@ -208,7 +211,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		Objects.requireNonNull(element, "Argument 'element' cannot be null.");
+		Objects.requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Default result
 		 */
@@ -237,7 +240,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Default result
 		 */
@@ -266,7 +269,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Result
 		 */
@@ -282,7 +285,7 @@ public class ReflectionUtils {
 		/*
 		 * Method protection
 		 */
-		requireNonNull(element, "Argument 'element' cannot be null.      ");
+		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
 		/*
 		 * Result
 		 */

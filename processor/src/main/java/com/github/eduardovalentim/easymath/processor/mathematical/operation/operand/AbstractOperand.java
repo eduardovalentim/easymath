@@ -18,7 +18,7 @@ public abstract class AbstractOperand implements Operand {
      * @param type The type
      * @param value The value
      */
-    public AbstractOperand(String id, String type, String value) {
+    protected AbstractOperand(String id, String type, String value) {
         this.id = id;
         this.type = type;
         this.value = value;

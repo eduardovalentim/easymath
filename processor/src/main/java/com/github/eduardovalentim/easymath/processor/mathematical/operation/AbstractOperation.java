@@ -24,7 +24,7 @@ public abstract class AbstractOperation implements Operation {
      * @param type The type
      * @param text The text
      */
-    public AbstractOperation(String id, String operator, String type, String text) {
+    protected AbstractOperation(String id, String operator, String type, String text) {
         super();
         this.id = id;
         this.operator = operator;

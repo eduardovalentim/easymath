@@ -171,7 +171,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		/*
 		 * Variables
 		 */
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder builder = new StringBuilder();
 		/*
 		 * Get class of the method
 		 */
@@ -181,50 +181,50 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		 */
 		if (!utils.isAbstractClass(classElement)) {
 			result = false;
-			buffer.append(format("    * The class ''{0}'' must be abstract!", classElement));
-			buffer.append(LINE_SEPARATOR);
+			builder.append(format("    * The class ''{0}'' must be abstract!", classElement));
+			builder.append(LINE_SEPARATOR);
 		}
 		/*
 		 * Check the abstract modifier in the method
 		 */
 		if (!utils.isAbstractMethod(methodElement)) {
 			result = false;
-			buffer.append("    * The method must be abstract!");
-			buffer.append(LINE_SEPARATOR);
+			builder.append("    * The method must be abstract!");
+			builder.append(LINE_SEPARATOR);
 		}
 		/*
 		 * Check the varargs in the method
 		 */
 		if (!utils.isVarArgsMethod(methodElement)) {
 			result = false;
-			buffer.append("    * The method must have a VarArgs argument!");
-			buffer.append(LINE_SEPARATOR);
+			builder.append("    * The method must have a VarArgs argument!");
+			builder.append(LINE_SEPARATOR);
 		}
 		/*
 		 * Check the number of parameters in the method
 		 */
 		if (utils.getMethodParametersCount(methodElement) != 1) {
 			result = false;
-			buffer.append("    * The method must have only one argument!");
-			buffer.append(LINE_SEPARATOR);
+			builder.append("    * The method must have only one argument!");
+			builder.append(LINE_SEPARATOR);
 		}
 		/*
 		 * Check the result type
 		 */
 		if (!utils.isMethodReturningNumber(methodElement)) {
 			result = false;
-			buffer.append("    * The method must declare a returnning type that extends java.lang.Number!");
-			buffer.append(LINE_SEPARATOR);
+			builder.append("    * The method must declare a returnning type that extends java.lang.Number!");
+			builder.append(LINE_SEPARATOR);
 		}
 		/*
 		 * If has content
 		 */
-		if (buffer.length() > 0) {
-			buffer.insert(0, LINE_SEPARATOR);
-			buffer.insert(0,
+		if (builder.length() > 0) {
+			builder.insert(0, LINE_SEPARATOR);
+			builder.insert(0,
 					format("The method ''{0}'' don't follow the convention: public abstract {? extends Number} {name}(Number...args);",
 							methodElement));
-			LOGGER.warn(buffer.toString());
+			LOGGER.warn("{}", builder);
 		}
 		/*
 		 * Result

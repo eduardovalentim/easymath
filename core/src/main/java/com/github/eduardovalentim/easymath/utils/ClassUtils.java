@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.text.Collator;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -26,18 +27,27 @@ public class ClassUtils {
 			"super", "switch", "synchronized", "this", "throw", "throws", "transient", "true", "try", "void",
 			"volatile", "while" };
 
-	@SuppressWarnings("serial")
-	private static final Map<Class<?>, Class<?>> NUMBERS = new HashMap<Class<?>, Class<?>>() {
-		{
-			put(short.class, Short.class);
-			put(byte.class, Byte.class);
-			put(int.class, Integer.class);
-			put(long.class, Long.class);
-			put(float.class, Float.class);
-			put(double.class, Double.class);
-		}
-	};
+	private static final Map<Class<?>, Class<?>> NUMBERS;
 
+	static {
+		HashMap<Class<?>, Class<?>> numbers = new HashMap<Class<?>, Class<?>>();
+		numbers.put(short.class, Short.class);
+		numbers.put(byte.class, Byte.class);
+		numbers.put(int.class, Integer.class);
+		numbers.put(long.class, Long.class);
+		numbers.put(float.class, Float.class);
+		numbers.put(double.class, Double.class);
+		
+		NUMBERS = Collections.unmodifiableMap(numbers);
+	}
+	
+    /**
+     * Private constructor to hide the implicit public one.
+     */
+	private ClassUtils() {
+		super();
+	}
+	
 	/**
 	 * Check if the argument <code>s</code> is a valid java identifier
 	 * 
