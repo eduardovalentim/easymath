@@ -16,9 +16,12 @@
 	<properties>
 		<!-- antlr4-runtime and antlr4-maven-plugin must match the same version 
 			to avoid errors at build time -->
-		<antlr4.version>4.10.1</antlr4.version>
 		<java.version>17</java.version>
+		<antlr4.version>4.10.1</antlr4.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+		<sonar.organization>eduardovalentim</sonar.organization>
+		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
 	</properties>
 
 	<modules>
