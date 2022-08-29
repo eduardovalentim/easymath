@@ -20,7 +20,7 @@ You can get the original Apache License, Version 2.0 template at https://www.apa
 
 ### Build Status ###
 
-[ ![Codeship Status for eduardovalentim/easymath](https://app.codeship.com/projects/991f3cd0-76c8-0134-1c1c-72db67b0714c/status?branch=master)](https://app.codeship.com/projects/179680)
+[![CircleCI](https://dl.circleci.com/status-badge/img/gh/eduardovalentim/easymath/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/eduardovalentim/easymath/tree/master)
 
 ### Quality Gate Status ###
 
