@@ -20,7 +20,7 @@ public class ClassUtils {
 
 	static final Collator englishCollator = Collator.getInstance(Locale.ENGLISH);
 
-	static final String keywords[] = { "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
+	static final String[] keywords = { "abstract", "assert", "boolean", "break", "byte", "case", "catch", "char",
 			"class", "const", "continue", "default", "do", "double", "else", "extends", "false", "final", "finally",
 			"float", "for", "goto", "if", "implements", "import", "instanceof", "int", "interface", "long", "native",
 			"new", "null", "package", "private", "protected", "public", "return", "short", "static", "strictfp",

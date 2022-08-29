@@ -222,7 +222,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 		if (builder.length() > 0) {
 			builder.insert(0, LINE_SEPARATOR);
 			builder.insert(0,
-					format("The method ''{0}'' don't follow the convention: public abstract {? extends Number} {name}(Number...args);",
+					format("The method \"{0}\" don't follow the convention: public abstract {? extends Number} {name}(Number...args);",
 							methodElement));
 			LOGGER.warn("{}", builder);
 		}

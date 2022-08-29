@@ -9,12 +9,12 @@ import com.github.eduardovalentim.easymath.FunctionCatalog;
 import com.github.eduardovalentim.easymath.test.functions.CosFunction;
 import com.github.eduardovalentim.easymath.test.functions.SinFunction;
 
-public class TrigonometryMathTest {
+class TrigonometryMathTest {
 
 	static FunctionCatalog catalog = FunctionCatalog.valueOf(SinFunction.INSTANCE, CosFunction.INSTANCE);
 
 	@Test
-	public void testSinABNumberArray() {
+	void testSinABNumberArray() {
 		TrigonometryMath trigonometry = new TrigonometryMath(catalog);
 	
 		BigDecimal actual = trigonometry.sinAB(45, 70);

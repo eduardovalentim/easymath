@@ -5,10 +5,10 @@ import java.math.BigDecimal;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-public class AlgebraMathTest {
+class AlgebraMathTest {
 
 	@Test
-	public void testSquaresDifferenceNumberArray() {
+	void testSquaresDifferenceNumberArray() {
 		AlgebraMath algebra = new AlgebraMath();
 
 		double expected = algebra.squaresDifference(7.3d, 3.7d);
@@ -18,7 +18,7 @@ public class AlgebraMathTest {
 	}
 
 	@Test
-	public void testCubesDifferenceNumberArray() {
+	void testCubesDifferenceNumberArray() {
 		AlgebraMath algebra = new AlgebraMath();
 
 		double expected = algebra.cubesDifference(7.3d, 3.7d);
@@ -28,7 +28,7 @@ public class AlgebraMathTest {
 	}
 
 	@Test
-	public void testCubesSumDoubleDouble() {
+	void testCubesSumDoubleDouble() {
 		AlgebraMath algebra = new AlgebraMath();
 
 		double expected = algebra.cubesSum(7.3d, 3.7d);
@@ -38,7 +38,7 @@ public class AlgebraMathTest {
 	}
 
 	@Test
-	public void testquadraticEquation() {
+	void testquadraticEquation() {
 		AlgebraMath algebra = new AlgebraMath();
 
 		double actual = algebra.quadraticEquation(10D, 20D, 30D);

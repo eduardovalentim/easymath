@@ -8,12 +8,12 @@ import org.junit.jupiter.api.Test;
 
 import com.github.eduardovalentim.easymath.processor.mathematical.operation.operand.InputOperand;
 
-public class FormatUtilsTest {
+class FormatUtilsTest {
 
 	private static FormatUtils format = FormatUtils.INSTANCE;
 	
 	@Test
-	public void testInputFormatVariables() {
+	void testInputFormatVariables() {
 		Collection<InputOperand> inputs = new ArrayList<>();
 		inputs.add(new InputOperand("double", "a"));
 		inputs.add(new InputOperand("double", "lata"));
@@ -24,7 +24,7 @@ public class FormatUtilsTest {
 	}
 
 	@Test
-	public void testInputFormatFunctions() {
+	void testInputFormatFunctions() {
 		Collection<InputOperand> inputs = new ArrayList<>();
 		inputs.add(new InputOperand("double", "alpha"));
 		inputs.add(new InputOperand("double", "beta"));
@@ -33,6 +33,4 @@ public class FormatUtilsTest {
 		
 		Assertions.assertEquals("sin({0, number, #.#######}) * cos({1, number, #.#######}) + sin({1, number, #.#######}) * cos({0, number, #.#######})", actual);
 	}
-
-	
 }

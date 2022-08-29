@@ -3,6 +3,7 @@ package com.github.eduardovalentim.easymath.processor.mathematical.utils;
 import static org.apache.commons.lang3.StringUtils.repeat;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,6 +13,7 @@ import com.github.eduardovalentim.easymath.processor.mathematical.operation.Func
 import com.github.eduardovalentim.easymath.processor.mathematical.operation.Operation;
 import com.github.eduardovalentim.easymath.processor.mathematical.operation.UnaryOperation;
 import com.github.eduardovalentim.easymath.processor.mathematical.operation.operand.InputOperand;
+import com.github.eduardovalentim.easymath.processor.mathematical.operation.operand.Operand;
 
 /**
  * Utility class to format variables in the velocity template
@@ -113,7 +115,16 @@ public class FormatUtils {
 			text += operation.getOperator();
 			text += output(index++, precision, plus);
 		} else if (operation instanceof FunctionOperation) {
-
+			FunctionOperation fo = (FunctionOperation)operation;
+			text = fo.getName() + "(";
+	        Iterator<Operand> it = fo.getOperands().iterator();
+	        for (;;) {
+	        	it.next();
+	        	text += output(index++, precision, plus);
+	        	if (!it.hasNext()) break;
+	        	text += ", ";
+	        }
+	        text += ")";
 		}
 
 		return text + " = " + output(index, precision, plus);
