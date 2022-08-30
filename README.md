@@ -2,7 +2,7 @@
 
 | Build Status | Quality Gate Status |
 |--|--|
-| [![CircleCI](https://dl.circleci.com/status-badge/img/gh/eduardovalentim/easymath/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/eduardovalentim/easymath/tree/master) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=eduardovalentim_easymath&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=eduardovalentim_easymath) |
+| [![CircleCI](https://dl.circleci.com/status-badge/img/gh/eduardovalentim/easymath/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/eduardovalentim/easymath/tree/master) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.github.eduardovalentim%3Aeasymath&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=com.github.eduardovalentim%3Aeasymath) |
 
 ### What is this repository for? ###
 
