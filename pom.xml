@@ -164,6 +164,11 @@
 				</configuration>
 			</plugin>
 			<plugin>
+				<groupId>org.sonarsource.scanner.maven</groupId>
+				<artifactId>sonar-maven-plugin</artifactId>
+				<version>3.9.1.2184</version>
+			</plugin>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-eclipse-plugin</artifactId>
 				<version>2.10</version>
@@ -244,7 +249,7 @@
 
 	<licenses>
 		<license>
-			<name>BSD-3-Clause</name>
+			<name>Apache 2.0</name>
 			<url>https://github.com/eduardovalentim/easymath/blob/master/LICENSE.md</url>
 			<distribution>repo</distribution>
 		</license>
