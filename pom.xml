@@ -145,10 +145,10 @@
 						</goals>
 					</execution>
 					<execution>
-						<id>jacoco-site</id>
-						<phase>package</phase>
+						<id>jacoco-report</id>
+						<phase>verify</phase>
 						<goals>
-							<goal>report</goal>
+							<goal>report-aggregate</goal>
 						</goals>
 					</execution>
 				</executions>

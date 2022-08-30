@@ -6,13 +6,30 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-class BasicMathTest {
+class BasicImplTest {
 
 	private Basic basic;
-	
+
 	@BeforeEach
 	void before() {
 		basic = new BasicImpl();
+	}
+
+	@Test()
+	void testAddWithNoArgs() {
+		IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			basic.add();
+		});
+		Assertions.assertEquals("Length mismatch for argument 'inputs'. Expected '2' actual '0'", exception.getMessage());
+	}
+
+	@Test()
+	void testAddWithNullArgs() {
+		IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			Number[] inputs = null;
+			basic.add(inputs);
+		});
+		Assertions.assertEquals("Argument 'inputs' cannot be null.", exception.getMessage());
 	}
 
 	@Test
@@ -22,6 +39,23 @@ class BasicMathTest {
 		Assertions.assertEquals(Double.valueOf(11), actual, 0.001);
 	}
 
+	@Test()
+	void testAddDoubleWithNoArgs() {
+		IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			basic.add();
+		});
+		Assertions.assertEquals("Length mismatch for argument 'inputs'. Expected '2' actual '0'", exception.getMessage());
+	}
+
+	@Test()
+	void testAddDoubleWithNullArgs() {
+		IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
+			Number[] inputs = null;
+			basic.add(inputs);
+		});
+		Assertions.assertEquals("Argument 'inputs' cannot be null.", exception.getMessage());
+	}
+	
 	@Test
 	void testAddDoubleDouble() {
 		double actual = basic.add(1d, 10d);

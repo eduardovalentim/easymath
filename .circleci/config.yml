@@ -25,8 +25,6 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      - restore_cache:
-          key: v1-dependencies-{{ checksum "pom.xml" }}
           
       # Use mvn clean and package as the standard maven build phase
       - run:

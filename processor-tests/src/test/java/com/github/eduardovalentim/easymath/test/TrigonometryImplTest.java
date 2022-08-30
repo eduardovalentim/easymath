@@ -10,7 +10,7 @@ import com.github.eduardovalentim.easymath.FunctionCatalog;
 import com.github.eduardovalentim.easymath.test.functions.CosFunction;
 import com.github.eduardovalentim.easymath.test.functions.SinFunction;
 
-class TrigonometryMathTest {
+class TrigonometryImplTest {
 
 	private Trigonometry trigonometry;
 

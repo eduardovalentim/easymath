@@ -74,7 +74,7 @@ public class $classname implements $interfaceName {
      #javadoc( ${function.inputs} )
      * @return the result of the calculation
      */
-    public ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.type} ${function.inputs} )) {
+    protected ${function.type} ${utils.uncapitalize($function.name)}( #typedArguments( ${function.type} ${function.inputs} )) {
 		#if( ${function.inputs.empty} )
 		  logger.debug("Resolving...");
 		#else
