@@ -16,6 +16,7 @@
 
 	<properties>
 		<maven.deploy.skip>true</maven.deploy.skip>
+		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<dependencies>
@@ -67,6 +68,17 @@
 								<source>${project.build.directory}/generated-sources/annotations</source>
 							</sources>
 						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>${jacoco.version}</version>
+				<executions>
+					<execution>
+						<id>jacoco-report-aggregate</id>
+						<phase/>
 					</execution>
 				</executions>
 			</plugin>
