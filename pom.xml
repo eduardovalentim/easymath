@@ -26,8 +26,9 @@
 		<sonar.organization>eduardovalentim</sonar.organization>
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+		<sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
 	</properties>
-
+	
 	<modules>
 		<module>core</module>
 		<module>processor</module>
