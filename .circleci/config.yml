@@ -33,7 +33,7 @@ jobs:
                 
       - run:
           name: Analyze on SonarCloud
-          command: mvn verify sonar:sonar
+          command: mvn sonar:sonar
 
       - save_cache:
           paths:
