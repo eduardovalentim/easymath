@@ -17,7 +17,7 @@ public interface Algebra {
 	 * @return the result
 	 */
 	@Formula("(a ^ 2) - (b ^ 2)")
-	public abstract double squaresDifference(Number... args);
+	public double squaresDifference(Number... args);
 
 	/**
 	 * Test
@@ -25,7 +25,7 @@ public interface Algebra {
 	 * @return the result
 	 */
 	@Formula("(a - b) * (a + b)")
-	public abstract BigDecimal squaresDifferenceExpansion(Number... args);
+	public BigDecimal squaresDifferenceExpansion(Number... args);
 
 	/**
 	 * Test
@@ -33,7 +33,7 @@ public interface Algebra {
 	 * @return the result
 	 */
 	@Formula("a ^ 3 - b ^ 3")
-	public abstract double cubesDifference(Number... args);
+	public double cubesDifference(Number... args);
 
 	/**
 	 * Test
@@ -41,7 +41,7 @@ public interface Algebra {
 	 * @return the result
 	 */
 	@Formula("(a - b) * (a ^ 2 + a * b + b ^ 2)")
-	public abstract BigDecimal cubesDifferenceExpansion(Number... args);
+	public BigDecimal cubesDifferenceExpansion(Number... args);
 
 	/**
 	 * Test
@@ -49,7 +49,7 @@ public interface Algebra {
 	 * @return the result
 	 */
 	@Formula("(a ^ 3) + (b ^ 3)")
-	public abstract double cubesSum(Number... args);
+	public double cubesSum(Number... args);
 
 	/**
 	 * Test
@@ -57,7 +57,7 @@ public interface Algebra {
 	 * @return the result
 	 */
 	@Formula("(a + b) * ((a ^ 2) - (a * b) + (b ^ 2))")
-	public abstract BigDecimal cubesSumExpansion(Number... args);
+	public BigDecimal cubesSumExpansion(Number... args);
 	
 	/**
 	 * 
@@ -65,5 +65,5 @@ public interface Algebra {
 	 * @return
 	 */
 	@Formula("(b ^ 2) - (4 * a * c)")
-	public abstract double quadraticEquation(Number... args);
+	public double quadraticEquation(Number... args);
 }

@@ -14,10 +14,6 @@
 	<packaging>jar</packaging>
 	<name>${project.artifactId}</name>
 
-	<properties>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
-	</properties>
-
 	<dependencies>
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
@@ -30,20 +26,4 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.jacoco</groupId>
-				<artifactId>jacoco-maven-plugin</artifactId>
-				<version>${jacoco.version}</version>
-				<executions>
-					<execution>
-						<id>jacoco-report-aggregate</id>
-						<phase/>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
 </project>

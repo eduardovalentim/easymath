@@ -29,7 +29,54 @@ jobs:
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
-          command: mvn -B clean install
+          command: mvn --batch-mode clean install -DskipTests -Djacoco.skip=true
+
+      # Run tests
+      - run:
+          name: Tests
+          command: mvn --batch-mode test
+
+      - run:
+          name: Analyze
+          command: mvn --batch-mode sonar:sonar
+
+      - save_cache:
+          paths:
+            - ~/.m2
+          key: v1-dependencies-{{ checksum "pom.xml" }}
+
+  # Below is the definition of your job to build and test your app, you can rename and customize it as you want.
+  release:
+    # These next lines define a Docker executor: https://circleci.com/docs/2.0/executor-types/
+    # You can specify an image from Dockerhub or use one of our Convenience Images from CircleCI's Developer Hub.
+    # Be sure to update the Docker image tag below to openjdk version of your application.
+    # A list of available CircleCI Docker Convenience Images are available here: https://circleci.com/developer/images/image/cimg/openjdk
+    docker:
+      - image: cimg/openjdk:17.0
+    # Add steps to the job
+    # See: https://circleci.com/docs/2.0/configuration-reference/#steps
+    steps:
+      # Checkout the code as the first step.
+      - checkout
+      
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "pom.xml" }}
+            # fallback to using the latest cache if no exact match is found
+            - v1-dependencies-
+          
+      - run:
+          name: Clean
+          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:clean
+
+      - run:
+          name: Prepare
+          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:prepare
+
+      - run:
+          name: Perform
+          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:perform
 
       - save_cache:
           paths:
