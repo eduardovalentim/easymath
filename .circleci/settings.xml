@@ -23,10 +23,5 @@
 			<id>${env.GPG_KEYNAME}</id>
 			<passphrase>${env.GPG_PASSPHRASE}</passphrase>
 		</server>
-		<server>
-			<id>github.com</id>
-			<privateKey>~/.ssh/id_ed25519</privateKey>
-			<passphrase>${env.SSH_KEY_PASSPHRASE}</passphrase>
-		</server>
 	</servers>
 </settings>
