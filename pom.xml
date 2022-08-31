@@ -4,7 +4,7 @@
 
 	<groupId>com.github.eduardovalentim</groupId>
 	<artifactId>easymath</artifactId>
-	<version>0.1.16-SNAPSHOT</version>
+	<version>0.1.16</version>
 	<packaging>pom</packaging>
 	<name>Easymath</name>
 
@@ -296,6 +296,6 @@
 		<url>https://github.com/eduardovalentim/easymath</url>
 		<connection>scm:git:https://github.com/eduardovalentim/easymath.git</connection>
 		<developerConnection>scm:git:git@github.com:eduardovalentim/easymath.git</developerConnection>
-		<tag>easymath-0.1.14</tag>
+		<tag>easymath-0.1.16</tag>
 	</scm>
 </project>
