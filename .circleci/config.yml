@@ -81,15 +81,11 @@ jobs:
           command: echo -e $GPG_PRIVATE_KEY | gpg --import
           
       - run:
-          name: Clean
-          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:clean
+          name: Release Clean Prepare
+          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:clean release:prepare
 
       - run:
-          name: Prepare
-          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:prepare
-
-      - run:
-          name: Perform
+          name: Release Perform
           command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:perform
 
       - save_cache:
