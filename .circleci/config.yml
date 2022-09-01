@@ -65,28 +65,14 @@ jobs:
             - v1-dependencies-{{ checksum "pom.xml" }}
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
-      
-      - run:
-          # gpg --yes --output /tmp/public.pgp --armor --export your.username@email &&\
-          # cat -e /tmp/public.pgp | sed 's/\$/\\n/g' | tr --delete '\n' | xsel --clipboard &&\
-          # rm -f /tmp/public.pgp
-          name: GPG Public key Import
-          command: echo -e $GPG_PUBLIC_KEY | gpg --import
-
-      - run:
-          # gpg --yes --output /tmp/private.pgp --armor --export-secret-key your.username@email &&\
-          # cat -e /tmp/private.pgp | sed 's/\$/\\n/g' | tr --delete '\n' | xsel --clipboard &&\
-          # rm -f /tmp/private.pgp
-          name: GPG Private key Import
-          command: echo -e $GPG_PRIVATE_KEY | gpg --import
           
       - run:
           name: Release Clean Prepare
-          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:clean release:prepare
+          command: ./deploy.sh --gpg-keyname $GPG_KEYNAME --clean --prepare
 
       - run:
           name: Release Perform
-          command: mvn --batch-mode --settings .circleci/settings.xml --activate-profiles release --errors release:perform
+          command: ./deploy.sh --perform
 
       - save_cache:
           paths:
