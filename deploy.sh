@@ -93,4 +93,4 @@ if [ ! -z "$ARG_ROLLBACK" ]; then
     _RUN_MAVEN="$_RUN_MAVEN release:rollback"
 fi
 
-exec "$_RUN_MAVEN"
+eval exec "$_RUN_MAVEN"
