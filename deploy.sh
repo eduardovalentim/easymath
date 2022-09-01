@@ -1,6 +1,11 @@
 #!/bin/bash
 
 ############################################################
+## Script created to keep the same behavior between the    #
+## developer machine and CI Server                         #
+############################################################
+
+############################################################
 # Functions                                                #
 ############################################################
 
@@ -108,6 +113,11 @@ if [ ! -z "$SSH_PRIVATE_KEY" ]; then
     # cat -e ~/.ssh/github.com | sed 's/\$/\\n/g' | tr --delete '\n' | xsel --clipboard
     echo -e $SSH_PRIVATE_KEY > ~/.ssh/github.com
     chmod 600 ~/.ssh/github.com
+
+    # Once imported the SSH Key, git doesn't know who is the user trying to commit changes to repository,
+    # so let's help git to understand
+    git config --global user.email $GIT_USER_EMAIL
+    git config --global user.name $GIT_USER_NAME
 else
     echo "WARNING"
     echo "WARNING Probably this execution will be aborted with a SSH error due to the lack of the private key"
