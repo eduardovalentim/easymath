@@ -98,7 +98,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # If running in a CI server
-if [ ! -z "$SSH_GITHUB_PRIVATE_KEY" ]; then
+if [ ! -z "$SSH_PRIVATE_KEY" ]; then
     mkdir -p ~/.ssh
     chmod 700 ~/.ssh
 
@@ -106,7 +106,7 @@ if [ ! -z "$SSH_GITHUB_PRIVATE_KEY" ]; then
     # Just for documentation, the content of the environment variable is generated using this command
     # ---
     # cat -e ~/.ssh/github.com | sed 's/\$/\\n/g' | tr --delete '\n' | xsel --clipboard
-    echo -e $SSH_GITHUB_PRIVATE_KEY > ~/.ssh/github.com
+    echo -e $SSH_PRIVATE_KEY > ~/.ssh/github.com
     chmod 600 ~/.ssh/github.com
 else
     echo "WARNING"
