@@ -79,7 +79,7 @@ if [ -z "$ARG_CLEAN" ] && [ -z "$ARG_PREPARE" ] && [ -z "$ARG_PERFORM" ] && [ -z
     help
 fi
 
-gpg --list-secret-keys $ARG_GPG_KEYNAME > /dev/null 2>&1
+gpg --batch --list-secret-keys $ARG_GPG_KEYNAME > /dev/null 2>&1
 if [ $? -ne 0 ]; then
     # ---
     # Just for documentation, the content of the environment variable is generated using this command
@@ -88,7 +88,8 @@ if [ $? -ne 0 ]; then
     # cat -e /tmp/private.pgp | sed 's/\$/\\n/g' | tr --delete '\n' | xsel --clipboard &&\
     # rm -f /tmp/private.pgp
     if [ ! -z "$GPG_PRIVATE_KEY" ]; then
-        echo -e $GPG_PRIVATE_KEY | gpg --import
+        export GPG_TTY=$(tty)
+        echo -e $GPG_PRIVATE_KEY | gpg --batch --import
     else
         echo "WARNING"
         echo "WARNING Probably this execution will be aborted with a GPG error due to the lack of the secret key"
