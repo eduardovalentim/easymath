@@ -1,8 +1,9 @@
 # EASYMATH #
 
-| Build Status | Quality Gate Status |
-|--|--|
-| [![CircleCI](https://dl.circleci.com/status-badge/img/gh/eduardovalentim/easymath/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/eduardovalentim/easymath/tree/master) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.github.eduardovalentim%3Aeasymath&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=com.github.eduardovalentim%3Aeasymath) |
+| Build Status | Quality Gate Status | Maven Central |
+|--|--|--|
+| [![CircleCI](https://dl.circleci.com/status-badge/img/gh/eduardovalentim/easymath/tree/master.svg?style=svg)](https://dl.circleci.com/status-badge/redirect/gh/eduardovalentim/easymath/tree/master) | [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=com.github.eduardovalentim%3Aeasymath&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=com.github.eduardovalentim%3Aeasymath) | [![Maven Central](https://img.shields.io/maven-central/v/com.github.eduardovalentim/easymath.svg?label=Maven%20Central)](https://search.maven.org/search?q=g:%22com.github.eduardovalentim%22%20AND%20a:%22easymath%22)
+|
 
 ### What is this repository for? ###
 
