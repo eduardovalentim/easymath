@@ -2,7 +2,7 @@
 # See: https://circleci.com/docs/2.0/configuration-reference
 version: 2.1
 parameters:
-  run_workflow_release:
+  is_release:
     default: false
     type: boolean
     
@@ -86,13 +86,15 @@ jobs:
 # Invoke jobs via workflows
 # See: https://circleci.com/docs/2.0/configuration-reference/#workflows
 workflows:
-  normal: # This is the name of the workflow, feel free to change it to better match your workflow.
-    # Inside the workflow, you define the jobs you want to run.
+  build:
+    when: 
+      condition:
+        not: << pipeline.parameters.is_release >>
     jobs:
       - build-and-test:
           context: SonarCloud
   release:
-    when: << pipeline.parameters.run_workflow_release >>
+    when: << pipeline.parameters.is_release >>
     jobs:
       - release:
           context: SonarCloud
