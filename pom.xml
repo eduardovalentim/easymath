@@ -248,40 +248,6 @@
 							<autoReleaseAfterClose>true</autoReleaseAfterClose>
 						</configuration>
 					</plugin>
-					<plugin>
-						<groupId>org.codehaus.mojo</groupId>
-						<artifactId>exec-maven-plugin</artifactId>
-						<version>3.1.0</version>
-						<executions>
-							<execution>
-								<id>ssh-agent-initialize</id>
-								<phase>initialize</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<configuration>
-									<executable>ssh-agent</executable>
-									<arguments>
-										<!-- Kill the current agent (given by the SSH_AGENT_PID environment variable). -->
-										<argument>-k</argument>
-									</arguments>
-								</configuration>
-							</execution>
-							<execution>
-								<id>ssh-add</id>
-								<phase>verify</phase>
-								<goals>
-									<goal>exec</goal>
-								</goals>
-								<configuration>
-									<executable>ssh-add</executable>
-									<arguments>
-										<argument>~/.ssh/github.com</argument>
-									</arguments>
-								</configuration>
-							</execution>
-						</executions>
-					</plugin>
 				</plugins>
 			</build>
 		</profile>
