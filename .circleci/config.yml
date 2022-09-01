@@ -87,4 +87,9 @@ workflows:
     jobs:
       - build-and-test:
           context: SonarCloud
+  release: # This is the name of the workflow, feel free to change it to better match your workflow.
+    # Inside the workflow, you define the jobs you want to run.
+    jobs:
+      - release:
+          context: SonarCloud
           
