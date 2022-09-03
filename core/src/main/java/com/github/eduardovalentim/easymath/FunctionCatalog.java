@@ -4,6 +4,7 @@ import static java.text.MessageFormat.format;
 
 import java.math.MathContext;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -21,7 +22,7 @@ public class FunctionCatalog {
 	/**
 	 * A collection of correlated functions
 	 */
-	private Map<String, Function<?>> functions;
+	private Map<String, Function<? extends Number>> functions;
 
 	/**
 	 * Default public constructor
@@ -118,7 +119,7 @@ public class FunctionCatalog {
 	public String getName() {
 		return name;
 	}
-
+	
 	/**
 	 * Add a function to this catalog
 	 * 
@@ -181,7 +182,7 @@ public class FunctionCatalog {
 		/*
 		 * Get a reference to the function by name
 		 */
-		Function<T> function = (Function<T>) functions.get(name);
+		Function<? extends Number> function = functions.get(name);
 		/*
 		 * Validate if the function exist in catalog
 		 */
@@ -190,7 +191,7 @@ public class FunctionCatalog {
 		/*
 		 * Execute the calculation
 		 */
-		return function.perform(mc, inputs);
+		return (T) function.perform(mc, inputs);
 	}
 
 	/**
@@ -233,33 +234,10 @@ public class FunctionCatalog {
 	 *            A 'list' of functions to create a new catalog
 	 * @return A new catalog
 	 */
-	public static FunctionCatalog valueOf(Function<?>... functions) {
-		/*
-		 * Method protection
-		 */
-		if (functions == null)
-			throw new IllegalArgumentException("Argument 'functions' cannot be null.");
-		/*
-		 * Default result
-		 */
-		FunctionCatalog result = new FunctionCatalog();
-		/*
-		 * For each catalog
-		 */
-		for (int index = 0; index < functions.length; index++) {
-			/*
-			 * Validate if the catalog is valid
-			 */
-			if (functions[index] == null)
-				throw new IllegalArgumentException(format("Argument ''functions[{0}]'' cannot be null.", index));
-			/*
-			 * Get a reference for all functions
-			 */
-			result.addFunction(functions[index]);
-		}
+	public static FunctionCatalog valueOf(String name, Function<?>... functions) {
 		/*
 		 * Result
 		 */
-		return result;
+		return new FunctionCatalog(name, functions);
 	}
 }

@@ -53,7 +53,7 @@ import java.math.MathContext;
  * @author Eduardo.Valentim
  *
  */
-public interface Function<T> {
+public interface Function<T extends Number> {
 
 	/**
 	 * Define the name of the function to be used in the catalog

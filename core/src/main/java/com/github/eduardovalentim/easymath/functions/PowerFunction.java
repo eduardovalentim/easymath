@@ -11,7 +11,7 @@ import com.github.eduardovalentim.easymath.Function;
  * 
  * @author eduardovalentim
  */
-public class PowerFunction implements Function<Number> {
+public class PowerFunction implements Function<Double> {
 
 	/**
 	 * Public instance
@@ -30,7 +30,7 @@ public class PowerFunction implements Function<Number> {
 	 * {@inheritDoc}
 	 */
 	@Override
-	public Number perform(MathContext mc, Number... inputs) {
+	public Double perform(MathContext mc, Number... inputs) {
 		/*
 		 * Method protection block
 		 */
