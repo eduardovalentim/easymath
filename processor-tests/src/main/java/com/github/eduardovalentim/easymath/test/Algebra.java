@@ -16,6 +16,14 @@ public interface Algebra {
 	 * @param args inputs
 	 * @return the result
 	 */
+	@Formula("a!")
+	public double factorial(Number... args);
+
+	/**
+	 * Test
+	 * @param args inputs
+	 * @return the result
+	 */
 	@Formula("(a ^ 2) - (b ^ 2)")
 	public double squaresDifference(Number... args);
 

@@ -16,6 +16,12 @@ class AlgebraImplTest {
 	}
 
 	@Test
+	void testFactorial() {
+		double actual = algebra.factorial(5);
+		Assertions.assertEquals(120.0d, actual, 0.001);
+	}
+
+	@Test
 	void testSquaresDifferenceNumberArray() {
 		double expected = algebra.squaresDifference(7.3d, 3.7d);
 		BigDecimal actual = algebra.squaresDifferenceExpansion(new BigDecimal("7.3"), new BigDecimal("3.7"));

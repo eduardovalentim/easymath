@@ -54,8 +54,8 @@ public class FormatUtils {
 	 * @return The inputs formated
 	 */
 	public String formula(String text, Collection<InputOperand> inputs, int precision, int plus) {
-		if (text == null) {
-			throw new IllegalStateException("Argument 'text' cannot be null.");
+		if (text == null || text.isEmpty() || text.isBlank()) {
+			throw new IllegalStateException("Argument 'text' cannot be null, empty or blank.");
 		}
 		if (inputs == null) {
 			throw new IllegalStateException("Argument 'inputs' cannot be null.");
@@ -97,7 +97,7 @@ public class FormatUtils {
 	public String operation(String text, Operation operation, int precision, int plus) {
 		LOGGER.debug("Formatting operation {} with precision {}", text, precision);
 
-		if (text == null) {
+		if (text == null || text.isEmpty() || text.isBlank()) {
 			throw new IllegalStateException("Argument 'text' cannot be null.");
 		}
 		if (operation == null) {
