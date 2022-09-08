@@ -33,12 +33,7 @@ jobs:
       # Use mvn clean and package as the standard maven build phase
       - run:
           name: Build
-          command: mvn --batch-mode clean install -DskipTests -Djacoco.skip=true
-
-      # Run tests
-      - run:
-          name: Tests
-          command: mvn --batch-mode test
+          command: mvn --batch-mode clean install
 
       - run:
           name: Analyze
