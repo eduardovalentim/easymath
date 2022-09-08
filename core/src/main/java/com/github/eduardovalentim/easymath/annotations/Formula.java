@@ -15,7 +15,7 @@ import java.math.RoundingMode;
  */
 @Inherited
 @Documented
-@Target({ ElementType.TYPE, ElementType.METHOD })
+@Target({ ElementType.METHOD })
 @Retention(RetentionPolicy.CLASS)
 public @interface Formula {
 

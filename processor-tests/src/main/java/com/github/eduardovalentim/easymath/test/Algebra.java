@@ -2,6 +2,7 @@ package com.github.eduardovalentim.easymath.test;
 
 import java.math.BigDecimal;
 
+import com.github.eduardovalentim.easymath.annotations.EasyMath;
 import com.github.eduardovalentim.easymath.annotations.Formula;
 
 /**
@@ -9,6 +10,7 @@ import com.github.eduardovalentim.easymath.annotations.Formula;
  * 
  * @author eduardovalentim
  */
+@EasyMath
 public interface Algebra {
 
 	/**
@@ -49,7 +51,7 @@ public interface Algebra {
 	 * @return the result
 	 */
 	@Formula("(a - b) * (a ^ 2 + a * b + b ^ 2)")
-	public BigDecimal cubesDifferenceExpansion(Number... args);
+	public double cubesDifferenceExpansion(Number... args);
 
 	/**
 	 * Test

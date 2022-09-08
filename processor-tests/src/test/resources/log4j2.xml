@@ -2,7 +2,8 @@
 <Configuration status="WARN">
 	<Appenders>
 		<Console name="Console" target="SYSTEM_OUT">
-			<PatternLayout pattern="[%level] %logger{1.}.%method %msg%n" />
+			<PatternLayout
+				pattern="[%level] %logger{1.}.%method %msg%n" />
 		</Console>
 	</Appenders>
 	<Loggers>

@@ -1,7 +1,5 @@
 package com.github.eduardovalentim.easymath.processor;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.util.Properties;
 
 import javax.annotation.processing.AbstractProcessor;
@@ -11,10 +9,7 @@ import javax.annotation.processing.ProcessingEnvironment;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
-import javax.tools.JavaFileObject;
 
-import org.apache.velocity.Template;
-import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
@@ -30,12 +25,10 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(AbstractAnnotationProcessor.class);
 
-	public static final String ENCODING = "UTF-8";
-
-	protected Filer filer;
 	protected Messager messager;
 	protected Types types;
 	protected Elements elements;
+	protected Filer filer;
 
 	/**
 	 * Public default constructor
@@ -69,25 +62,10 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 
 		types = processingEnv.getTypeUtils();
 		elements = processingEnv.getElementUtils();
-		filer = processingEnv.getFiler();
 		messager = processingEnv.getMessager();
+		filer = processingEnv.getFiler();
 
 		LOGGER.trace("Exiting...  ");
-	}
-
-	protected void generate(CharSequence name, Template template, VelocityContext context) {
-		LOGGER.trace("Entering...");
-		try {
-			JavaFileObject jfo = filer.createSourceFile(name);
-			try (Writer writer = jfo.openWriter()) {
-				LOGGER.debug("Merging objects to template...");
-				template.merge(context, writer);
-				LOGGER.debug("Merging finished!");
-			}
-		} catch (IOException ex) {
-			throw new IllegalStateException(ex);
-		}
-		LOGGER.trace("Exiting...");
 	}
 
 	private Properties getVelocityProperties() {

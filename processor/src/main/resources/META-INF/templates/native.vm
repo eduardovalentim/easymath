@@ -1,0 +1,91 @@
+/* ${classname}.c */
+
+\#include <stdio.h>
+\#include <math.h>
+\#include "${interfaceName}.h"
+
+#foreach( $function in ${functions} )
+// The implementation of the formula: ${function.formula.value()}
+${function.type} ${utils.uncapitalize($function.name)}(#nativeTypedArguments(${function.type} ${function.inputs})) {
+    #foreach( $operation in ${function.operations} )
+    #nativeOperation( $function $operation )
+    #end
+    return ${function.lastOperation.id};
+}
+
+#end
+## ----------------------------------------------------------------------------
+## nativeArguments
+## ----------------------------------------------------------------------------
+#macro( nativeArguments $inputs )
+  #foreach( $input in ${inputs} )
+    ${input.id}#if( ${foreach.hasNext} ), #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## nativeTypedArguments
+## ----------------------------------------------------------------------------
+#macro( nativeTypedArguments $type $inputs)
+  #foreach( $input in ${inputs} )
+    $type ${input.id}#if( ${foreach.hasNext} ), #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## nativeOperation
+## ----------------------------------------------------------------------------
+#macro( nativeOperation $function $operation )
+  #if( ${operation.class.simpleName} == "UnaryOperation" )
+    #nativeUnary( $function $operation )
+  #elseif( ${operation.class.simpleName} == "BinaryOperation" )
+    #nativeBinary( $function $operation )
+  #elseif( ${operation.class.simpleName} == "FunctionOperation" )
+    #nativeFunction( $function $operation )
+  #else
+    Operation not supported!!!!!
+  #end
+#end
+## ----------------------------------------------------------------------------
+## nativeUnary
+## ----------------------------------------------------------------------------
+#macro( nativeUnary $function $operation )
+  #if( ${operation.type} == "double" || ${operation.type} == "java.lang.Double")
+    #if( ${operation.operator} == '!' )
+      ${operation.type} ${operation.id} = 1;
+      // Calculate factorial
+      int n;
+      for (n = 1; n <= ${operation.operand.id}; n++) {
+          ${operation.id} = ${operation.id} * n;
+      }
+    #else
+      ${operation.type} ${operation.id} = ${operation.operand.id} * (${operation.operator}1);
+    #end
+  #end  
+#end
+## ----------------------------------------------------------------------------
+## nativeBinary
+## ----------------------------------------------------------------------------
+#macro( nativeBinary $function $operation )
+  #if( ${operation.type} == "double" || ${operation.type} == "java.lang.Double")
+    #if( ${operation.operator} == '^' )
+      ${operation.type} ${operation.id} = pow(${operation.leftOperand.id}, ${operation.rightOperand.id});
+    #elseif( ${operation.operator} == '*' )
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} * ${operation.rightOperand.id};
+    #elseif( ${operation.operator} == '/' )
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} / ${operation.rightOperand.id};
+    #elseif( ${operation.operator} == '%' )
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} % ${operation.rightOperand.id};
+    #elseif( ${operation.operator} == '+' )
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} + ${operation.rightOperand.id};
+    #elseif( ${operation.operator} == '-' )
+      ${operation.type} ${operation.id} = ${operation.leftOperand.id} - ${operation.rightOperand.id};
+    #else
+      Operator '${operation.operator}' not found!!!!!!
+    #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## nativeFunction
+## ----------------------------------------------------------------------------
+#macro( nativeFunction $function $operation )
+    ${operation.type} ${operation.id} = ${operation.name}(#nativeArguments(${operation.operands}));
+#end

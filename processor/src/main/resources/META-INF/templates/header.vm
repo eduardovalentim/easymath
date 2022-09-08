@@ -1,0 +1,29 @@
+/* ${interfaceName}.h */
+#set( $headerName = "_${utils.upperCase($interfaceName)}_H_" )
+
+/* Include guard */
+#ifndef ${headerName}
+\#define ${headerName}
+
+#headerDeclareConstant( ${constants} )
+
+#foreach( $function in ${functions} )
+    // The implementation of the formula: ${function.formula.value()}
+    extern ${function.type} ${utils.uncapitalize($function.name)}(#headerArguments(${function.type} ${function.inputs}));
+#end
+
+#endif // ${headerName}
+## ----------------------------------------------------------------------------
+## headerDeclareConstant
+## ----------------------------------------------------------------------------
+#macro(headerDeclareConstant $constants)
+  #foreach( $c in ${constants} )
+    static const ${c.type} ${c.id} = ${c.value};
+  #end
+#end
+## ----------------------------------------------------------------------------
+## headerArguments
+## ----------------------------------------------------------------------------
+#macro(headerArguments $type $inputs)
+  #foreach( $input in ${inputs} )${type} ${input.id}#if(${foreach.hasNext}), #end#end
+#end
