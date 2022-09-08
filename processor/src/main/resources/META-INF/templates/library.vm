@@ -1,0 +1,65 @@
+package $package;
+
+import static com.github.eduardovalentim.easymath.utils.SystemUtils.getLibraryName;
+import static com.sun.jna.Native.load;
+
+import javax.annotation.Generated;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.message.MessageFactory;
+import org.apache.logging.log4j.message.MessageFormatMessageFactory;
+
+@Generated("$generator")
+@SuppressWarnings({"all", "warnings", "unchecked", "unused", "cast"})
+#set( $name = "${interfaceName}Library" )
+public class ${name} {
+
+	private static MessageFactory factory = new MessageFormatMessageFactory();
+	private static Logger logger = LogManager.getLogger(${name}.class, factory);
+
+	private static $interfaceName library = load(getLibraryName(), ${interfaceName}.class);
+
+	private ${name}() {
+		super();
+	}
+
+#foreach( $function in ${functions} )
+    /**
+     * The implementation of the formula: ${function.formula.value()}
+     #libraryJavadoc( ${function.inputs} )
+     * @return the result of the calculation
+     */
+	#set( $functionName = "${utils.uncapitalize($function.name)}" )
+    public static ${function.type} ${functionName}(#libraryTypedArguments(${function.type} ${function.inputs})) {
+   		try {
+        	return library.${functionName}( #libraryArguments( ${function.inputs} ) );
+		} catch (com.sun.jna.LastErrorException ex) {
+			throw new ArithmeticException("Exception calling native function '${functionName}' with message: " + ex.getMessage());
+		}
+    }
+
+#end
+}
+## ----------------------------------------------------------------------------
+## libraryArguments
+## ----------------------------------------------------------------------------
+#macro( libraryArguments $inputs )
+#foreach( $input in ${inputs} )${input.id}#if(${foreach.hasNext}),#end#end
+#end
+## ----------------------------------------------------------------------------
+## libraryTypedArguments
+## ----------------------------------------------------------------------------
+#macro( libraryTypedArguments $type $inputs)
+  #foreach( $input in ${inputs} )
+    $type ${input.id}#if( ${foreach.hasNext} ), #end
+  #end
+#end
+## ----------------------------------------------------------------------------
+## libraryJavadoc
+## ----------------------------------------------------------------------------
+#macro( libraryJavadoc $inputs )
+	#foreach( $input in ${inputs} )
+	 * @param ${input.id} An input of this method
+	#end
+#end

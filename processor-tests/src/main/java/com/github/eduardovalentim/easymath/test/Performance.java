@@ -1,31 +1,24 @@
 package com.github.eduardovalentim.easymath.test;
 
-import java.math.BigDecimal;
-
 import com.github.eduardovalentim.easymath.annotations.EasyMath;
 import com.github.eduardovalentim.easymath.annotations.Formula;
 
-/**
- * Test class
- * @author eduardovalentim
- *
- */
 @EasyMath
-public interface Trigonometry {
+public interface Performance {
 
 	/**
 	 * Test
 	 * @param args inputs
 	 * @return the result
 	 */
-	@Formula("sin(alpha + beta)")
-	public abstract BigDecimal sinAB(Number... args);
+	@Formula("a ^ 3 - b ^ 3")
+	public double cubesDifference(Number... args);
 
 	/**
 	 * Test
 	 * @param args inputs
 	 * @return the result
 	 */
-	@Formula("sin(alpha) * cos(beta) + sin(beta) * cos(alpha)")
-	public abstract double sinABExpansion(Number... args);
+	@Formula("(a - b) * (a ^ 2 + a * b + b ^ 2)")
+	public double cubesDifferenceExpansion(Number... args);
 }

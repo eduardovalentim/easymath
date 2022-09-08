@@ -4,3 +4,13 @@
 /release.properties
 /maven-central-deploy.log
 /target/
+
+processor-native/.classpath
+
+processor-native/.factorypath
+
+processor-native/.project
+
+processor-native/.settings/
+
+processor-native/target/

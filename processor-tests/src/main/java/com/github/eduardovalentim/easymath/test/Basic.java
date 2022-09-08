@@ -2,12 +2,14 @@ package com.github.eduardovalentim.easymath.test;
 
 import java.math.BigDecimal;
 
+import com.github.eduardovalentim.easymath.annotations.EasyMath;
 import com.github.eduardovalentim.easymath.annotations.Formula;
 
 /**
  * Test class
  * @author eduardo.valentim
  */
+@EasyMath
 public interface Basic {
 
 	/**

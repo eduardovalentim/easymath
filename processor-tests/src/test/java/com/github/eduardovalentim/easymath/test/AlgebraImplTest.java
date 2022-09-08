@@ -32,9 +32,9 @@ class AlgebraImplTest {
 	@Test
 	void testCubesDifferenceNumberArray() {
 		double expected = algebra.cubesDifference(7.3d, 3.7d);
-		BigDecimal actual = algebra.cubesDifferenceExpansion(new BigDecimal("7.3"), new BigDecimal("3.7"));
+		double actual = algebra.cubesDifferenceExpansion(new BigDecimal("7.3"), new BigDecimal("3.7"));
 
-		Assertions.assertEquals(expected, actual.doubleValue(), 0.001);
+		Assertions.assertEquals(expected, actual, 0.001);
 	}
 
 	@Test

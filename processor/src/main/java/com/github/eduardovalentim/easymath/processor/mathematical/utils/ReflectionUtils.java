@@ -121,37 +121,6 @@ public class ReflectionUtils {
 	}
 
 	/**
-	 * Check if the element has a varargs argument
-	 * 
-	 * @param element
-	 *            The element
-	 * @return True if the element has a varargs argument
-	 */
-	public boolean isVarArgsMethod(Element element) {
-		/*
-		 * Method protection
-		 */
-		requireNonNull(element, ARGUMENT_ELEMENT_CANNOT_BE_NULL);
-		/*
-		 * Default result
-		 */
-		boolean result = false;
-		/*
-		 * Check if the element is a method
-		 */
-		if (isMethod(element)) {
-			/*
-			 * Check the var args
-			 */
-			result = ((ExecutableElement) element).isVarArgs();
-		}
-		/*
-		 * Result
-		 */
-		return result;
-	}
-
-	/**
 	 * Check if the method return a number
 	 * 
 	 * @param element

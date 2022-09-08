@@ -2,8 +2,10 @@ package com.github.eduardovalentim.easymath.test;
 
 import java.math.BigDecimal;
 
+import com.github.eduardovalentim.easymath.annotations.EasyMath;
 import com.github.eduardovalentim.easymath.annotations.Formula;
 
+@EasyMath
 public interface Constants {
 
 	@Formula("2546 / 76.4567 + 36456 / 86755")
