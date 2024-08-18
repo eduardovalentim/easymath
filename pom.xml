@@ -14,12 +14,16 @@
 	<url>https://github.com/eduardovalentim/easymath</url>
 
 	<properties>
+		<java.version>17</java.version>
+	    <maven.compiler.source>${java.version}</maven.compiler.source>
+	    <maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.release>${java.version}</maven.compiler.release>
+		
 		<!-- antlr4-runtime and antlr4-maven-plugin must match the same version 
 			to avoid errors at build time -->
-		<java.version>17</java.version>
 		<antlr4.version>4.10.1</antlr4.version>
 		<junit.jupiterEngine.version>5.9.0</junit.jupiterEngine.version>
-		<jacoco.version>0.8.8</jacoco.version>
+		<jacoco.version>0.8.12</jacoco.version>
 
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
@@ -38,7 +42,6 @@
 	<modules>
 		<module>core</module>
 		<module>processor</module>
-		<module>processor-native</module>
 		<module>processor-tests</module>
 	</modules>
 

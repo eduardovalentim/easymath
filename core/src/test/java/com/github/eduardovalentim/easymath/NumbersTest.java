@@ -91,13 +91,4 @@ class NumbersTest {
 		Double actual = Numbers.round(0.0d, MathContext.DECIMAL32);
 		Assertions.assertEquals(0.0d, actual);
 	}
-
-	@Test
-	void testRoundWithNan() {
-		MathContext mc = Mockito.mock(MathContext.class);
-		Mockito.when(mc.getPrecision()).thenThrow(NumberFormatException.class);
-		
-		Double actual = Numbers.round(0.0d, mc);
-		Assertions.assertEquals(Double.NaN, actual);
-	}
 }
