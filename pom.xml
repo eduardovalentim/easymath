@@ -35,7 +35,7 @@
 		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.organization>eduardovalentim</sonar.organization>
-		<sonar.projectKey>${project.groupId}:${project.artifactId}</sonar.projectKey>
+		<sonar.projectKey>eduardovalentim_easymath</sonar.projectKey>
 		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
@@ -188,7 +188,7 @@
 			<plugin>
 				<groupId>org.sonarsource.scanner.maven</groupId>
 				<artifactId>sonar-maven-plugin</artifactId>
-				<version>3.9.1.2184</version>
+				<version>4.0.0.4121</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
