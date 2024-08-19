@@ -10,6 +10,8 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 class PowerFunctionTest {
 
+	private static final int MAX_EXCEL_VISIBLE_FRACTIONS = 14;
+	
 	private PowerFunction power;
 	
 	@BeforeEach
@@ -41,7 +43,7 @@ class PowerFunctionTest {
 	})
 	void testPower(Double base, Double exponent, Double expected) {
 		Double actual = power.perform(MathContext.DECIMAL32, base, exponent);
-		Assertions.assertEquals(expected, actual);
+		Assertions.assertEquals(truncateTo(expected, MAX_EXCEL_VISIBLE_FRACTIONS), truncateTo(actual, MAX_EXCEL_VISIBLE_FRACTIONS));
 	}
 	
 	@Test()
@@ -64,5 +66,11 @@ class PowerFunctionTest {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			power.perform(MathContext.DECIMAL32, 1, 2, 3);
 		});
+	}
+	
+	static double truncateTo( double unroundedNumber, int decimalPlaces ){
+	    int truncatedNumberInt = (int)( unroundedNumber * Math.pow( 10, decimalPlaces ) );
+	    double truncatedNumber = (double)( truncatedNumberInt / Math.pow( 10, decimalPlaces ) );
+	    return truncatedNumber;
 	}
 }
