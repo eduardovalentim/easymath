@@ -16,7 +16,7 @@ class TrigonometryImplTest {
 
 	@BeforeEach
 	void before() {
-		FunctionCatalog catalog = FunctionCatalog.valueOf("trigonometry", SinFunction.INSTANCE, CosFunction.INSTANCE);
+		FunctionCatalog catalog = FunctionCatalog.valueOf("trigonometry", new SinFunction(), new CosFunction());
 		trigonometry = new TrigonometryImpl(catalog);
 	}
 	

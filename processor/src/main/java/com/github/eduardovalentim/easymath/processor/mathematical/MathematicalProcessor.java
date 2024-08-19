@@ -111,7 +111,7 @@ public class MathematicalProcessor extends AbstractAnnotationProcessor {
 			context.put("package", moduleAndPkg);
 			context.put("constants", constants);
 			context.put("functions", functions);
-			context.put("format", FormatUtils.INSTANCE);
+			context.put("format", new FormatUtils());
 			context.put("generator", getClass().getName());
 			context.put("interfaceName", interfaceElement.getSimpleName());
 			context.put("classname", relativeName + "Impl");

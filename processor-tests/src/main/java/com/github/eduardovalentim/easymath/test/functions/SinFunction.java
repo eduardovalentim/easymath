@@ -4,7 +4,9 @@ import java.math.MathContext;
 
 public class SinFunction extends AbstractTrigonometryFunction {
 
-	public static final SinFunction INSTANCE = new SinFunction();
+	public SinFunction() {
+		super();
+	}
 	
 	@Override
 	public String name() {
