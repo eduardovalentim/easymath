@@ -16,6 +16,8 @@ import com.github.eduardovalentim.easymath.functions.PowerFunction;
 
 class FunctionCatalogTest {
 
+	private static final FactorialFunction INSTANCE = FactorialFunction.getInstance();
+
 	@Test
 	void testFunctionCatalogDefaultConstructor() {
 		FunctionCatalog catalog = new FunctionCatalog();
@@ -24,21 +26,21 @@ class FunctionCatalogTest {
 
 	@Test
 	void testFunctionCatalogArrayConstructor() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Assertions.assertNotNull(catalog);
 	}
 
 	@Test
 	void testFunctionCatalogArrayConstructorNameNull() {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			new FunctionCatalog(null, FactorialFunction.getInstance());
+			new FunctionCatalog(null, INSTANCE);
 		});
 	}
 
 	@Test
 	void testFunctionCatalogArrayConstructorNameEmpty() {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			new FunctionCatalog("", FactorialFunction.getInstance());
+			new FunctionCatalog("", INSTANCE);
 		});
 	}
 
@@ -60,13 +62,13 @@ class FunctionCatalogTest {
 
 	@Test
 	void testFunctionCatalogCollectionConstructor() {
-		FunctionCatalog catalog = new FunctionCatalog("test", asList(FactorialFunction.getInstance()));
+		FunctionCatalog catalog = new FunctionCatalog("test", asList(INSTANCE));
 		Assertions.assertNotNull(catalog);
 	}
 
 	@Test
 	void testFunctionCatalogCollectionConstructorNameNull() {
-		List<Function<?>> functions = asList(FactorialFunction.getInstance());
+		List<Function<?>> functions = asList(INSTANCE);
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			new FunctionCatalog(null, functions);
 		});
@@ -74,7 +76,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testFunctionCatalogCollectionConstructorNameEmpty() {
-		Collection<Function<?>> functions = asList(FactorialFunction.getInstance());
+		Collection<Function<?>> functions = asList(INSTANCE);
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			new FunctionCatalog("", functions);
 		});
@@ -99,7 +101,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testAddFunctionWithNameNull() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Function<?> function = Mockito.mock(Function.class);
 		Mockito.when(function.name()).thenReturn(null);
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -109,7 +111,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testAddFunctionWithNameEmpty() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Function<?> function = Mockito.mock(Function.class);
 		Mockito.when(function.name()).thenReturn("");
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
@@ -119,14 +121,14 @@ class FunctionCatalogTest {
 
 	@Test
 	void testAddAllFunctions() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
-		catalog.addAllFunctions(asList(FactorialFunction.getInstance()));
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
+		catalog.addAllFunctions(asList(INSTANCE));
 		Assertions.assertNotNull(catalog);
 	}
 
 	@Test
 	void testAddAllFunctionsWithNull() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			catalog.addAllFunctions(null);
 		});
@@ -134,7 +136,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testJoinCatalog() {
-		FunctionCatalog catalogA = new FunctionCatalog("a", FactorialFunction.getInstance());
+		FunctionCatalog catalogA = new FunctionCatalog("a", INSTANCE);
 		FunctionCatalog catalogB = new FunctionCatalog("b", PowerFunction.getInstance());
 
 		Assertions.assertNotNull(catalogA.join(catalogB));
@@ -142,7 +144,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testJoinCatalogWithNull() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		FunctionCatalog[] catalogs = null;
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			catalog.join(catalogs);
@@ -151,7 +153,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testJoinCatalogWithNullElement() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		FunctionCatalog[] catalogs = { null };
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			catalog.join(catalogs);
@@ -160,14 +162,14 @@ class FunctionCatalogTest {
 
 	@Test
 	void testSolve() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		BigInteger actual = catalog.solve("fat", MathContext.DECIMAL32, 5d);
 		Assertions.assertEquals(new BigInteger("120"), actual);
 	}
 
 	@Test
 	void testSolveWithNameNull() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			catalog.solve(null, MathContext.DECIMAL32, 5d);
 		});
@@ -175,7 +177,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testSolveWithNameEmpty() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			catalog.solve("", MathContext.DECIMAL32, 5d);
 		});
@@ -183,7 +185,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testSolveWithInputNull() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Number[] inputs = null;
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
 			catalog.solve("fat", MathContext.DECIMAL32, inputs);
@@ -192,7 +194,7 @@ class FunctionCatalogTest {
 
 	@Test
 	void testSolveWithFunctionNull() {
-		FunctionCatalog catalog = new FunctionCatalog("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = new FunctionCatalog("test", INSTANCE);
 		Assertions.assertThrows(IllegalStateException.class, () -> {
 			catalog.solve("fatorial", MathContext.DECIMAL32, 5.0d);
 		});
@@ -200,13 +202,13 @@ class FunctionCatalogTest {
 	
 	@Test
 	void testValueOf() {
-		FunctionCatalog catalog = FunctionCatalog.valueOf("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = FunctionCatalog.valueOf("test", INSTANCE);
 		Assertions.assertNotNull(catalog);
 	}
 
 	@Test
 	void testGetName() {
-		FunctionCatalog catalog = FunctionCatalog.valueOf("test", FactorialFunction.getInstance());
+		FunctionCatalog catalog = FunctionCatalog.valueOf("test", INSTANCE);
 		Assertions.assertEquals("test", catalog.getName());
 	}
 }
