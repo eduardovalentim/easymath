@@ -13,13 +13,20 @@ import com.github.eduardovalentim.easymath.Function;
  */
 public class PowerFunction implements Function<Double> {
 
-	private static final PowerFunction INSTANCE = new PowerFunction();
+	private static volatile PowerFunction instance;
 	
 	/**
 	 * Public instance
 	 */
 	public static PowerFunction getInstance() {
-		return INSTANCE;
+        if (instance == null) { // First check (no locking)
+            synchronized (PowerFunction.class) {
+                if (instance == null) { // Second check (with locking)
+                    instance = new PowerFunction();
+                }
+            }
+        }
+        return instance;
 	}
 	
 	/**
