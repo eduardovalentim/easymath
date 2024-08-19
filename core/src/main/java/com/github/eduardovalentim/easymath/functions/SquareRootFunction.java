@@ -12,20 +12,15 @@ import com.github.eduardovalentim.easymath.Numbers;
  */
 public class SquareRootFunction implements Function<Double> {
 
-	private static SquareRootFunction instance;
+    private static class SquareRootFunctionHelper {
+        private static final SquareRootFunction INSTANCE = new SquareRootFunction();
+    }
 	
 	/**
 	 * Public instance
 	 */
 	public static final SquareRootFunction getInstance() {
-        if (instance == null) { // First check (no locking)
-            synchronized (SquareRootFunction.class) {
-                if (instance == null) { // Second check (with locking)
-                    instance = new SquareRootFunction();
-                }
-            }
-        }
-        return instance;
+        return SquareRootFunctionHelper.INSTANCE;
 	}
 	
 	/**

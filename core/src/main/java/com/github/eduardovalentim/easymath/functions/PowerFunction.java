@@ -13,20 +13,15 @@ import com.github.eduardovalentim.easymath.Function;
  */
 public class PowerFunction implements Function<Double> {
 
-	private static PowerFunction instance;
+    private static class PowerFunctionHelper {
+        private static final PowerFunction INSTANCE = new PowerFunction();
+    }
 	
 	/**
 	 * Public instance
 	 */
 	public static PowerFunction getInstance() {
-        if (instance == null) { // First check (no locking)
-            synchronized (PowerFunction.class) {
-                if (instance == null) { // Second check (with locking)
-                    instance = new PowerFunction();
-                }
-            }
-        }
-        return instance;
+        return PowerFunctionHelper.INSTANCE;
 	}
 	
 	/**

@@ -12,20 +12,15 @@ import com.github.eduardovalentim.easymath.Function;
  */
 public class FactorialFunction implements Function<BigInteger> {
 
-	private static FactorialFunction instance;
+    private static class FactorialFunctionHelper {
+        private static final FactorialFunction INSTANCE = new FactorialFunction();
+    }
 	
 	/**
-	 * Public instance to be used
+	 * Public instance
 	 */
 	public static FactorialFunction getInstance() {
-        if (instance == null) { // First check (no locking)
-            synchronized (FactorialFunction.class) {
-                if (instance == null) { // Second check (with locking)
-                    instance = new FactorialFunction();
-                }
-            }
-        }
-        return instance;
+        return FactorialFunctionHelper.INSTANCE;
 	}
 	
 	/**
