@@ -12,7 +12,7 @@ import com.github.eduardovalentim.easymath.Numbers;
  */
 public class SquareRootFunction implements Function<Double> {
 
-	public static volatile SquareRootFunction instance;
+	private static SquareRootFunction instance;
 	
 	/**
 	 * Public instance

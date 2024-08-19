@@ -12,7 +12,7 @@ import com.github.eduardovalentim.easymath.Function;
  */
 public class FactorialFunction implements Function<BigInteger> {
 
-	private static volatile FactorialFunction instance;
+	private static FactorialFunction instance;
 	
 	/**
 	 * Public instance to be used

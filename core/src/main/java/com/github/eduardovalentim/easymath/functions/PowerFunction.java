@@ -13,7 +13,7 @@ import com.github.eduardovalentim.easymath.Function;
  */
 public class PowerFunction implements Function<Double> {
 
-	private static volatile PowerFunction instance;
+	private static PowerFunction instance;
 	
 	/**
 	 * Public instance
