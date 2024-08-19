@@ -12,16 +12,12 @@ import com.github.eduardovalentim.easymath.Numbers;
  */
 public class SquareRootFunction implements Function<Double> {
 
-    private static class SquareRootFunctionHelper {
-        private static final SquareRootFunction INSTANCE = new SquareRootFunction();
-    }
-	
 	/**
-	 * Public instance
+	 * Constructor
 	 */
-	public static final SquareRootFunction getInstance() {
-        return SquareRootFunctionHelper.INSTANCE;
-	}
+    public SquareRootFunction() {
+    	super();
+    }
 	
 	/**
 	 * {@inheritDoc}

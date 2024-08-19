@@ -16,7 +16,7 @@ import com.github.eduardovalentim.easymath.functions.PowerFunction;
 
 class FunctionCatalogTest {
 
-	private static final FactorialFunction INSTANCE = FactorialFunction.getInstance();
+	private static final FactorialFunction INSTANCE = new FactorialFunction();
 
 	@Test
 	void testFunctionCatalogDefaultConstructor() {
@@ -137,7 +137,7 @@ class FunctionCatalogTest {
 	@Test
 	void testJoinCatalog() {
 		FunctionCatalog catalogA = new FunctionCatalog("a", INSTANCE);
-		FunctionCatalog catalogB = new FunctionCatalog("b", PowerFunction.getInstance());
+		FunctionCatalog catalogB = new FunctionCatalog("b", new PowerFunction());
 
 		Assertions.assertNotNull(catalogA.join(catalogB));
 	}
