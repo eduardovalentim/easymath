@@ -12,10 +12,14 @@ import com.github.eduardovalentim.easymath.Function;
  */
 public class FactorialFunction implements Function<BigInteger> {
 
+	private static final FactorialFunction INSTANCE = new FactorialFunction();
+	
 	/**
 	 * Public instance to be used
 	 */
-	public static final FactorialFunction INSTANCE = new FactorialFunction();
+	public static FactorialFunction getInstance() {
+		return INSTANCE;
+	}
 	
 	/**
 	 * {@inheritDoc}

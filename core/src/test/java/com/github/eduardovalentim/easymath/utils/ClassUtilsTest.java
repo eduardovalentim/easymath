@@ -20,7 +20,7 @@ class ClassUtilsTest {
 
 	@Test
 	void testIsValidJavaIdentifierWithEmpty() {
-		boolean actual = ClassUtils.isValidJavaIdentifier(null);
+		boolean actual = ClassUtils.isValidJavaIdentifier("");
 		Assertions.assertFalse(actual);
 	}
 

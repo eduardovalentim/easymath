@@ -13,10 +13,14 @@ import com.github.eduardovalentim.easymath.Function;
  */
 public class PowerFunction implements Function<Double> {
 
+	private static final PowerFunction INSTANCE = new PowerFunction();
+	
 	/**
 	 * Public instance
 	 */
-	public static final PowerFunction INSTANCE = new PowerFunction();
+	public static PowerFunction getInstance() {
+		return INSTANCE;
+	}
 	
 	/**
 	 * {@inheritDoc}

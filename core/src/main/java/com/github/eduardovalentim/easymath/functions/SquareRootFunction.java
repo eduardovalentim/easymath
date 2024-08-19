@@ -17,6 +17,10 @@ public class SquareRootFunction implements Function<Double> {
 	 */
 	public static final SquareRootFunction INSTANCE = new SquareRootFunction();
 	
+	public static final SquareRootFunction getInstance() {
+		return INSTANCE;
+	}
+	
 	/**
 	 * {@inheritDoc}
 	 */
