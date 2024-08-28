@@ -4,7 +4,9 @@ import java.math.MathContext;
 
 public class CosFunction extends AbstractTrigonometryFunction {
 
-	public static final CosFunction INSTANCE = new CosFunction();
+	public CosFunction() {
+		super();
+	}
 	
 	@Override
 	public String name() {

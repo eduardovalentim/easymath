@@ -19,7 +19,7 @@ import com.github.eduardovalentim.easymath.processor.mathematical.operation.oper
 
 class FormatUtilsTest {
 
-	private static FormatUtils format = FormatUtils.INSTANCE;
+	private static FormatUtils format = new FormatUtils();
 	
 	@Test
 	void testInputFormatVariables() {

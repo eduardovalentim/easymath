@@ -13,9 +13,11 @@ import com.github.eduardovalentim.easymath.Numbers;
 public class SquareRootFunction implements Function<Double> {
 
 	/**
-	 * Public instance
+	 * Constructor
 	 */
-	public static final SquareRootFunction INSTANCE = new SquareRootFunction();
+    public SquareRootFunction() {
+    	super();
+    }
 	
 	/**
 	 * {@inheritDoc}
@@ -33,11 +35,8 @@ public class SquareRootFunction implements Function<Double> {
 		/*
 		 * Method protection block
 		 */
-		if (inputs == null)
-			throw new IllegalArgumentException("Argument 'inputs' cannot be null.");
-		if (inputs.length != 1)
-			throw new IllegalArgumentException(
-					"Length mismatch for argument 'inputs'. Expected '1' actual '" + inputs.length + "'");
+		validate(1, inputs);
+
 		/*
 		 * Typecast inputs
 		 */

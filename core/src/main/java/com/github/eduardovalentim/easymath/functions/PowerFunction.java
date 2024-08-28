@@ -14,9 +14,11 @@ import com.github.eduardovalentim.easymath.Function;
 public class PowerFunction implements Function<Double> {
 
 	/**
-	 * Public instance
+	 * Constructor
 	 */
-	public static final PowerFunction INSTANCE = new PowerFunction();
+    public PowerFunction() {
+    	super();
+    }
 	
 	/**
 	 * {@inheritDoc}
@@ -34,11 +36,8 @@ public class PowerFunction implements Function<Double> {
 		/*
 		 * Method protection block
 		 */
-		if (inputs == null)
-			throw new IllegalArgumentException("Argument 'inputs' cannot be null.");
-		if (inputs.length != 2)
-			throw new IllegalArgumentException(
-					"Length mismatch for argument 'inputs'. Expected '2' actual '" + inputs.length + "'");
+		validate(2, inputs);
+
 		/*
 		 * Typecast inputs
 		 */

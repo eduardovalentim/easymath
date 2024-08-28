@@ -24,12 +24,10 @@ public class FormatUtils {
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(FormatUtils.class);
 
-	public static final FormatUtils INSTANCE = new FormatUtils();
-
 	/**
 	 * Constructor
 	 */
-	private FormatUtils() {
+	public FormatUtils() {
 		super();
 	}
 

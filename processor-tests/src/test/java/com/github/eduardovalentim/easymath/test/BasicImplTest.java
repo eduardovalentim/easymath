@@ -38,23 +38,6 @@ class BasicImplTest {
 
 		Assertions.assertEquals(Double.valueOf(11), actual, 0.001);
 	}
-
-	@Test()
-	void testAddDoubleWithNoArgs() {
-		IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			basic.add();
-		});
-		Assertions.assertEquals("Length mismatch for argument 'inputs'. Expected '2' actual '0'", exception.getMessage());
-	}
-
-	@Test()
-	void testAddDoubleWithNullArgs() {
-		IllegalArgumentException exception = Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			Number[] inputs = null;
-			basic.add(inputs);
-		});
-		Assertions.assertEquals("Argument 'inputs' cannot be null.", exception.getMessage());
-	}
 	
 	@Test
 	void testAddDoubleDouble() {

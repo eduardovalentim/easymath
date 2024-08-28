@@ -5,11 +5,10 @@ import java.math.MathContext;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
 class NumbersTest {
 
-	private static Double ONE = Double.valueOf(1.0d);
+	private static final Double ONE = Double.valueOf(1.0d);
 	
 	@Test
 	void testToBigDecimalNull() {

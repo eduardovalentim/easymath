@@ -13,9 +13,11 @@ import com.github.eduardovalentim.easymath.Function;
 public class FactorialFunction implements Function<BigInteger> {
 
 	/**
-	 * Public instance to be used
+	 * Constructor
 	 */
-	public static final FactorialFunction INSTANCE = new FactorialFunction();
+    public FactorialFunction() {
+    	super();
+    }
 	
 	/**
 	 * {@inheritDoc}
@@ -33,13 +35,7 @@ public class FactorialFunction implements Function<BigInteger> {
 		/*
 		 * Method protection block
 		 */
-		if (inputs == null)
-			throw new IllegalArgumentException("Argument 'inputs' cannot be null.");
-		if (inputs.length != 1)
-			throw new IllegalArgumentException(
-					"Length mismatch for argument 'inputs'. Expected '1' actual '" + inputs.length + "'");
-		if (inputs[0] == null)
-			throw new IllegalArgumentException("Argument 'inputs[0]' cannot be null.");
+		validate(1, inputs);
 		/*
 		 * Default result
 		 */

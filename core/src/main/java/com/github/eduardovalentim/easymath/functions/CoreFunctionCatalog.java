@@ -14,9 +14,9 @@ public class CoreFunctionCatalog extends FunctionCatalog {
 	 */
 	public CoreFunctionCatalog() {
 		super("core");
-		addFunction(PowerFunction.INSTANCE);
-		addFunction(FactorialFunction.INSTANCE);
-		addFunction(SquareRootFunction.INSTANCE);
+		addFunction(new PowerFunction());
+		addFunction(new FactorialFunction());
+		addFunction(new SquareRootFunction());
 	}
 
 }

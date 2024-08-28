@@ -60,16 +60,38 @@ public interface Function<T extends Number> {
 	 * 
 	 * @return The name of this function to register in a catalog
 	 */
-    public String name();
-    
-    /**
-     * Execute the calculation
-     * 
-     * @param mc Mathematical context to be used in the execution
-     * @param inputs Inputs for the execution
-     * 
-     * @return The result of calculation
-     */
-    public T perform(MathContext mc, Number... inputs);
-    
+	public String name();
+
+	/**
+	 * Execute the calculation
+	 * 
+	 * @param mc     Mathematical context to be used in the execution
+	 * @param inputs Inputs for the execution
+	 * 
+	 * @return The result of calculation
+	 */
+	public T perform(MathContext mc, Number... inputs);
+
+	/**
+	 * 
+	 * @param inputs
+	 */
+	public default void validate(Number... inputs) {
+		if (inputs == null)
+			throw new IllegalArgumentException("Argument 'inputs' cannot be null.");
+		if (inputs.length == 0)
+			throw new IllegalArgumentException("Argument 'inputs' must have elements.");
+		for (int idx = 0; idx < inputs.length; idx++) {
+			if (inputs[idx] == null)
+				throw new IllegalArgumentException("Element '" + idx + "' in argument 'inputs' cannot be null.");
+		}
+	}
+
+	public default void validate(int length, Number... inputs) {
+		validate(inputs);
+		if (inputs.length != length)
+			throw new IllegalArgumentException(
+					"Argument 'inputs.length' mismath, expected '" + length + "', but found '" + inputs.length + "'");
+	}
+
 }
