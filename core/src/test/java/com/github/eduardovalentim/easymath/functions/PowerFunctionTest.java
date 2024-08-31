@@ -50,7 +50,7 @@ class PowerFunctionTest {
 	@SuppressWarnings({"all"})
 	void testSquareNullInputs() {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			power.perform(MathContext.DECIMAL32, null);
+			power.perform(MathContext.DECIMAL32, (Number)null);
 		});
 	}
 

@@ -11,7 +11,6 @@ import javax.lang.model.util.Elements;
 import javax.lang.model.util.Types;
 
 import org.apache.velocity.app.Velocity;
-import org.apache.velocity.runtime.RuntimeConstants;
 import org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -72,8 +71,8 @@ public abstract class AbstractAnnotationProcessor extends AbstractProcessor {
 		LOGGER.trace("Entering...");
 
 		Properties properties = new Properties();
-		properties.setProperty(RuntimeConstants.RESOURCE_LOADER, "classpath");
-		properties.setProperty("classpath.resource.loader.class", ClasspathResourceLoader.class.getName());
+		properties.setProperty("resource.loaders", "classpath");
+		properties.setProperty("resource.loader.classpath.class", ClasspathResourceLoader.class.getName());
 
 		LOGGER.trace("Exiting...");
 		return properties;

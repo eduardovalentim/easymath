@@ -24,9 +24,9 @@ public class FunctionErrorListener extends BaseErrorListener implements ANTLRErr
 	/**
 	 * Public constructor
 	 * 
-	 * @param classname The classname
-	 * @param functionName The function name
-	 * @param formula The formula
+	 * @param interfaceName
+	 * @param functionName
+	 * @param formula
 	 */
 	public FunctionErrorListener(String interfaceName, String functionName, String formula) {
 		this.interfaceName = interfaceName;
