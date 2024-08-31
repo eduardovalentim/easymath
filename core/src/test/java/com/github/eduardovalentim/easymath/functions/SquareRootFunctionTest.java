@@ -42,7 +42,7 @@ class SquareRootFunctionTest {
 	@SuppressWarnings({"all"})
 	void testSquareNullInputs() {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			square.perform(MathContext.DECIMAL32, null);
+			square.perform(MathContext.DECIMAL32, (Number)null);
 		});
 	}
 

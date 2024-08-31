@@ -7,13 +7,11 @@ import org.apache.velocity.VelocityContext;
 public interface GeneratorStrategy {
 
 	public static final String ENCODING = "UTF-8";
-
+	
 	/**
 	 * 
-	 * @param location
 	 * @param moduleAndPkg
 	 * @param relativeName
-	 * @param template
 	 * @param context
 	 * @param originatingElements
 	 */

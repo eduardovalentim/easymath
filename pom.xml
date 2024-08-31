@@ -10,15 +10,16 @@
 	<packaging>pom</packaging>
 	<name>Easymath</name>
 
-	<description>A tool to speed up mathematical development in Java and turn things easy.</description>
+	<description>A tool to speed up mathematical development in Java and turn
+		things easy.</description>
 	<url>https://github.com/eduardovalentim/easymath</url>
 
 	<properties>
 		<java.version>17</java.version>
-	    <maven.compiler.source>${java.version}</maven.compiler.source>
-	    <maven.compiler.target>${java.version}</maven.compiler.target>
+		<maven.compiler.source>${java.version}</maven.compiler.source>
+		<maven.compiler.target>${java.version}</maven.compiler.target>
 		<maven.compiler.release>${java.version}</maven.compiler.release>
-		
+
 		<!-- antlr4-runtime and antlr4-maven-plugin must match the same version 
 			to avoid errors at build time -->
 		<antlr4.version>4.10.1</antlr4.version>
@@ -36,7 +37,8 @@
 		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
 		<sonar.organization>eduardovalentim</sonar.organization>
 		<sonar.projectKey>eduardovalentim_easymath</sonar.projectKey>
-		<sonar.coverage.jacoco.xmlReportPaths>${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+		<sonar.coverage.jacoco.xmlReportPaths>
+			${project.reporting.outputDirectory}/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
 	</properties>
 
 	<modules>
@@ -114,6 +116,15 @@
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.13.0</version>
+				<configuration>
+					<!-- `-proc:only`: Explicitly enable annotation processing. -->
+					<compilerArgument>-proc:full</compilerArgument>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-source-plugin</artifactId>
 				<version>3.2.1</version>
 				<executions>
@@ -148,6 +159,9 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>3.0.0-M7</version>
+				<configuration>
+					<argLine>-XX:+EnableDynamicAgentLoading</argLine>
+				</configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.jacoco</groupId>
@@ -278,7 +292,8 @@
 	<licenses>
 		<license>
 			<name>Apache 2.0</name>
-			<url>https://github.com/eduardovalentim/easymath/blob/master/LICENSE.md</url>
+			<url>
+				https://github.com/eduardovalentim/easymath/blob/master/LICENSE.md</url>
 			<distribution>repo</distribution>
 		</license>
 	</licenses>
