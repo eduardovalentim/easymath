@@ -22,7 +22,11 @@
 
 		<!-- antlr4-runtime and antlr4-maven-plugin must match the same version 
 			to avoid errors at build time -->
+<<<<<<< HEAD
 		<antlr4.version>4.13.2</antlr4.version>
+=======
+		<antlr4.version>4.10.1</antlr4.version>
+>>>>>>> origin/dependabot/maven/junit.jupiterEngine.version-5.11.0
 		<junit.jupiterEngine.version>5.11.0</junit.jupiterEngine.version>
 		<jacoco.version>0.8.12</jacoco.version>
 
