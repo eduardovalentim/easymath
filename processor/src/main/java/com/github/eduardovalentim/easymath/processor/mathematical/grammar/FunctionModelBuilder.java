@@ -45,12 +45,12 @@ public class FunctionModelBuilder {
 	    this.methodName = methodName;
 	    return this;
 	}
-	
+
 	/**
 	 * The classname for this builder
 	 * 
-	 * @param className The classname
-	 * @return A reference to this builder
+	 * @param interfaceName
+	 * @return
 	 */
     public FunctionModelBuilder withInterfaceName(String interfaceName) {
         this.interfaceName = interfaceName;

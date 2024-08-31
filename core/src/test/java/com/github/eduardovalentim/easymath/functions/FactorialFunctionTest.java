@@ -52,7 +52,7 @@ class FactorialFunctionTest {
 	@SuppressWarnings({"all"})
 	void testSquareNullInputs() {
 		Assertions.assertThrows(IllegalArgumentException.class, () -> {
-			factorial.perform(MathContext.DECIMAL32, null);
+			factorial.perform(MathContext.DECIMAL32, (Number)null);
 		});
 	}
 

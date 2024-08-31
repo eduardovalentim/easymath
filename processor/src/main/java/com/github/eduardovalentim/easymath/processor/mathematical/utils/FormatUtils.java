@@ -74,11 +74,10 @@ public class FormatUtils {
 
 	/**
 	 * Format formula inputs
-	 * 
-	 * @param text      The formula
-	 * @param inputs    The inputs
-	 * @param precision The precision
-	 * @return The inputs formated
+	 * @param text
+	 * @param operation
+	 * @param precision
+	 * @return
 	 */
 	public String operation(String text, Operation operation, int precision) {
 		return operation(text, operation, precision, 3);
@@ -87,10 +86,11 @@ public class FormatUtils {
 	/**
 	 * Format formula inputs
 	 * 
-	 * @param text      The formula
-	 * @param inputs    The inputs
-	 * @param precision The precision
-	 * @return The inputs formated
+	 * @param text
+	 * @param operation
+	 * @param precision
+	 * @param plus
+	 * @return
 	 */
 	public String operation(String text, Operation operation, int precision, int plus) {
 		LOGGER.debug("Formatting operation {} with precision {}", text, precision);
